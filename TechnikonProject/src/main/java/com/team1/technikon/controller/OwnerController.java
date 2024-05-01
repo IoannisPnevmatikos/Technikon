@@ -26,6 +26,22 @@ public class OwnerController {
         return ownerService.getAllData();
     }
 
+
+    @GetMapping("tin/{id}")
+    public Owner findById(@PathVariable long tinNumber) {
+        return ownerService.getOwnerByTin(tinNumber);
+    }
+
+    @GetMapping("email/{email}")
+    public Owner findByEmail(@PathVariable String email) {
+        return ownerService.getOwnerByEmail(email);
+    }
+
+    @GetMapping("username/{username}")
+    public Owner findByUsername(@PathVariable String username) {
+        return ownerService.getOwnerByUsername(username);
+    }
+
     @PutMapping("/updateAddress")
     public boolean updateAddress(@RequestParam(value = "tinNumber") long tinNumber, @RequestParam(value = "address") String address) {
         return ownerService.updateAddress(tinNumber, address);

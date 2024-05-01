@@ -7,12 +7,13 @@ import com.team1.technikon.model.enums.TypeOfRepair;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public interface RepairService {
     Repair createRepair(RepairDto repairDto);
-    Repair getRepairByDate(LocalDateTime localDateTime);
-    Repair getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate);
-    Repair searchByOwnerTinNumber(long tinNumber);
+    List<Repair> getRepairByDate(LocalDateTime localDateTime);
+    List<Repair> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate);
+    List<Repair> searchByOwnerTinNumber(long tinNumber);
     boolean updateDate(long id, LocalDateTime localDateTime);
     boolean updateShortDescription(long id, String shortDescription);
     boolean updateTypeOfRepair(long id, TypeOfRepair typeOfRepair);
