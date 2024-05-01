@@ -14,6 +14,7 @@ public class Repair {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime dateTime;
     private String shortDescription;
     private TypeOfRepair typeOfRepair;
