@@ -21,12 +21,11 @@ public class DataGenerator {
         return this::run;
     }
 
+    //wdawdad
     private void run(String... args) {
         for (int i = 0; i < 5; i++) {
             ownerService.createOwner(new OwnerDto(faker.number().randomNumber(),faker.name().firstName(),faker.name().lastName(), faker.address().streetAddress(),faker.phoneNumber().toString(),faker.internet().password(), faker.internet().emailAddress(), faker.leagueOfLegends().champion()));
 
         }
-
     }
-
 }
