@@ -17,7 +17,8 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner createOwner(OwnerDto ownerDto) {
-        Owner owner = new Owner();
+        if (ownerRepository.findById(ownerDto.tinNumber()).orElseThrow(null) == null) return null;
+        Owner owner = new Owner(); // na ginei elegxos gia lathos
         owner.setTinNumber(ownerDto.tinNumber());
         owner.setFirstName(ownerDto.firstName());
         owner.setLastName(ownerDto.lastName());
@@ -38,12 +39,12 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner getOwnerByEmail(String email) {
-        return ownerRepository.getOwnerByEmail(email);
+        return ownerRepository.getOwnerByEmail(email); // na ginei elegxos gia lathos
     }
 
     @Override
     public Owner getOwnerByUsername(String username) {
-        return ownerRepository.getOwnerByUsername(username);
+        return ownerRepository.getOwnerByUsername(username); // na ginei elegxos gia lathos
     }
 
     @Override

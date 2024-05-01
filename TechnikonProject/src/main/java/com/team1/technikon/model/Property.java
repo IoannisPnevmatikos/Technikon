@@ -22,6 +22,7 @@ public class Property {
     private boolean isActive;
     @ManyToOne
     private Owner owner;
+
     @JsonIgnore
     @OneToMany(mappedBy = "property")
     private List<Repair> repairs = new ArrayList<>();
