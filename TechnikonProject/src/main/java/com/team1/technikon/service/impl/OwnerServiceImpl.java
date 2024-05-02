@@ -86,12 +86,11 @@ public class OwnerServiceImpl implements OwnerService {
         if (owner == null) return false;
         if (owner.getProperties().isEmpty() && owner.getRepairs().isEmpty()) {
             ownerRepository.deleteById(tinNumber);
-            return true;
         } else {
             owner.setActive(false);
             ownerRepository.save(owner);
-            return true;
         }
+        return true;
     }
 
     @Override
