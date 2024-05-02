@@ -21,4 +21,5 @@ public interface RepairService {
     boolean updateCost(long id, BigDecimal cost);
     boolean updateDescriptionText(long id, String descriptionText);
     boolean deleteRepair(long id);
+    List<Repair> getAllData();
 }

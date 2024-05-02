@@ -24,7 +24,7 @@ public class PropertyController {
     }
 
     @GetMapping("/{id}")
-    public Property getProperty(@PathVariable Long propertyId) {
+    public Property getProperty(@PathVariable(value = "id") Long propertyId) {
         return propertyService.getPropertyById(propertyId);
     }
 
@@ -38,7 +38,7 @@ public class PropertyController {
         return propertyService.getPropertyByLocation();
     }
 
-    @PutMapping("/updatePropertyId/{propertyId}")
+    @PutMapping("/updatePropertyId/{propertyId}/{newPropertyId}")
     public boolean updatePropertyId(@PathVariable Long propertyId,@PathVariable Long newPropertyId) {
         return propertyService.updatePropertyId(propertyId, newPropertyId);
     }
@@ -71,7 +71,10 @@ public class PropertyController {
 
           //  deleteProperty
 
-
+    @GetMapping("/allData")
+    public List<Property> getAllData() {
+        return propertyService.getAllData();
+    }
 
 
 }
