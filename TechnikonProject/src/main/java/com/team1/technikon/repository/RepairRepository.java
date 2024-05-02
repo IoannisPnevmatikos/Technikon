@@ -1,6 +1,5 @@
 package com.team1.technikon.repository;
 
-import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
@@ -52,7 +51,7 @@ public interface RepairRepository extends JpaRepository<Repair, Long> {
     @Transactional
     @Modifying
     @Query("update Repair r set r.cost = :cost where r.id = :id")
-    int updateCost(@Param("id") long id, @Param("updateCost") BigDecimal cost);
+    int updateCost(@Param("id") long id, @Param("cost") BigDecimal cost);
 
     @Transactional
     @Modifying

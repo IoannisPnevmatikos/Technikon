@@ -22,7 +22,7 @@ public interface PropertyService {
     boolean updatePhoto(long propertyId, String photo);
     boolean updateMapLocation(long propertyId, MapLocation mapLocation);
     boolean deleteProperty(long propertyId);
-
+    List<Property> getAllData();
 
 
 }

@@ -20,7 +20,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property createProperty(PropertyDto propertyDto) {
-        if (propertyRepository.findById(propertyDto.propertyId()).orElseThrow(null) != null) return null;
+//        if (propertyRepository.findById(propertyDto.propertyId()).orElseThrow(null) != null) return null;
         Property property = new Property();
         property.setPropertyId(propertyDto.propertyId());
         property.setAddress(propertyDto.address());
@@ -121,5 +121,10 @@ public class PropertyServiceImpl implements PropertyService {
             propertyRepository.save(property);
         }
         return true;
+    }
+
+    @Override
+    public List<Property> getAllData() {
+        return propertyRepository.findAll();
     }
 }

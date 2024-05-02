@@ -89,5 +89,10 @@ public class RepairServiceImpl implements RepairService {
         Repair repair = repairRepository.findById(id).orElse(null);
         return repair != null;
     }
+
+    @Override
+    public List<Repair> getAllData() {
+        return repairRepository.findAll();
+    }
 }
 

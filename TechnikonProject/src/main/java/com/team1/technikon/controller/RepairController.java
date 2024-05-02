@@ -1,5 +1,6 @@
 package com.team1.technikon.controller;
 
+import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
@@ -77,5 +78,10 @@ public class RepairController {
     @PutMapping("/delete/{id}")
     public boolean deleteRepair(@PathVariable long id) {
         return repairService.deleteRepair(id);
+    }
+
+    @GetMapping("/allData")
+    public List<Repair> getAllData() {
+        return repairService.getAllData();
     }
 }
