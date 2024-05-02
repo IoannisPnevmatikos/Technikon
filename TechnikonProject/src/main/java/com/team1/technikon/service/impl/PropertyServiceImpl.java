@@ -35,6 +35,9 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property getPropertyById(long propertyId) {
+        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
+        if (property == null) return null;
+        if (!property.isActive()) return null;
         return propertyRepository.findById(propertyId).orElseThrow(null);
     }
 

@@ -34,31 +34,49 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner getOwnerByTin(long tinNumber) {
-        return ownerRepository.findById(tinNumber).orElseThrow(null);
+        Owner owner = ownerRepository.findById(tinNumber).orElseThrow(null);
+        if (owner == null) return null;
+        if (!owner.isActive()) return null;
+        return owner;
     }
 
     @Override
     public Owner getOwnerByEmail(String email) {
-        return ownerRepository.getOwnerByEmail(email); // na ginei elegxos gia lathos
+        Owner owner = ownerRepository.getOwnerByEmail(email); // na ginei elegxos gia lathos
+        if (owner == null) return null;
+        if (!owner.isActive()) return null;
+        return owner;
     }
 
     @Override
     public Owner getOwnerByUsername(String username) {
-        return ownerRepository.getOwnerByUsername(username); // na ginei elegxos gia lathos
+        Owner owner =  ownerRepository.getOwnerByUsername(username); // na ginei elegxos gia lathos
+        if (owner == null) return null;
+        if (!owner.isActive()) return null;
+        return owner;
     }
 
     @Override
     public boolean updateAddress(long tinNumber, String address) {
+        Owner owner = ownerRepository.findById(tinNumber).orElse(null);
+        if (owner == null) return false;
+        if (!owner.isActive()) return false;
         return ownerRepository.updateAddress(tinNumber, address) == 1;
     }
 
     @Override
     public boolean updateEmail(long tinNumber, String email) {
+        Owner owner = ownerRepository.findById(tinNumber).orElse(null);
+        if (owner == null) return false;
+        if (!owner.isActive()) return false;
         return ownerRepository.updateEmail(tinNumber, email) == 1;
     }
 
     @Override
     public boolean updatePassword(long tinNumber, String password) {
+        Owner owner = ownerRepository.findById(tinNumber).orElse(null);
+        if (owner == null) return false;
+        if (!owner.isActive()) return false;
         return ownerRepository.updatePassword(tinNumber, password) == 1;
     }
 
