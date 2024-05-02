@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b14a7b64-bbcc-4f3b-a176-caa3987b37d2" name="Changes" comment="Repair service part implementation">
+      <change afterPath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/controller/PropertyController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/controller/RepairController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/controller/OwnerController.java" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/controller/OwnerController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/dto/RepairDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/dto/RepairDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/bootstrap/DataGenerator.class" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/bootstrap/DataGenerator.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/controller/OwnerController.class" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/controller/OwnerController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/model/Property.class" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/model/Property.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/model/Repair.class" beforeDir="false" afterPath="$PROJECT_DIR$/TechnikonProject/target/classes/com/team1/technikon/model/Repair.class" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Interface" />
+        <option value="Class" />
+        <option value="Record" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">
+    <option name="selectedUrlAndAccountId">
+      <UrlAndAccount>
+        <option name="accountId" value="ebe7d65b-c368-436c-b83b-fb8e649c4c56" />
+        <option name="url" value="https://github.com/IoannisPnevmatikos/Technikon.git" />
+      </UrlAndAccount>
+    </option>
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
+  <component name="ProjectId" id="2frGTNzVgJILQZ3c5BInP6pYI4f" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "IoannisPnevmatikos",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/ioannisp/Desktop/New folder (2)/TechnikonProject",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "settings.editor.selected.configurable": "org.jetbrains.plugins.github.ui.GithubSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="Push.Settings">
+    <force-push-targets>
+      <force-push-target remote-path="IoannisPnevmatikos" branch="IoannisPnevmatikos" />
+    </force-push-targets>
+  </component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.team1.technikon.service.impl" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="TechnikonApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="technikon" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.team1.technikon.TechnikonApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="jdk-17.0.9-temurin-17.0.9-4caba194b151-0a678b09" />
+        <option value="jdk-22-openjdk-22-4caba194b151-f504ca98" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b14a7b64-bbcc-4f3b-a176-caa3987b37d2" name="Changes" comment="" />
+      <created>1714551790666</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1714551790666</updated>
+      <workItem from="1714551791861" duration="1380000" />
+      <workItem from="1714555940861" duration="150000" />
+      <workItem from="1714556099063" duration="36000" />
+      <workItem from="1714556220806" duration="839000" />
+      <workItem from="1714557238920" duration="86000" />
+      <workItem from="1714557647880" duration="37000" />
+      <workItem from="1714558380203" duration="669000" />
+      <workItem from="1714559064894" duration="10615000" />
+      <workItem from="1714630007624" duration="5412000" />
+    </task>
+    <task id="LOCAL-00001" summary="some minor changes">
+      <option name="closed" value="true" />
+      <created>1714559144599</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1714559144599</updated>
+    </task>
+    <task id="LOCAL-00002" summary="Service Interface created">
+      <option name="closed" value="true" />
+      <created>1714564998426</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1714564998426</updated>
+    </task>
+    <task id="LOCAL-00003" summary="Repair service part implementation">
+      <option name="closed" value="true" />
+      <created>1714572938319</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1714572938319</updated>
+    </task>
+    <task id="LOCAL-00004" summary="Repair service part implementation">
+      <option name="closed" value="true" />
+      <created>1714632598733</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1714632598733</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="some minor changes" />
+    <MESSAGE value="Service Interface created" />
+    <MESSAGE value="Repair service part implementation" />
+    <option name="LAST_COMMIT_MESSAGE" value="Repair service part implementation" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+</project>

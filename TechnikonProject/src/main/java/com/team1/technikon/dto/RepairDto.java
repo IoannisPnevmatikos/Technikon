@@ -8,6 +8,6 @@ import com.team1.technikon.model.enums.TypeOfRepair;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record RepairDto(long id, LocalDateTime dateTime, String shortDescription, TypeOfRepair typeOfRepair, StatusOfRepair statusOfRepair,
-                        BigDecimal cost, String descriptionText, Owner owner, Property property) {
+public record RepairDto(LocalDateTime localDateTime, String shortDescription, TypeOfRepair typeOfRepair,
+                        StatusOfRepair statusOfRepair, BigDecimal cost, String descriptionText, Owner owner, Property property) {
 }

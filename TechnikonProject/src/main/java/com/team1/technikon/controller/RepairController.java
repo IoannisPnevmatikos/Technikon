@@ -1,6 +1,5 @@
 package com.team1.technikon.controller;
 
-import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;

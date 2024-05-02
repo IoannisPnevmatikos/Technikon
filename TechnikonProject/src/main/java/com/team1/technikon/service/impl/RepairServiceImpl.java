@@ -17,60 +17,77 @@ import java.util.List;
 @AllArgsConstructor
 public class RepairServiceImpl implements RepairService {
 
-    private RepairRepository repairRepository;
 
+    private final RepairRepository repairRepository;
+
+    // CREATE
     @Override
     public Repair createRepair(RepairDto repairDto) {
-        return null;
+        Repair repair = new Repair();
+        repair.setLocalDateTime(repairDto.localDateTime());
+        repair.setShortDescription(repairDto.shortDescription());
+        repair.setTypeOfRepair(repairDto.typeOfRepair());
+        repair.setStatusOfRepair(repairDto.statusOfRepair());
+        repair.setCost(repairDto.cost());
+        repair.setDescriptionText(repairDto.descriptionText());
+        repair.setOwner(repairDto.owner());
+        repair.setProperty(repairDto.property());
+        repairRepository.save(repair);
+        return repair;
     }
 
+    // SEARCHES
     @Override
     public List<Repair> getRepairByDate(LocalDateTime localDateTime) {
-        return null;
+        return repairRepository.getRepairByDate(localDateTime);
     }
 
     @Override
     public List<Repair> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate) {
-        return null;
+        return repairRepository.getRepairByRangeOfDates(startingDate, endingDate);
     }
 
     @Override
     public List<Repair> searchByOwnerTinNumber(long tinNumber) {
-        return null;
+        return repairRepository.searchByOwnerTinNumber(tinNumber);
     }
 
+    // UPDATES
     @Override
     public boolean updateDate(long id, LocalDateTime localDateTime) {
-        return false;
+        return repairRepository.updateDate(id, localDateTime) == 1;
     }
+
 
     @Override
     public boolean updateShortDescription(long id, String shortDescription) {
-        return false;
+        return repairRepository.updateShortDescription(id, shortDescription) == 1;
     }
 
     @Override
     public boolean updateTypeOfRepair(long id, TypeOfRepair typeOfRepair) {
-        return false;
+        return repairRepository.updateTypeOfRepair(id, typeOfRepair) == 1;
     }
 
     @Override
     public boolean updateStatusOfRepair(long id, StatusOfRepair statusOfRepair) {
-        return false;
+        return repairRepository.updateStatusOfRepair(id, statusOfRepair) == 1;
     }
 
     @Override
     public boolean updateCost(long id, BigDecimal cost) {
-        return false;
+        return repairRepository.updateCost(id, cost) == 1;
     }
 
     @Override
     public boolean updateDescriptionText(long id, String descriptionText) {
-        return false;
+        return repairRepository.updateDescriptionText(id, descriptionText) == 1;
     }
 
     @Override
     public boolean deleteRepair(long id) {
-        return false;
+        Repair repair = repairRepository.findById(id).orElse(null);
+        return repair != null;
     }
 }
+
