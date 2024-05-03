@@ -28,7 +28,7 @@ public class PropertyController {
         return propertyService.getPropertyById(propertyId);
     }
 
-    @GetMapping("/byOwner/{tinNumber}")
+    @GetMapping("/byOwner/{tinNumber}") //den doyleyei!!!!!!!!
     public List<Property> getPropertyByOwnerTinNumber(@PathVariable Long tinNumber) {
         return propertyService.getPropertyByOwnerTinNumber(tinNumber);
     }

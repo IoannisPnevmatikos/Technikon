@@ -75,7 +75,7 @@ public class RepairController {
         return repairService.updateDescriptionText(id, descText);
     }
 
-    @PutMapping("/delete/{id}")
+    @DeleteMapping("/delete/{id}")
     public boolean deleteRepair(@PathVariable long id) {
         return repairService.deleteRepair(id);
     }

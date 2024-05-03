@@ -28,7 +28,7 @@ public class OwnerController {
 
 
     @GetMapping("tin/{id}")
-    public Owner findById(@PathVariable long tinNumber) {
+    public Owner findById(@PathVariable(value = "id") long tinNumber) {
         return ownerService.getOwnerByTin(tinNumber);
     }
 

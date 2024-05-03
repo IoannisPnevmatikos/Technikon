@@ -32,9 +32,8 @@ public class DataGenerator {
         return this::run;
     }
 
-    //wdawdad
     private void run(String... args) {
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 2; i++) {
             long tin = faker.number().randomNumber();
             ownerService.createOwner(new OwnerDto(
                     tin,
@@ -48,7 +47,7 @@ public class DataGenerator {
                     )
             );
             if (ownerService.getOwnerByTin(tin)==null) continue;
-            for (int j = 0; j < 3; j++) {
+            for (int j = 0; j < 2; j++) {
                 long id = faker.number().randomNumber();
                 propertyService.createProperty(new PropertyDto(
                     id,
@@ -61,12 +60,12 @@ public class DataGenerator {
                     )
                 );
                 if (propertyService.getPropertyById(id)==null) continue;
-                for (int k = 0; k < 2; k++) {
+                for (int k = 0; k < 1; k++) {
                     repairService.createRepair(new RepairDto(
                             faker.date().birthday(0,5).toInstant()
                                     .atZone(ZoneId.systemDefault()).toLocalDateTime(),
                             faker.lorem().toString(),
-                            TypeOfRepair.values()[faker.number().numberBetween(0,3)],
+                            TypeOfRepair.values()[faker.number().numberBetween(0,5)],
                             StatusOfRepair.values()[faker.number().numberBetween(0,3)],
                             new BigDecimal(faker.number().randomDouble(2, 0, 1000)),
                             faker.lorem().toString(),
