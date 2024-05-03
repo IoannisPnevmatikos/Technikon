@@ -17,7 +17,7 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public Owner createOwner(OwnerDto ownerDto) {
-//        if (ownerRepository.findById(ownerDto.tinNumber()).orElseThrow(null) != null) return null;
+        if (ownerRepository.findById(ownerDto.tinNumber()).orElse(null) != null) return null;
         Owner owner = new Owner(); // na ginei elegxos gia lathos
         owner.setTinNumber(ownerDto.tinNumber());
         owner.setFirstName(ownerDto.firstName());

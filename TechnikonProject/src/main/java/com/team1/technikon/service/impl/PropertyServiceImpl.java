@@ -20,7 +20,7 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public Property createProperty(PropertyDto propertyDto) {
-//        if (propertyRepository.findById(propertyDto.propertyId()).orElseThrow(null) != null) return null;
+        if (propertyRepository.findById(propertyDto.propertyId()).orElse(null) != null) return null;
         Property property = new Property();
         property.setPropertyId(propertyDto.propertyId());
         property.setAddress(propertyDto.address());
@@ -29,7 +29,7 @@ public class PropertyServiceImpl implements PropertyService {
         property.setPhoto(propertyDto.photo());
         property.setMapLocation(propertyDto.mapLocation());
         property.setActive(true);
-        property.setOwner(propertyDto.owner()); // NA TO DOYME KAI META
+        property.setOwner(propertyDto.owner());
         propertyRepository.save(property);
         return property;
     }

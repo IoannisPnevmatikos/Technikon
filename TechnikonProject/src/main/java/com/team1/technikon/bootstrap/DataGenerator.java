@@ -34,7 +34,7 @@ public class DataGenerator {
 
     private void run(String... args) {
         for (int i = 0; i < 2; i++) {
-            long tin = faker.number().randomNumber();
+            long tin = faker.number().numberBetween(100000000,999999999);
             ownerService.createOwner(new OwnerDto(
                     tin,
                     faker.name().firstName(),
@@ -47,8 +47,9 @@ public class DataGenerator {
                     )
             );
             if (ownerService.getOwnerByTin(tin)==null) continue;
-            for (int j = 0; j < 2; j++) {
-                long id = faker.number().randomNumber();
+            int jm = faker.number().numberBetween(0,3);
+            for (int j = 0; j < jm; j++) {
+                long id = faker.number().numberBetween(10000000000L,99999999999L);
                 propertyService.createProperty(new PropertyDto(
                     id,
                     faker.address().streetAddress(),
@@ -60,7 +61,8 @@ public class DataGenerator {
                     )
                 );
                 if (propertyService.getPropertyById(id)==null) continue;
-                for (int k = 0; k < 1; k++) {
+                int km = faker.number().numberBetween(0,3);
+                for (int k = 0; k < km; k++) {
                     repairService.createRepair(new RepairDto(
                             faker.date().birthday(0,5).toInstant()
                                     .atZone(ZoneId.systemDefault()).toLocalDateTime(),
