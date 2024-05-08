@@ -18,7 +18,7 @@ public class RepairController {
 
     private final RepairService repairService;
 
-    @PostMapping("/create")
+    @PostMapping
     public Repair create(@RequestBody RepairDto repairDto) {
         return repairService.createRepair(repairDto);
     }
@@ -31,56 +31,56 @@ public class RepairController {
 //
 //    }
 //
-//    @GetMapping("/dateRange")
-//    public List<Repair> getRepairsByDateRange(@RequestParam String startDate, @RequestParam String endDate) {
+//    @GetMapping("/dateRange/{startDate}/{endDate}")
+//    public List<Repair> getRepairsByDateRange(@PathVariable String startDate, @PathVariable String endDate) {
 //        // Service impl must turn string into LocalDateTime
 //        // return repairService.getRepairByDate(localDateTime);
 //        return repairService.getRepairByRangeOfDates(startDate, endDate);
 //    }
 
-    @GetMapping("/search/{tinNumber}")
+    @GetMapping("/tinNumber/{tinNumber}")
     public List<Repair> searchRepairsByTinNumber(@PathVariable long tinNumber) {
         return repairService.searchByOwnerTinNumber(tinNumber);
     }
 
-//    @PutMapping("/updateDate/{id}")
-//    public boolean updateDate(@PathVariable long id, @RequestBody String date) {
+//    @PutMapping("/date/{id}/{date}")
+//    public boolean updateDate(@PathVariable long id, @PathVariable String date) {
 //        // Service impl must turn string into LocalDateTime
 //
 //        return repairService.updateDate(id, date);
 //    }
 
-    @PutMapping("/updateDesc/{id}")
+    @PutMapping("/description/{id}")
     public boolean updateShortDesc(@PathVariable long id, @RequestBody String desc) {
         return repairService.updateShortDescription(id, desc);
     }
 
-    @PutMapping("/updateTypeOfRepair/{id}")
-    public boolean updateTypeOfRepair(@PathVariable long id, @RequestBody TypeOfRepair typeOfRepair) {
+    @PutMapping("/typeOfRepair/{id}/{typeOfRepair}")
+    public boolean updateTypeOfRepair(@PathVariable long id, @PathVariable TypeOfRepair typeOfRepair) {
         return repairService.updateTypeOfRepair(id, typeOfRepair);
     }
 
-    @PutMapping("/updateStatusOfRepair/{id}")
-    public boolean updateStatusOfRepair(@PathVariable long id, @RequestBody StatusOfRepair statusOfRepair) {
+    @PutMapping("/statusOfRepair/{id}/{statusOfRepair}")
+    public boolean updateStatusOfRepair(@PathVariable long id, @PathVariable StatusOfRepair statusOfRepair) {
         return repairService.updateStatusOfRepair(id, statusOfRepair);
     }
 
-    @PutMapping("/updateCost/{id}")
-    public boolean updateCost(@PathVariable long id, @RequestBody BigDecimal cost) {
+    @PutMapping("/cost/{id}/{cost}")
+    public boolean updateCost(@PathVariable long id, @PathVariable BigDecimal cost) {
         return repairService.updateCost(id, cost);
     }
 
-    @PutMapping("/updateDescText/{id}")
-    public boolean updateDescText(@PathVariable long id, @RequestBody String descText) {
+    @PutMapping("/descText/{id}/{descText}")
+    public boolean updateDescText(@PathVariable long id, @PathVariable String descText) {
         return repairService.updateDescriptionText(id, descText);
     }
 
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public boolean deleteRepair(@PathVariable long id) {
         return repairService.deleteRepair(id);
     }
 
-    @GetMapping("/allData")
+    @GetMapping
     public List<Repair> getAllData() {
         return repairService.getAllData();
     }
