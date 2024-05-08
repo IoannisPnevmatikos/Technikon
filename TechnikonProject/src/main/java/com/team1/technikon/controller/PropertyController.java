@@ -23,58 +23,57 @@ public class PropertyController {
 
     }
 
-    @GetMapping("/{id}")
-    public Property getProperty(@PathVariable(value = "id") Long propertyId) {
+    @GetMapping("/propertyId/{propertyId}")
+    public Property getProperty(@PathVariable long propertyId) {
         return propertyService.getPropertyById(propertyId);
     }
 
-    @GetMapping("/byOwner/{tinNumber}")
-    public List<Property> getPropertyByOwnerTinNumber(@PathVariable Long tinNumber) {
+    @GetMapping("/tinNumber/{tinNumber}") //den doyleyei!!!!!!!!
+    public List<Property> getPropertyByOwnerTinNumber(@PathVariable long tinNumber) {
         return propertyService.getPropertyByOwnerTinNumber(tinNumber);
     }
 
-    @GetMapping("/byLocation/{area}")
+    @GetMapping("/area/{area}")
     public List<Property> getPropertyByLocation(@PathVariable String area) {
         return propertyService.getPropertyByLocation();
     }
 
-    @PutMapping("/updatePropertyId/{propertyId}/{newPropertyId}")
-    public boolean updatePropertyId(@PathVariable Long propertyId,@PathVariable Long newPropertyId) {
+    @PutMapping("/propertyId/{propertyId}/{newPropertyId}")
+    public boolean updatePropertyId(@PathVariable long propertyId, @PathVariable long newPropertyId) {
         return propertyService.updatePropertyId(propertyId, newPropertyId);
     }
 
-    @PutMapping("/updateAddress/{propertyId}")
-    public boolean updateAddress(@PathVariable Long propertyId, @RequestBody  String address) {
+    @PutMapping("/address/{propertyId}/{address}")
+    public boolean updateAddress(@PathVariable long propertyId, @PathVariable  String address) {
         return propertyService.updateAddress(propertyId, address);
     }
-    @PutMapping("/updateYearOfConstruction/{propertyId}")
-    public boolean updateYearOfConstruction(@PathVariable Long propertyId, @RequestBody  String yearOfConstruction) {
+    @PutMapping("/yearOfConstruction/{propertyId}/{yearOfConstruction}")
+    public boolean updateYearOfConstruction(@PathVariable long propertyId, @PathVariable  String yearOfConstruction) {
         return propertyService.updateYearOfConstruction(propertyId, yearOfConstruction );
     }
-    @PutMapping("/updatePropertyType/{propertyId}")
-    public boolean updatePropertyType(@PathVariable Long propertyId, @RequestBody TypeOfProperty typeOfProperty) {
+    @PutMapping("/typeOfProperty/{propertyId}/{typeOfProperty}")
+    public boolean updatePropertyType(@PathVariable long propertyId, @PathVariable TypeOfProperty typeOfProperty) {
         return propertyService.updatePropertyType(propertyId, typeOfProperty);
     }
-    @PutMapping("/updatePhoto/{propertyId}")
-    public boolean updatePhoto(@PathVariable Long propertyId, @RequestBody  String photo) {
+    @PutMapping("/photo/{propertyId}/{photo}")
+    public boolean updatePhoto(@PathVariable long propertyId, @PathVariable  String photo) {
         return propertyService.updatePhoto(propertyId, photo);
     }
-    @PutMapping("/updateMapLocation/{propertyId}")
-    public boolean updateMapLocation(@PathVariable Long propertyId, @RequestBody MapLocation mapLocation) {
+    @PutMapping("/mapLocation/{propertyId}")
+    public boolean updateMapLocation(@PathVariable long propertyId, @RequestBody MapLocation mapLocation) {
         return propertyService.updateMapLocation(propertyId, mapLocation);
     }
 
-    @DeleteMapping("/delete/{propertyId}")
-    public boolean delete(@PathVariable Long propertyId) {
+    @DeleteMapping("/{propertyId}")
+    public boolean delete(@PathVariable long propertyId) {
         return propertyService.deleteProperty(propertyId);
     }
 
           //  deleteProperty
 
-    @GetMapping("/allData")
+    @GetMapping
     public List<Property> getAllData() {
         return propertyService.getAllData();
     }
-
 
 }

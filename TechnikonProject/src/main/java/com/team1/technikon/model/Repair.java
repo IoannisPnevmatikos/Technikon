@@ -19,6 +19,7 @@ public class Repair {
     private String shortDescription;
     private TypeOfRepair typeOfRepair;
     private StatusOfRepair statusOfRepair;
+    @Column(scale = 2)
     private BigDecimal cost;
     private String descriptionText;
     @ManyToOne

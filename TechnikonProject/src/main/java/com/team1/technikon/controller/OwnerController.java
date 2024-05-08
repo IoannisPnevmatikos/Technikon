@@ -16,49 +16,49 @@ public class OwnerController {
 
     private final OwnerService ownerService;
 
-    @PostMapping("/create")
+    @PostMapping
     public Owner ownerCreate(@RequestBody OwnerDto ownerDto) {
         return ownerService.createOwner(ownerDto);
     }
 
-    @GetMapping("/allData")
+    @GetMapping
     public List<Owner> allData() {
         return ownerService.getAllData();
     }
 
 
-    @GetMapping("tin/{id}")
+    @GetMapping("/tinNumber/{tinNumber}")
     public Owner findById(@PathVariable long tinNumber) {
         return ownerService.getOwnerByTin(tinNumber);
     }
 
-    @GetMapping("email/{email}")
+    @GetMapping("/email/{email}")
     public Owner findByEmail(@PathVariable String email) {
         return ownerService.getOwnerByEmail(email);
     }
 
-    @GetMapping("username/{username}")
+    @GetMapping("/username/{username}")
     public Owner findByUsername(@PathVariable String username) {
         return ownerService.getOwnerByUsername(username);
     }
 
-    @PutMapping("/updateAddress")
-    public boolean updateAddress(@RequestParam(value = "tinNumber") long tinNumber, @RequestParam(value = "address") String address) {
+    @PutMapping("/address/{tinNumber}/{address}")
+    public boolean updateAddress(@PathVariable long tinNumber, @PathVariable String address) {
         return ownerService.updateAddress(tinNumber, address);
     }
 
-    @PutMapping("/updateEmail")
-    public boolean updateEmail(@RequestParam(value = "tinNumber") long tinNumber, @RequestParam(value = "email") String email) {
+    @PutMapping("/email/{tinNumber}/{email}")
+    public boolean updateEmail(@PathVariable long tinNumber, @PathVariable String email) {
         return ownerService.updateEmail(tinNumber, email);
     }
 
     //LOGIKA EINAI LATHOS IMPL
-    @PutMapping("/updatePassword")
-    public boolean updatePassword(@RequestParam(value = "tinNumber") long tinNumber, @RequestParam(value = "password") String password) {
+    @PutMapping("/password/{tinNumber}/{password}")
+    public boolean updatePassword(@PathVariable long tinNumber, @PathVariable String password) {
         return ownerService.updatePassword(tinNumber, password);
     }
 
-    @DeleteMapping("/delete/{tinNumber}")
+    @DeleteMapping("/{tinNumber}")
     public boolean deleteOwner(@PathVariable long tinNumber) {
         return ownerService.deleteOwner(tinNumber);
     }

@@ -15,7 +15,7 @@ import java.util.List;
 @Repository
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
-    @Query("select p from Property p where p.owner = :tinNumber")
+    @Query("select p from Property p where p.owner.tinNumber = :tinNumber")
     List<Property> getPropertyByOwnerTinNumber(@Param("tinNumber") long tinNumber);
 
     @Query("select p from Property p where p.mapLocation =:mapLocation")

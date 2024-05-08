@@ -87,7 +87,9 @@ public class RepairServiceImpl implements RepairService {
     @Override
     public boolean deleteRepair(long id) {
         Repair repair = repairRepository.findById(id).orElse(null);
-        return repair != null;
+        if(repair == null) return false;
+        repairRepository.deleteById(id);
+        return true;
     }
 
     @Override

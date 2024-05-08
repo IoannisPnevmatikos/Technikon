@@ -24,7 +24,7 @@ public interface RepairRepository extends JpaRepository<Repair, Long> {
     @Query("select r from Repair r where r.localDateTime between :startingDate and :endingDate")
     List<Repair> getRepairByRangeOfDates(@Param("startingDate") LocalDateTime startingDate, @Param("endingDate") LocalDateTime endingTime);
 
-    @Query("select r from Repair r where r.owner = :tinNumber")
+    @Query("select r from Repair r where r.owner.tinNumber = :tinNumber")
     List<Repair> searchByOwnerTinNumber(@Param("tinNumber") long tinNumber);
 
     // UPDATES
