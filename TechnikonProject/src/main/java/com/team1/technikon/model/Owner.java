@@ -30,8 +30,5 @@ public class Owner {
     @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Property> properties = new ArrayList<>();
-    @JsonIgnore
-    @OneToMany(mappedBy = "owner")
-    private List<Repair> repairs = new ArrayList<>();
 
 }

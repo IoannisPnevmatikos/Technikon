@@ -9,5 +9,5 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 public record RepairDto(LocalDateTime localDateTime, String shortDescription, TypeOfRepair typeOfRepair,
-                        StatusOfRepair statusOfRepair, BigDecimal cost, String descriptionText, Owner owner, Property property) {
+                        StatusOfRepair statusOfRepair, BigDecimal cost, String descriptionText, Property property) {
 }

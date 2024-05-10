@@ -23,7 +23,5 @@ public class Repair {
     private BigDecimal cost;
     private String descriptionText;
     @ManyToOne
-    private Owner owner;
-    @ManyToOne
     private Property property;
 }
