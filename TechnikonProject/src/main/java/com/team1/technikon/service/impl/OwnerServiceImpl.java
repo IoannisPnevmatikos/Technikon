@@ -84,7 +84,7 @@ public class OwnerServiceImpl implements OwnerService {
     public boolean deleteOwner(long tinNumber) {
         Owner owner = ownerRepository.findById(tinNumber).orElse(null);
         if (owner == null) return false;
-        if (owner.getProperties().isEmpty() && owner.getRepairs().isEmpty()) {
+        if (owner.getProperties().isEmpty()) {
             ownerRepository.deleteById(tinNumber);
         } else {
             owner.setActive(false);
