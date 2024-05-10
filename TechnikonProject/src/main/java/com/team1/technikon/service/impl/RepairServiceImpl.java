@@ -1,6 +1,7 @@
 package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.RepairDto;
+import com.team1.technikon.dto.ResponseApi;
 import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
@@ -25,10 +26,10 @@ public class RepairServiceImpl implements RepairService {
 
     // CREATE
     @Override
-    public Repair createRepair(RepairDto repairDto) {
+    public ResponseApi<Repair> createRepair(RepairDto repairDto) {
         Repair repair = technikonMapper.toRepair(repairDto);
         repairRepository.save(repair);
-        return repair;
+        return new ResponseApi<>(0,"New repair created!",repair);
     }
 
     // SEARCHES
@@ -53,38 +54,38 @@ public class RepairServiceImpl implements RepairService {
 
     // UPDATES
     @Override
-    public boolean updateDate(long id, LocalDateTime localDateTime) {
+    public ResponseApi<Repair> updateDate(long id, LocalDateTime localDateTime) {
         return repairRepository.updateDate(id, localDateTime) == 1;
     }
 
 
     @Override
-    public boolean updateShortDescription(long id, String shortDescription) {
+    public ResponseApi<Repair> updateShortDescription(long id, String shortDescription) {
         return repairRepository.updateShortDescription(id, shortDescription) == 1;
     }
 
     @Override
-    public boolean updateTypeOfRepair(long id, TypeOfRepair typeOfRepair) {
+    public ResponseApi<Repair> updateTypeOfRepair(long id, TypeOfRepair typeOfRepair) {
         return repairRepository.updateTypeOfRepair(id, typeOfRepair) == 1;
     }
 
     @Override
-    public boolean updateStatusOfRepair(long id, StatusOfRepair statusOfRepair) {
+    public ResponseApi<Repair> updateStatusOfRepair(long id, StatusOfRepair statusOfRepair) {
         return repairRepository.updateStatusOfRepair(id, statusOfRepair) == 1;
     }
 
     @Override
-    public boolean updateCost(long id, BigDecimal cost) {
+    public ResponseApi<Repair> updateCost(long id, BigDecimal cost) {
         return repairRepository.updateCost(id, cost) == 1;
     }
 
     @Override
-    public boolean updateDescriptionText(long id, String descriptionText) {
+    public ResponseApi<Repair> updateDescriptionText(long id, String descriptionText) {
         return repairRepository.updateDescriptionText(id, descriptionText) == 1;
     }
 
     @Override
-    public boolean deleteRepair(long id) {
+    public ResponseApi<Repair> deleteRepair(long id) {
         Repair repair = repairRepository.findById(id).orElse(null);
         if(repair == null) return false;
         if(!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) return false;
