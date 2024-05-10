@@ -1,6 +1,7 @@
 package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.RepairDto;
+import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -19,31 +21,29 @@ public class RepairServiceImpl implements RepairService {
 
 
     private final RepairRepository repairRepository;
+    private final TechnikonMapper technikonMapper;
 
     // CREATE
     @Override
     public Repair createRepair(RepairDto repairDto) {
-        Repair repair = new Repair();
-        repair.setLocalDateTime(repairDto.localDateTime());
-        repair.setShortDescription(repairDto.shortDescription());
-        repair.setTypeOfRepair(repairDto.typeOfRepair());
-        repair.setStatusOfRepair(repairDto.statusOfRepair());
-        repair.setCost(repairDto.cost());
-        repair.setDescriptionText(repairDto.descriptionText());
-        repair.setProperty(repairDto.property());
+        Repair repair = technikonMapper.toRepair(repairDto);
         repairRepository.save(repair);
         return repair;
     }
 
     // SEARCHES
     @Override
-    public List<Repair> getRepairByDate(LocalDateTime localDateTime) {
-        return repairRepository.getRepairByDate(localDateTime);
+    public List<RepairDto> getRepairByDate(LocalDateTime localDateTime) {
+        return repairRepository.getRepairByDate(localDateTime).stream()
+                .map(technikonMapper::toRepairDto)
+                .collect(Collectors.toList());
     }
 
     @Override
-    public List<Repair> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate) {
-        return repairRepository.getRepairByRangeOfDates(startingDate, endingDate);
+    public List<RepairDto> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate) {
+        return repairRepository.getRepairByRangeOfDates(startingDate, endingDate).stream()
+                .map(technikonMapper::toRepairDto)
+                .collect(Collectors.toList());
     }
 
     @Override

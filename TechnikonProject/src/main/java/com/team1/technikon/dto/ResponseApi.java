@@ -9,4 +9,5 @@ public class ResponseApi <T> {
     private int code;
     private String message;
     private T data;
+    // nothing
 }

@@ -1,0 +1,25 @@
+package com.team1.technikon.mapper;
+
+import com.team1.technikon.dto.OwnerDto;
+import com.team1.technikon.dto.PropertyDto;
+import com.team1.technikon.dto.RepairDto;
+import com.team1.technikon.model.Owner;
+import com.team1.technikon.model.Property;
+import com.team1.technikon.model.Repair;
+import org.mapstruct.Mapper;
+import org.mapstruct.MapperConfig;
+import org.mapstruct.Mapping;
+import org.mapstruct.ReportingPolicy;
+
+@Mapper(componentModel = "spring"  )
+@MapperConfig(unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
+public interface TechnikonMapper {
+    OwnerDto toOwnerDto(Owner owner);
+    Owner toOwner(OwnerDto ownerDto);
+
+    PropertyDto toPropertyDto(Property property);
+    Property toProperty(PropertyDto propertyDto);
+
+    RepairDto toRepairDto(Repair repair);
+    Repair toRepair(RepairDto repairDto);
+}
