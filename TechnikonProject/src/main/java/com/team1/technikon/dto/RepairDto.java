@@ -1,6 +1,5 @@
 package com.team1.technikon.dto;
 
-import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
