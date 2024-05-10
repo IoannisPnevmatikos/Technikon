@@ -19,7 +19,7 @@ public class Property {
     private TypeOfProperty typeOfProperty;
     private String photo;
     private MapLocation mapLocation;
-    private boolean isActive;
+    private boolean isActive = true;
     @ManyToOne
     private Owner owner;
 

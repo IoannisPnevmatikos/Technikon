@@ -2,6 +2,7 @@ package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.ResponseApi;
+import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.enums.TypeOfProperty;
@@ -18,19 +19,12 @@ import java.util.List;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final TechnikonMapper technikonMapper;
 
     @Override
     public ResponseApi<Property> createProperty(PropertyDto propertyDto) {
         if (propertyRepository.findById(propertyDto.propertyId()).orElse(null) != null) return new ResponseApi<>(0, "Property already exists.", null);
-        Property property = new Property();
-        property.setPropertyId(propertyDto.propertyId());
-        property.setAddress(propertyDto.address());
-        property.setYearOfConstruction(propertyDto.yearOfConstruction());
-        property.setTypeOfProperty(propertyDto.typeOfProperty());
-        property.setPhoto(propertyDto.photo());
-        property.setMapLocation(propertyDto.mapLocation());
-        property.setActive(true);
-        property.setOwner(propertyDto.owner());
+        Property property = technikonMapper.toProperty(propertyDto);
         propertyRepository.save(property);
         return new ResponseApi<>(0, "New property created!", property);
     }
