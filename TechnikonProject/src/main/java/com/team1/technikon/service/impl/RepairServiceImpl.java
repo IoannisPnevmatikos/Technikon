@@ -30,7 +30,6 @@ public class RepairServiceImpl implements RepairService {
         repair.setStatusOfRepair(repairDto.statusOfRepair());
         repair.setCost(repairDto.cost());
         repair.setDescriptionText(repairDto.descriptionText());
-        repair.setOwner(repairDto.owner());
         repair.setProperty(repairDto.property());
         repairRepository.save(repair);
         return repair;
@@ -88,6 +87,7 @@ public class RepairServiceImpl implements RepairService {
     public boolean deleteRepair(long id) {
         Repair repair = repairRepository.findById(id).orElse(null);
         if(repair == null) return false;
+        if(!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) return false;
         repairRepository.deleteById(id);
         return true;
     }

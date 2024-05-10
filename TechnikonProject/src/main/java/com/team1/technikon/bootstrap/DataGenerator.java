@@ -71,7 +71,6 @@ public class DataGenerator {
                             StatusOfRepair.values()[faker.number().numberBetween(0,3)],
                             new BigDecimal(faker.number().randomDouble(2, 0, 1000)),
                             faker.lorem().toString(),
-                            ownerService.getOwnerByTin(tin),
                             propertyService.getPropertyById(id)
                             )
                     );
