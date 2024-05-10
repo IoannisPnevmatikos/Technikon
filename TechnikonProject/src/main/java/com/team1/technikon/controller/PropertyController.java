@@ -1,6 +1,7 @@
 package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.PropertyDto;
+import com.team1.technikon.dto.ResponseApi;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.enums.TypeOfProperty;
@@ -18,13 +19,13 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @PostMapping
-    public Property addProperty(@RequestBody PropertyDto propertyDto) {
+    public ResponseApi<Property> addProperty(@RequestBody PropertyDto propertyDto) {
        return propertyService.createProperty(propertyDto);
 
     }
 
     @GetMapping("/propertyId/{propertyId}")
-    public Property getProperty(@PathVariable long propertyId) {
+    public ResponseApi<Property> getProperty(@PathVariable long propertyId) {
         return propertyService.getPropertyById(propertyId);
     }
 
@@ -39,33 +40,33 @@ public class PropertyController {
     }
 
     @PutMapping("/propertyId/{propertyId}/{newPropertyId}")
-    public boolean updatePropertyId(@PathVariable long propertyId, @PathVariable long newPropertyId) {
+    public ResponseApi<Property> updatePropertyId(@PathVariable long propertyId, @PathVariable long newPropertyId) {
         return propertyService.updatePropertyId(propertyId, newPropertyId);
     }
 
     @PutMapping("/address/{propertyId}/{address}")
-    public boolean updateAddress(@PathVariable long propertyId, @PathVariable  String address) {
+    public ResponseApi<Property> updateAddress(@PathVariable long propertyId, @PathVariable  String address) {
         return propertyService.updateAddress(propertyId, address);
     }
     @PutMapping("/yearOfConstruction/{propertyId}/{yearOfConstruction}")
-    public boolean updateYearOfConstruction(@PathVariable long propertyId, @PathVariable  String yearOfConstruction) {
+    public ResponseApi<Property> updateYearOfConstruction(@PathVariable long propertyId, @PathVariable  String yearOfConstruction) {
         return propertyService.updateYearOfConstruction(propertyId, yearOfConstruction );
     }
     @PutMapping("/typeOfProperty/{propertyId}/{typeOfProperty}")
-    public boolean updatePropertyType(@PathVariable long propertyId, @PathVariable TypeOfProperty typeOfProperty) {
+    public ResponseApi<Property> updatePropertyType(@PathVariable long propertyId, @PathVariable TypeOfProperty typeOfProperty) {
         return propertyService.updatePropertyType(propertyId, typeOfProperty);
     }
     @PutMapping("/photo/{propertyId}/{photo}")
-    public boolean updatePhoto(@PathVariable long propertyId, @PathVariable  String photo) {
+    public ResponseApi<Property> updatePhoto(@PathVariable long propertyId, @PathVariable  String photo) {
         return propertyService.updatePhoto(propertyId, photo);
     }
     @PutMapping("/mapLocation/{propertyId}")
-    public boolean updateMapLocation(@PathVariable long propertyId, @RequestBody MapLocation mapLocation) {
+    public ResponseApi<Property> updateMapLocation(@PathVariable long propertyId, @RequestBody MapLocation mapLocation) {
         return propertyService.updateMapLocation(propertyId, mapLocation);
     }
 
     @DeleteMapping("/{propertyId}")
-    public boolean delete(@PathVariable long propertyId) {
+    public ResponseApi<Property> delete(@PathVariable long propertyId) {
         return propertyService.deleteProperty(propertyId);
     }
 
