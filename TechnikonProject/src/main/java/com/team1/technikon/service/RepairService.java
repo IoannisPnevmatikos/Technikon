@@ -13,9 +13,9 @@ import java.util.List;
 
 public interface RepairService {
     ResponseApi<Repair> createRepair(RepairDto repairDto);
-    List<RepairDto> getRepairByDate(LocalDateTime localDateTime);
-    List<RepairDto> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate);
-    List<Repair> searchByOwnerTinNumber(long tinNumber);
+    ResponseApi<List<RepairDto>> getRepairByDate(LocalDateTime localDateTime);
+    ResponseApi<List<RepairDto>> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate);
+    ResponseApi<List<Repair>> searchByOwnerTinNumber(long tinNumber);
     ResponseApi<Repair> updateDate(long id, LocalDateTime localDateTime);
     ResponseApi<Repair> updateShortDescription(long id, String shortDescription);
     ResponseApi<Repair> updateTypeOfRepair(long id, TypeOfRepair typeOfRepair);
@@ -23,5 +23,5 @@ public interface RepairService {
     ResponseApi<Repair> updateCost(long id, BigDecimal cost);
     ResponseApi<Repair> updateDescriptionText(long id, String descriptionText);
     ResponseApi<Repair> deleteRepair(long id);
-    List<Repair> getAllData();
+    ResponseApi<List<Repair>> getAllData();
 }
