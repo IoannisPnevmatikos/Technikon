@@ -15,7 +15,6 @@
 	<description>Project</description>
 	<properties>
 		<java.version>21</java.version>
-		<mapstructVersion>1.5.5.Final</mapstructVersion>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -51,17 +50,11 @@
 			<artifactId>javafaker</artifactId>
 			<version>1.0.2</version>
 		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct -->
+
 		<dependency>
 			<groupId>org.mapstruct</groupId>
 			<artifactId>mapstruct</artifactId>
-			<version>${mapstructVersion}</version>
-		</dependency>
-		<!-- https://mvnrepository.com/artifact/org.mapstruct/mapstruct-processor -->
-		<dependency>
-			<groupId>org.mapstruct</groupId>
-			<artifactId>mapstruct-processor</artifactId>
-			<version>${mapstructVersion}</version>
+			<version>1.5.5.Final</version>
 		</dependency>
 	</dependencies>
 

@@ -4,7 +4,11 @@ import com.github.javafaker.Faker;
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.RepairDto;
+import com.team1.technikon.exception.OwnerFailToCreateException;
+import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.mapper.ObjectMapper;
 import com.team1.technikon.model.MapLocation;
+import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfProperty;
 import com.team1.technikon.model.enums.TypeOfRepair;
@@ -25,6 +29,7 @@ public class DataGenerator {
     private final OwnerService ownerService;
     private final PropertyService propertyService;
     private final RepairService repairService;
+    private final ObjectMapper objectMapper;
     private final   Faker faker = new Faker();
 
     @Bean
@@ -32,7 +37,7 @@ public class DataGenerator {
         return this::run;
     }
 
-    private void run(String... args) {
+    private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException {
         for (int i = 0; i < 3; i++) {
             long tin = faker.number().numberBetween(100000000,999999999);
             ownerService.createOwner(new OwnerDto(
@@ -40,7 +45,7 @@ public class DataGenerator {
                     faker.name().firstName(),
                     faker.name().lastName(),
                     faker.address().streetAddress(),
-                    faker.phoneNumber().toString(),
+                    faker.phoneNumber().toString()+i,
                     faker.internet().password(),
                     faker.internet().emailAddress(),
                     faker.leagueOfLegends().champion()
@@ -50,6 +55,23 @@ public class DataGenerator {
             int jm = faker.number().numberBetween(1,3);
             for (int j = 0; j < jm; j++) {
                 long id = faker.number().numberBetween(10000000000L,99999999999L);
+
+                OwnerDto ownerDto = ownerService.getOwnerByTin(tin);
+              Owner owner =  objectMapper.toOwner(ownerDto);
+                // Owner owner = ObjectMapper.INSTANCE.toOwner(ownerDto);
+//                Owner owner = new Owner();
+//                owner.setActive(true);
+//                owner.setTinNumber(tin);
+//                owner.setFirstName(ownerDto.firstName());
+//                owner.setLastName(ownerDto.lastName());
+//                owner.setAddress(ownerDto.address());
+//                owner.setEmail(ownerDto.email());
+//                owner.setPhone(ownerDto.phone());
+//                owner.setPassword(ownerDto.password());
+//                owner.setUsername(ownerDto.username());
+
+/*
+* ownerService.getOwnerByTin(tin).firstName(), ownerService.getOwnerByTin(tin).lastName(), ownerService.getOwnerByTin(tin).address(), ownerService.getOwnerByTin(tin).phone(), ownerService.getOwnerByTin(tin).password(), ownerService.getOwnerByTin(tin).email(), ownerService.getOwnerByTin(tin).username())*/
                 propertyService.createProperty(new PropertyDto(
                     id,
                     faker.address().streetAddress(),
@@ -57,7 +79,7 @@ public class DataGenerator {
                     TypeOfProperty.values()[faker.number().numberBetween(0,3)],
                     faker.leagueOfLegends().champion(),
                     new MapLocation(0.0,0.0),
-                    ownerService.getOwnerByTin(tin)
+                  owner
                     )
                 );
                 if (propertyService.getPropertyById(id)==null) continue;

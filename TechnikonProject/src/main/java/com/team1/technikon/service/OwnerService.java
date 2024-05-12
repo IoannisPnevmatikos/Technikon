@@ -1,6 +1,8 @@
 package com.team1.technikon.service;
 
 import com.team1.technikon.dto.OwnerDto;
+import com.team1.technikon.exception.OwnerFailToCreateException;
+import com.team1.technikon.exception.OwnerNotFoundException;
 import com.team1.technikon.model.Owner;
 
 import java.util.List;
@@ -8,25 +10,25 @@ import java.util.List;
 public interface OwnerService {
 
     //CREATE
-    Owner createOwner(OwnerDto ownerDto);
+    OwnerDto createOwner(OwnerDto ownerDto) throws OwnerFailToCreateException;
 
     //SEARCH
-    Owner getOwnerByTin(long tinNumber);
+    OwnerDto getOwnerByTin(long tinNumber) throws OwnerNotFoundException;
 
-    Owner getOwnerByEmail(String email);
+    OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException;
 
-    Owner getOwnerByUsername(String username);
+    OwnerDto getOwnerByUsername(String username) throws OwnerNotFoundException;
 
     //UPDATE
-    boolean updateAddress(long tinNumber, String address);
+    boolean updateAddress(long tinNumber, String address) throws OwnerNotFoundException;;
 
-    boolean updateEmail(long tinNumber, String email);
+    boolean updateEmail(long tinNumber, String email) throws OwnerNotFoundException;;
 
-    boolean updatePassword(long tinNumber, String password);
+    boolean updatePassword(long tinNumber, String password) throws OwnerNotFoundException;;
 
     //DELETE
-    boolean deleteOwner(long tinNumber);
+    boolean deleteOwner(long tinNumber) throws OwnerNotFoundException;
 
     // GET ALL DATA
-    List<Owner> getAllData();
+    List<OwnerDto> getAllData() throws OwnerNotFoundException;
 }
