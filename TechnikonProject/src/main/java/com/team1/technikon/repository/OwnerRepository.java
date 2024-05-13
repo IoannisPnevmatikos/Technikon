@@ -8,16 +8,16 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     @Query("select o from Owner o where o.email = :email")
-    Owner getOwnerByEmail(@Param("email") String email);
+    Optional<Owner> getOwnerByEmail(@Param("email") String email);
 
     @Query("select o from Owner o where o.username = :username")
-    Owner getOwnerByUsername(@Param("username") String username);
+    Optional<Owner> getOwnerByUsername(@Param("username") String username);
 
     @Transactional
     @Modifying

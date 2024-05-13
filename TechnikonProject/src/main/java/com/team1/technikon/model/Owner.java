@@ -19,6 +19,7 @@ public class Owner {
     private String firstName;
     private String lastName;
     private String address;
+    @Column(unique = true)
     private String phone;
     private String password;
     @Column(unique = true)
