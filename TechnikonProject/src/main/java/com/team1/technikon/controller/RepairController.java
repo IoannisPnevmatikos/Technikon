@@ -32,6 +32,7 @@ public class RepairController {
     @ApiImplicitParams({
             @ApiImplicitParam(name = "date", value = "Date in ISO format (YYYY-MM-DDThh:mm:ss)", required = true, dataType = "string", paramType = "path", example = "2024-05-11T08:00:00", format = "date-time")
     })
+
     @GetMapping("/{date}")
     public ResponseApi<List<RepairDto>> getRepairsByDate(@PathVariable("date") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDateTime date) {
         return repairService.getRepairByDate(date);
