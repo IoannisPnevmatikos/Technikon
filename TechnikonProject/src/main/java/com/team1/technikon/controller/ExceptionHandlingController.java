@@ -3,6 +3,8 @@ package com.team1.technikon.controller;
 import com.team1.technikon.dto.ApplicationErrorResponse;
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.RepairFailToCreateException;
+import com.team1.technikon.exception.RepairNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -24,6 +26,15 @@ public class ExceptionHandlingController {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
     }
 
+    @ExceptionHandler(RepairNotFoundException.class)
+    public ResponseEntity<ApplicationErrorResponse> handleRepairNotFoundException(RepairNotFoundException e) {
+        ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
 
-
+    @ExceptionHandler(RepairFailToCreateException.class)
+    public ResponseEntity<ApplicationErrorResponse> handleRepairFailToCreateException(RepairFailToCreateException e) {
+        ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
 }

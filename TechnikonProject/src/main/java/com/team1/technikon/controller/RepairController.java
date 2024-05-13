@@ -1,6 +1,106 @@
 package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.RepairDto;
+import com.team1.technikon.model.Repair;
+import com.team1.technikon.model.enums.StatusOfRepair;
+import com.team1.technikon.model.enums.TypeOfRepair;
+import com.team1.technikon.service.RepairService;
+import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@RestController
+@RequestMapping("/repair")
+@AllArgsConstructor
+public class RepairController {
+
+    private final RepairService repairService;
+
+
+    @PostMapping
+    public ResponseEntity<Repair> create(@RequestBody RepairDto repairDto) {
+        Repair repair = repairService.createRepair(repairDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(repair);
+    }
+
+    @GetMapping("/{date}")
+    public ResponseEntity<List<RepairDto>> getRepairsByDate(@PathVariable("date") LocalDateTime date) {
+        List<RepairDto> repairs = repairService.getRepairByDate(date);
+        return ResponseEntity.ok(repairs);
+    }
+
+    @GetMapping("/dateRange/{startDate}/{endDate}")
+    public ResponseEntity<List<RepairDto>> getRepairsByDateRange(@PathVariable("startDate") LocalDateTime startDate,
+                                                                 @PathVariable("endDate") LocalDateTime endDate) {
+        List<RepairDto> repairs = repairService.getRepairByRangeOfDates(startDate, endDate);
+        return ResponseEntity.ok(repairs);
+    }
+
+    @PutMapping("/date/{id}/{date}")
+    public ResponseEntity<Repair> updateDate(@PathVariable long id, @PathVariable("date") LocalDateTime date) {
+        Repair repair = repairService.updateDate(id, date);
+        return ResponseEntity.ok(repair);
+    }
+
+    @GetMapping("/tinNumber/{tinNumber}")
+    public ResponseEntity<List<Repair>> searchRepairsByTinNumber(@PathVariable long tinNumber) {
+        List<Repair> repairs = repairService.searchByOwnerTinNumber(tinNumber);
+        return ResponseEntity.ok(repairs);
+    }
+
+    @PutMapping("/description/{id}")
+    public ResponseEntity<Repair> updateShortDesc(@PathVariable long id, @RequestBody String desc) {
+        Repair repair = repairService.updateShortDescription(id, desc);
+        return ResponseEntity.ok(repair);
+    }
+
+    @PutMapping("/typeOfRepair/{id}/{typeOfRepair}")
+    public ResponseEntity<Repair> updateTypeOfRepair(@PathVariable long id, @PathVariable TypeOfRepair typeOfRepair) {
+        Repair repair = repairService.updateTypeOfRepair(id, typeOfRepair);
+        return ResponseEntity.ok(repair);
+    }
+
+    @PutMapping("/statusOfRepair/{id}/{statusOfRepair}")
+    public ResponseEntity<Repair> updateStatusOfRepair(@PathVariable long id, @PathVariable StatusOfRepair statusOfRepair) {
+        Repair repair = repairService.updateStatusOfRepair(id, statusOfRepair);
+        return ResponseEntity.ok(repair);
+    }
+
+    @PutMapping("/cost/{id}/{cost}")
+    public ResponseEntity<Repair> updateCost(@PathVariable long id, @PathVariable BigDecimal cost) {
+        Repair repair = repairService.updateCost(id, cost);
+        return ResponseEntity.ok(repair);
+    }
+
+    @PutMapping("/descText/{id}/{descText}")
+    public ResponseEntity<Repair> updateDescText(@PathVariable long id, @PathVariable String descText) {
+        Repair repair = repairService.updateDescriptionText(id, descText);
+        return ResponseEntity.ok(repair);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Repair> deleteRepair(@PathVariable long id) {
+        repairService.deleteRepair(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping
+    public ResponseEntity<List<Repair>> getAllData() {
+        List<Repair> repairs = repairService.getAllData();
+        return ResponseEntity.ok(repairs);
+    }
+}
+
+
+/*
+package com.team1.technikon.controller;
+
+import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.dto.ResponseApi;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
@@ -89,3 +189,4 @@ public class RepairController {
         return repairService.getAllData();
     }
 }
+*/

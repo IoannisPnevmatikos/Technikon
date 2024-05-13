@@ -10,10 +10,10 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-public class Repair {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Repair extends BaseModel{
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.IDENTITY)
+//    private long id;
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDateTime localDateTime;
     private String shortDescription;
