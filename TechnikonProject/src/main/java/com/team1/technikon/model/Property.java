@@ -10,8 +10,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Property {
-    @Id
+public class Property extends BaseModel{
     @Column(unique = true)
     private long propertyId;
     private String address;
@@ -19,7 +18,8 @@ public class Property {
     private TypeOfProperty typeOfProperty;
     private String photo;
     private MapLocation mapLocation;
-    private boolean isActive;
+    private boolean isActive = true;
+
     @ManyToOne
     private Owner owner;
 

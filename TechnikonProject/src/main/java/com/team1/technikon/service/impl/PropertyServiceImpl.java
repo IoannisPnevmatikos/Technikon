@@ -2,6 +2,7 @@ package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.ResponseApi;
+import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.enums.TypeOfProperty;
@@ -18,23 +19,18 @@ import java.util.List;
 public class PropertyServiceImpl implements PropertyService {
 
     private final PropertyRepository propertyRepository;
+    private final TechnikonMapper technikonMapper;
 
+    //CREATE
     @Override
     public ResponseApi<Property> createProperty(PropertyDto propertyDto) {
         if (propertyRepository.findById(propertyDto.propertyId()).orElse(null) != null) return new ResponseApi<>(0, "Property already exists.", null);
-        Property property = new Property();
-        property.setPropertyId(propertyDto.propertyId());
-        property.setAddress(propertyDto.address());
-        property.setYearOfConstruction(propertyDto.yearOfConstruction());
-        property.setTypeOfProperty(propertyDto.typeOfProperty());
-        property.setPhoto(propertyDto.photo());
-        property.setMapLocation(propertyDto.mapLocation());
-        property.setActive(true);
-        property.setOwner(propertyDto.owner());
+        Property property = technikonMapper.toProperty(propertyDto);
         propertyRepository.save(property);
         return new ResponseApi<>(0, "New property created!", property);
     }
 
+    //SEARCH
     @Override
     public ResponseApi<Property> getPropertyById(long propertyId) {
         Property property = propertyRepository.findById(propertyId).orElseThrow(null);
@@ -64,65 +60,79 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public ResponseApi<Property> updatePropertyId(long currentPropertyId, long newPropertyId) {
-        Property property = propertyRepository.findById(currentPropertyId).orElseThrow(null);
-        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
-        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
-        propertyRepository.updatePropertyId(currentPropertyId, newPropertyId);
-        property.setPropertyId(newPropertyId);
-        return new ResponseApi<>(0, "Property updated successfully!", property);
+    public List<Property> getAllData() {
+        return propertyRepository.findAll();
     }
+
+    //UPDATE
+//    @Override
+//    public ResponseApi<Property> updatePropertyId(long currentPropertyId, long newPropertyId) {
+//        Property property = propertyRepository.findById(currentPropertyId).orElseThrow(null);
+//        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
+//        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
+//        propertyRepository.updatePropertyId(currentPropertyId, newPropertyId);
+//        property.setPropertyId(newPropertyId);
+//        return new ResponseApi<>(0, "Property updated successfully!", property);
+//    }
+//
+//    @Override
+//    public ResponseApi<Property> updateAddress(long propertyId, String address) {
+//        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
+//        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
+//        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
+//        propertyRepository.updateAddress(propertyId, address);
+//        property.setAddress(address);
+//        return new ResponseApi<>(0, "Property updated successfully!", property);
+//    }
+//
+//    @Override
+//    public ResponseApi<Property> updateYearOfConstruction(long propertyId, String yearOfConstruction) {
+//        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
+//        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
+//        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
+//        propertyRepository.updateYearOfConstruction(propertyId, yearOfConstruction);
+//        property.setYearOfConstruction(yearOfConstruction);
+//        return new ResponseApi<>(0, "Property updated successfully!", property);
+//    }
+//
+//    @Override
+//    public ResponseApi<Property> updatePropertyType(long propertyId, TypeOfProperty typeOfProperty) {
+//        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
+//        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
+//        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
+//        propertyRepository.updatePropertyType(propertyId, typeOfProperty);
+//        property.setTypeOfProperty(typeOfProperty);
+//        return new ResponseApi<>(0, "Property updated successfully!", property);
+//    }
+//
+//    @Override
+//    public ResponseApi<Property> updatePhoto(long propertyId, String photo) {
+//        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
+//        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
+//        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
+//        propertyRepository.updatePhoto(propertyId, photo);
+//        property.setPhoto(photo);
+//        return new ResponseApi<>(0, "Property updated successfully!", property);
+//    }
+//
+//    @Override
+//    public ResponseApi<Property> updateMapLocation(long propertyId, MapLocation mapLocation) {
+//        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
+//        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
+//        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
+//        propertyRepository.updateMapLocation(propertyId, mapLocation);
+//        property.setMapLocation(mapLocation);
+//        return new ResponseApi<>(0, "Property updated successfully!", property);
+//    }
 
     @Override
-    public ResponseApi<Property> updateAddress(long propertyId, String address) {
-        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
-        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
-        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
-        propertyRepository.updateAddress(propertyId, address);
-        property.setAddress(address);
-        return new ResponseApi<>(0, "Property updated successfully!", property);
+    public ResponseApi<Property> updateProperty(long id, PropertyDto propertyDto) {
+        Property property = propertyRepository.findById(id).orElse(null);
+//        if (propertyDto.propertyId() != null)
+        return null;
     }
 
-    @Override
-    public ResponseApi<Property> updateYearOfConstruction(long propertyId, String yearOfConstruction) {
-        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
-        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
-        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
-        propertyRepository.updateYearOfConstruction(propertyId, yearOfConstruction);
-        property.setYearOfConstruction(yearOfConstruction);
-        return new ResponseApi<>(0, "Property updated successfully!", property);
-    }
-
-    @Override
-    public ResponseApi<Property> updatePropertyType(long propertyId, TypeOfProperty typeOfProperty) {
-        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
-        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
-        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
-        propertyRepository.updatePropertyType(propertyId, typeOfProperty);
-        property.setTypeOfProperty(typeOfProperty);
-        return new ResponseApi<>(0, "Property updated successfully!", property);
-    }
-
-    @Override
-    public ResponseApi<Property> updatePhoto(long propertyId, String photo) {
-        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
-        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
-        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
-        propertyRepository.updatePhoto(propertyId, photo);
-        property.setPhoto(photo);
-        return new ResponseApi<>(0, "Property updated successfully!", property);
-    }
-
-    @Override
-    public ResponseApi<Property> updateMapLocation(long propertyId, MapLocation mapLocation) {
-        Property property = propertyRepository.findById(propertyId).orElseThrow(null);
-        if (property == null) return new ResponseApi<>(0, "Requested property does not exist.", null);
-        if (!property.isActive()) return new ResponseApi<>(0, "Requested property is no longer active.", null);
-        propertyRepository.updateMapLocation(propertyId, mapLocation);
-        property.setMapLocation(mapLocation);
-        return new ResponseApi<>(0, "Property updated successfully!", property);
-    }
-
+    //DELETE
     @Override
     public ResponseApi<Property> deleteProperty(long propertyId) {
         Property property = propertyRepository.findById(propertyId).orElseThrow(null);
@@ -137,8 +147,4 @@ public class PropertyServiceImpl implements PropertyService {
         }
     }
 
-    @Override
-    public List<Property> getAllData() {
-        return propertyRepository.findAll();
-    }
 }
