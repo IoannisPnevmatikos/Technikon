@@ -1,7 +1,6 @@
 package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.RepairDto;
-import com.team1.technikon.dto.ResponseApi;
 import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
@@ -9,6 +8,8 @@ import com.team1.technikon.model.enums.TypeOfRepair;
 import com.team1.technikon.repository.RepairRepository;
 import com.team1.technikon.service.RepairService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -21,97 +22,159 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public class RepairServiceImpl implements RepairService {
 
+    private static final Logger logger = LoggerFactory.getLogger(RepairServiceImpl.class);
+
     private final RepairRepository repairRepository;
     private final TechnikonMapper technikonMapper;
 
-    public Repair createRepair(RepairDto repairDto) {
-        Repair repair = technikonMapper.toRepair(repairDto);
-        return repairRepository.save(repair);
+    @Override
+    public RepairDto createRepair(RepairDto repairDto) {
+        try {
+            logger.info("Creating a repair: {}", repairDto);
+            Repair repair = technikonMapper.toRepair(repairDto);
+            return technikonMapper.toRepairDto(repairRepository.save(repair));
+        } catch (Exception e) {
+            logger.error("Failed to create repair: {}", e.getMessage());
+            throw new RuntimeException("Failed to create repair: " + e.getMessage());
+        }
     }
 
+    @Override
     public List<RepairDto> getRepairByDate(LocalDateTime localDateTime) {
+        logger.info("Fetching repairs by date: {}", localDateTime);
         List<Repair> repairs = repairRepository.getRepairByDate(localDateTime);
         if (repairs.isEmpty()) {
+            logger.warn("No repairs found for the given date: {}", localDateTime);
             throw new NoSuchElementException("No repairs found for the given date!");
         }
         return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
     }
 
+    @Override
     public List<RepairDto> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate) {
+        logger.info("Fetching repairs by date range: {} to {}", startingDate, endingDate);
         List<Repair> repairs = repairRepository.getRepairByRangeOfDates(startingDate, endingDate);
         if (repairs.isEmpty()) {
+            logger.warn("No repairs found for the given range of dates: {} to {}", startingDate, endingDate);
             throw new NoSuchElementException("No repairs found for the given range of dates!");
         }
         return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
     }
 
-    public List<Repair> searchByOwnerTinNumber(long tinNumber) {
+    @Override
+    public List<RepairDto> searchByOwnerTinNumber(long tinNumber) {
+        logger.info("Searching repairs by owner's TIN number: {}", tinNumber);
         List<Repair> repairs = repairRepository.searchByOwnerTinNumber(tinNumber);
         if (repairs.isEmpty()) {
+            logger.warn("No repairs found for the given owner's TIN number: {}", tinNumber);
             throw new NoSuchElementException("No repairs found for the given owner's TIN number!");
         }
-        return repairs;
+        return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
     }
 
-    public Repair updateShortDescription(long id, String shortDescription) {
+    @Override
+    public RepairDto updateDate(long id, LocalDateTime localDateTime) {
+        logger.info("Updating repair date for repair ID {}: {}", id, localDateTime);
         Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
-        repair.setShortDescription(shortDescription);
-        return repairRepository.save(repair);
-    }
-
-    public Repair updateDate(long id, LocalDateTime localDateTime) {
-        Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
         repair.setLocalDateTime(localDateTime);
-        return repairRepository.save(repair);
+        return technikonMapper.toRepairDto(repairRepository.save(repair));
     }
 
-    public Repair updateTypeOfRepair(long id, TypeOfRepair typeOfRepair) {
+    @Override
+    public RepairDto updateShortDescription(long id, String shortDescription) {
+        logger.info("Updating repair short description for repair ID {}: {}", id, shortDescription);
         Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
+        repair.setShortDescription(shortDescription);
+        return technikonMapper.toRepairDto(repairRepository.save(repair));
+    }
+
+    @Override
+    public RepairDto updateTypeOfRepair(long id, TypeOfRepair typeOfRepair) {
+        logger.info("Updating repair type of repair for repair ID {}: {}", id, typeOfRepair);
+        Repair repair = repairRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
         repair.setTypeOfRepair(typeOfRepair);
-        return repairRepository.save(repair);
+        return technikonMapper.toRepairDto(repairRepository.save(repair));
     }
 
-    public Repair updateStatusOfRepair(long id, StatusOfRepair statusOfRepair) {
+    @Override
+    public RepairDto updateStatusOfRepair(long id, StatusOfRepair statusOfRepair) {
+        logger.info("Updating repair status of repair for repair ID {}: {}", id, statusOfRepair);
         Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
         repair.setStatusOfRepair(statusOfRepair);
-        return repairRepository.save(repair);
+        return technikonMapper.toRepairDto(repairRepository.save(repair));
     }
 
-    public Repair updateCost(long id, BigDecimal cost) {
+    @Override
+    public RepairDto updateCost(long id, BigDecimal cost) {
+        logger.info("Updating repair cost for repair ID {}: {}", id, cost);
         Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
         repair.setCost(cost);
-        return repairRepository.save(repair);
+        return technikonMapper.toRepairDto(repairRepository.save(repair));
     }
 
-    public Repair updateDescriptionText(long id, String descriptionText) {
+    @Override
+    public RepairDto updateDescriptionText(long id, String descriptionText) {
+        logger.info("Updating repair description text for repair ID {}: {}", id, descriptionText);
         Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
         repair.setDescriptionText(descriptionText);
-        return repairRepository.save(repair);
+        return technikonMapper.toRepairDto(repairRepository.save(repair));
     }
 
+    @Override
     public void deleteRepair(long id) {
+        logger.info("Deleting repair with ID: {}", id);
         Repair repair = repairRepository.findById(id)
-                .orElseThrow(() -> new NoSuchElementException("Repair not found with ID: " + id));
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
         if (!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) {
+            logger.error("Cannot delete repair with ID: {}. It is not in PENDING status", id);
             throw new IllegalStateException("Cannot delete repair with ID: " + id + ". It is not in PENDING status");
         }
         repairRepository.delete(repair);
     }
 
-    public List<Repair> getAllData() {
+    @Override
+    public List<RepairDto> getAllData() {
+        logger.info("Fetching all repairs");
         List<Repair> allRepairs = repairRepository.findAll();
         if (allRepairs.isEmpty()) {
+            logger.warn("No repairs found!");
             throw new NoSuchElementException("No repairs found!");
         }
-        return allRepairs;
+        return allRepairs.stream()
+                .map(technikonMapper::toRepairDto)
+                .collect(Collectors.toList());
     }
 }
+
+
+
 
 
 /*

@@ -21,10 +21,9 @@ public class RepairController {
 
     private final RepairService repairService;
 
-
     @PostMapping
-    public ResponseEntity<Repair> create(@RequestBody RepairDto repairDto) {
-        Repair repair = repairService.createRepair(repairDto);
+    public ResponseEntity<RepairDto> create(@RequestBody RepairDto repairDto) {
+        RepairDto repair = repairService.createRepair(repairDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(repair);
     }
 
@@ -41,60 +40,62 @@ public class RepairController {
         return ResponseEntity.ok(repairs);
     }
 
-    @PutMapping("/date/{id}/{date}")
-    public ResponseEntity<Repair> updateDate(@PathVariable long id, @PathVariable("date") LocalDateTime date) {
-        Repair repair = repairService.updateDate(id, date);
-        return ResponseEntity.ok(repair);
-    }
-
     @GetMapping("/tinNumber/{tinNumber}")
-    public ResponseEntity<List<Repair>> searchRepairsByTinNumber(@PathVariable long tinNumber) {
-        List<Repair> repairs = repairService.searchByOwnerTinNumber(tinNumber);
+    public ResponseEntity<List<RepairDto>> searchRepairsByTinNumber(@PathVariable long tinNumber) {
+        List<RepairDto> repairs = repairService.searchByOwnerTinNumber(tinNumber);
         return ResponseEntity.ok(repairs);
     }
 
+    @PutMapping("/date/{id}/{date}")
+    public ResponseEntity<RepairDto> updateDate(@PathVariable long id, @RequestBody LocalDateTime date) {
+        RepairDto repair = repairService.updateDate(id, date);
+        return ResponseEntity.ok(repair);
+    }
+
     @PutMapping("/description/{id}")
-    public ResponseEntity<Repair> updateShortDesc(@PathVariable long id, @RequestBody String desc) {
-        Repair repair = repairService.updateShortDescription(id, desc);
+    public ResponseEntity<RepairDto> updateShortDesc(@PathVariable long id, @RequestBody String desc) {
+        RepairDto repair = repairService.updateShortDescription(id, desc);
         return ResponseEntity.ok(repair);
     }
 
     @PutMapping("/typeOfRepair/{id}/{typeOfRepair}")
-    public ResponseEntity<Repair> updateTypeOfRepair(@PathVariable long id, @PathVariable TypeOfRepair typeOfRepair) {
-        Repair repair = repairService.updateTypeOfRepair(id, typeOfRepair);
+    public ResponseEntity<RepairDto> updateTypeOfRepair(@PathVariable long id, @PathVariable TypeOfRepair typeOfRepair) {
+        RepairDto repair = repairService.updateTypeOfRepair(id, typeOfRepair);
         return ResponseEntity.ok(repair);
     }
 
     @PutMapping("/statusOfRepair/{id}/{statusOfRepair}")
-    public ResponseEntity<Repair> updateStatusOfRepair(@PathVariable long id, @PathVariable StatusOfRepair statusOfRepair) {
-        Repair repair = repairService.updateStatusOfRepair(id, statusOfRepair);
+    public ResponseEntity<RepairDto> updateStatusOfRepair(@PathVariable long id, @PathVariable StatusOfRepair statusOfRepair) {
+        RepairDto repair = repairService.updateStatusOfRepair(id, statusOfRepair);
         return ResponseEntity.ok(repair);
     }
 
     @PutMapping("/cost/{id}/{cost}")
-    public ResponseEntity<Repair> updateCost(@PathVariable long id, @PathVariable BigDecimal cost) {
-        Repair repair = repairService.updateCost(id, cost);
+    public ResponseEntity<RepairDto> updateCost(@PathVariable long id, @PathVariable BigDecimal cost) {
+        RepairDto repair = repairService.updateCost(id, cost);
         return ResponseEntity.ok(repair);
     }
 
     @PutMapping("/descText/{id}/{descText}")
-    public ResponseEntity<Repair> updateDescText(@PathVariable long id, @PathVariable String descText) {
-        Repair repair = repairService.updateDescriptionText(id, descText);
+    public ResponseEntity<RepairDto> updateDescText(@PathVariable long id, @RequestBody String descText) {
+        RepairDto repair = repairService.updateDescriptionText(id, descText);
         return ResponseEntity.ok(repair);
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Repair> deleteRepair(@PathVariable long id) {
+    public ResponseEntity<Void> deleteRepair(@PathVariable long id) {
         repairService.deleteRepair(id);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping
-    public ResponseEntity<List<Repair>> getAllData() {
-        List<Repair> repairs = repairService.getAllData();
+    public ResponseEntity<List<RepairDto>> getAllData() {
+        List<RepairDto> repairs = repairService.getAllData();
         return ResponseEntity.ok(repairs);
     }
 }
+
+
 
 
 /*
