@@ -3,7 +3,7 @@ package com.team1.technikon.service.impl;
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
-import com.team1.technikon.mapper.ObjectMapper;
+import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.service.OwnerService;
@@ -21,7 +21,7 @@ import java.util.stream.Collectors;
 public class OwnerServiceImpl implements OwnerService {
 
     private final OwnerRepository ownerRepository;
-    private final ObjectMapper objectMapper;
+    private final TechnikonMapper technikonMapper;
     private static final Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
 
@@ -29,7 +29,7 @@ public class OwnerServiceImpl implements OwnerService {
     public OwnerDto createOwner(OwnerDto ownerDto) throws OwnerFailToCreateException {
         try {
             logger.info("Creating an owner {}", ownerDto);
-            return objectMapper.toOwnerDto(ownerRepository.save(objectMapper.toOwner(ownerDto)));
+            return technikonMapper.toOwnerDto(ownerRepository.save(technikonMapper.toOwner(ownerDto)));
         } catch (Exception e) {
             throw new OwnerFailToCreateException(e.getMessage());
 
@@ -41,7 +41,7 @@ public class OwnerServiceImpl implements OwnerService {
     public OwnerDto getOwnerByTin(long tinNumber) throws OwnerNotFoundException {
         try {
             logger.info("Getting an owner with tin Number {}", tinNumber);
-            return ownerRepository.findById(tinNumber).map(objectMapper::toOwnerDto).get();
+            return ownerRepository.findById(tinNumber).map(technikonMapper::toOwnerDto).get();
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
@@ -51,7 +51,7 @@ public class OwnerServiceImpl implements OwnerService {
     public OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException {
         try {
             logger.info("Getting an owner by email {}", email);
-            return ownerRepository.getOwnerByEmail(email).map(objectMapper::toOwnerDto).get();
+            return ownerRepository.getOwnerByEmail(email).map(technikonMapper::toOwnerDto).get();
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
 
@@ -63,7 +63,7 @@ public class OwnerServiceImpl implements OwnerService {
         try {
             logger.info("Getting an owner with username {}", username);
             Optional<Owner> owner = ownerRepository.getOwnerByUsername(username); // na ginei elegxos gia lathos
-            return owner.map(objectMapper::toOwnerDto).get();
+            return owner.map(technikonMapper::toOwnerDto).get();
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
@@ -127,7 +127,7 @@ public class OwnerServiceImpl implements OwnerService {
     public List<OwnerDto> getAllData() throws OwnerNotFoundException {
         try {
             logger.info("Getting all owners.");
-            return ownerRepository.findAll().stream().map(objectMapper::toOwnerDto
+            return ownerRepository.findAll().stream().map(technikonMapper::toOwnerDto
             ).collect(Collectors.toList());
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());

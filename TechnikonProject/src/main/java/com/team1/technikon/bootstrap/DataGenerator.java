@@ -6,7 +6,7 @@ import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
-import com.team1.technikon.mapper.ObjectMapper;
+import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.enums.StatusOfRepair;
@@ -29,7 +29,7 @@ public class DataGenerator {
     private final OwnerService ownerService;
     private final PropertyService propertyService;
     private final RepairService repairService;
-    private final ObjectMapper objectMapper;
+    private final TechnikonMapper technikonMapper;
     private final   Faker faker = new Faker();
 
     @Bean
@@ -57,7 +57,7 @@ public class DataGenerator {
                 long id = faker.number().numberBetween(10000000000L,99999999999L);
 
                 OwnerDto ownerDto = ownerService.getOwnerByTin(tin);
-              Owner owner =  objectMapper.toOwner(ownerDto);
+              Owner owner =  technikonMapper.toOwner(ownerDto);
                 // Owner owner = ObjectMapper.INSTANCE.toOwner(ownerDto);
 //                Owner owner = new Owner();
 //                owner.setActive(true);
