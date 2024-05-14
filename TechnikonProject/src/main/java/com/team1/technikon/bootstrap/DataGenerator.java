@@ -39,7 +39,7 @@ public class DataGenerator {
 
     private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException {
         for (int i = 0; i < 3; i++) {
-            long tin = faker.number().numberBetween(100000000,999999999);
+            String tin = String.valueOf(faker.number().numberBetween(100000000,999999999));
             ownerService.createOwner(new OwnerDto(
                     tin,
                     faker.name().firstName(),
@@ -51,24 +51,13 @@ public class DataGenerator {
                     faker.leagueOfLegends().champion()
                     )
             );
-            if (ownerService.getOwnerByTin(tin)==null) continue;
+            if (ownerService.getOwnerByTin(tin) != null) continue;
             int jm = faker.number().numberBetween(1,3);
             for (int j = 0; j < jm; j++) {
                 long id = faker.number().numberBetween(10000000000L,99999999999L);
 
                 OwnerDto ownerDto = ownerService.getOwnerByTin(tin);
               Owner owner =  technikonMapper.toOwner(ownerDto);
-                // Owner owner = ObjectMapper.INSTANCE.toOwner(ownerDto);
-//                Owner owner = new Owner();
-//                owner.setActive(true);
-//                owner.setTinNumber(tin);
-//                owner.setFirstName(ownerDto.firstName());
-//                owner.setLastName(ownerDto.lastName());
-//                owner.setAddress(ownerDto.address());
-//                owner.setEmail(ownerDto.email());
-//                owner.setPhone(ownerDto.phone());
-//                owner.setPassword(ownerDto.password());
-//                owner.setUsername(ownerDto.username());
 
 /*
 * ownerService.getOwnerByTin(tin).firstName(), ownerService.getOwnerByTin(tin).lastName(), ownerService.getOwnerByTin(tin).address(), ownerService.getOwnerByTin(tin).phone(), ownerService.getOwnerByTin(tin).password(), ownerService.getOwnerByTin(tin).email(), ownerService.getOwnerByTin(tin).username())*/

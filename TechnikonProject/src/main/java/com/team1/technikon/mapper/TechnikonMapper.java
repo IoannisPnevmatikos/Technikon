@@ -13,6 +13,8 @@ import org.mapstruct.*;
 public interface TechnikonMapper {
     OwnerDto toOwnerDto(Owner owner);
     Owner toOwner(OwnerDto ownerDto);
+//    @Mapping(target="owner", source = "updateOwnerDto", nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+//    Owner toOwnerNotNull (OwnerDto updateOwnerDto);
 
     PropertyDto toPropertyDto(Property property);
     Property toProperty(PropertyDto propertyDto);

@@ -8,32 +8,46 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
+    List<Owner> findOwnersByActiveTrue();
+
+    Optional<Owner> findByTinNumber(String tinNumber);
 
     @Query("select o from Owner o where o.email = :email")
-    Optional<Owner> getOwnerByEmail(@Param("email") String email);
+    Optional<Owner> getOwnerByEmail(String email);
 
     @Query("select o from Owner o where o.username = :username")
-    Optional<Owner> getOwnerByUsername(@Param("username") String username);
+    Optional<Owner> getOwnerByUsername(String username);
 
     @Transactional
     @Modifying
     @Query("update Owner o set o.address = :address where o.tinNumber = :tinNumber")
-    int updateAddress(@Param("tinNumber") long tinNumber, @Param("address") String address);
+    int updateAddress(@Param("tinNumber") String tinNumber, @Param("address") String address);
 
     @Transactional
     @Modifying
     @Query("update Owner o set o.email = :email where o.tinNumber = :tinNumber")
-    int updateEmail(@Param("tinNumber") long tinNumber, @Param("email") String email);
+    int updateEmail(@Param("tinNumber") String tinNumber, @Param("email") String email);
 
     // allagh
     @Transactional
     @Modifying
     @Query("update Owner o set o.password = :password where o.tinNumber = :tinNumber")
-    int updatePassword(@Param("tinNumber") long tinNumber, @Param("password") String password);
+    int updatePassword(@Param("tinNumber") String tinNumber, @Param("password") String password);
+
+    @Transactional
+    @Modifying
+    @Query("update Owner o set o.email =:email,o.address =: address,o.phone  =: phone  where o.tinNumber = :tinNumber")
+    int updateOwnerByTinNumber(@Param("tinNumber") String tinNumber, @Param("email") String email, @Param("address") String address, @Param("phone") String phone);
+
+    @Transactional
+    @Modifying
+    @Query("delete Owner o where o.tinNumber = : tinNumber")
+    int deleteByTinNumber(@Param("tinNumber") String tinNumber);
 
 
 }

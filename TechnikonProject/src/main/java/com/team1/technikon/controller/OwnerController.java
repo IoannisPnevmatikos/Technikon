@@ -1,7 +1,9 @@
 package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.OwnerDto;
-import com.team1.technikon.dto.ResponseApi;
+import com.team1.technikon.model.Owner;
+import org.springframework.http.ResponseEntity;
+
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
 import com.team1.technikon.service.OwnerService;
@@ -18,51 +20,62 @@ public class OwnerController {
     private final OwnerService ownerService;
 
     @PostMapping
-    public ResponseApi<OwnerDto> createOwner(@RequestBody OwnerDto ownerDto) throws OwnerFailToCreateException {
-        return new ResponseApi<>(0, "Owner successfully created", ownerService.createOwner(ownerDto));
+    public ResponseEntity<OwnerDto> createOwner(@RequestBody OwnerDto ownerDto) throws OwnerFailToCreateException {
+        return ResponseEntity.ok(ownerService.createOwner(ownerDto));
+
     }
 
     @GetMapping
-    public ResponseApi<List<OwnerDto>> allData() throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Got all owners", ownerService.getAllData());
+    public ResponseEntity<List<OwnerDto>> allData() throws OwnerNotFoundException {
+        return ResponseEntity.ok( ownerService.getAllData());
+    }
+
+    @GetMapping
+    public ResponseEntity<List<OwnerDto>> getActiveOwners() throws OwnerNotFoundException {
+        return ResponseEntity.ok(ownerService.getAllActiveOwners());
     }
 
 
     @GetMapping("/tinNumber/{tinNumber}")
-    public ResponseApi<OwnerDto> findById(@PathVariable long tinNumber) throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Owner successfully found by tinNumber", ownerService.getOwnerByTin(tinNumber));
+    public ResponseEntity<OwnerDto> findByTinNumber(@PathVariable String tinNumber) throws OwnerNotFoundException {
+        return ResponseEntity.ok( ownerService.getOwnerByTin(tinNumber));
     }
 
     @GetMapping("/email/{email}")
-    public ResponseApi<OwnerDto> findByEmail(@PathVariable String email) throws OwnerNotFoundException {
+    public ResponseEntity<OwnerDto> findByEmail(@PathVariable String email) throws OwnerNotFoundException {
 
-        return new ResponseApi<>(0, "Owner successfully found by email", ownerService.getOwnerByEmail(email));
+        return ResponseEntity.ok(ownerService.getOwnerByEmail(email));
     }
 
     @GetMapping("/username/{username}")
-    public ResponseApi<OwnerDto> findByUsername(@PathVariable String username) throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Owner successfully found By Username", ownerService.getOwnerByUsername(username));
+    public ResponseEntity<OwnerDto> findByUsername(@PathVariable String username) throws OwnerNotFoundException {
+        return ResponseEntity.ok( ownerService.getOwnerByUsername(username));
     }
 
     @PutMapping("/address/{tinNumber}/{address}")
-    public ResponseApi<Boolean> updateAddress(@PathVariable long tinNumber, @PathVariable String address) throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Owner address successfully updated", ownerService.updateAddress(tinNumber, address));
+    public ResponseEntity<Boolean> updateAddress(@PathVariable String tinNumber, @PathVariable String address) throws OwnerNotFoundException {
+        return ResponseEntity.ok(ownerService.updateAddress(tinNumber, address));
     }
 
     @PutMapping("/email/{tinNumber}/{email}")
-    public ResponseApi<Boolean> updateEmail(@PathVariable long tinNumber, @PathVariable String email) throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Owner email successfully updated", ownerService.updateEmail(tinNumber, email));
+    public ResponseEntity<Boolean> updateEmail(@PathVariable String tinNumber, @PathVariable String email) throws OwnerNotFoundException {
+        return ResponseEntity.ok( ownerService.updateEmail(tinNumber, email));
     }
 
     //LOGIKA EINAI LATHOS IMPL
     @PutMapping("/password/{tinNumber}/{password}")
-    public ResponseApi<Boolean> updatePassword(@PathVariable long tinNumber, @PathVariable String password) throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Owner pw successfully updated", ownerService.updatePassword(tinNumber, password));
+    public ResponseEntity<Boolean> updatePassword(@PathVariable String tinNumber, @PathVariable String password) throws OwnerNotFoundException {
+        return ResponseEntity.ok( ownerService.updatePassword(tinNumber, password));
+    }
+
+    @PutMapping("/{tinNumber}")
+    public ResponseEntity<Boolean> updateOwner(@PathVariable String tinNumber,@RequestBody OwnerDto ownerDto) throws OwnerNotFoundException {
+        return ResponseEntity.ok(ownerService.updateOwner(tinNumber,ownerDto));
     }
 
     @DeleteMapping("/{tinNumber}")
-    public ResponseApi<Boolean> deleteOwner(@PathVariable long tinNumber) throws OwnerNotFoundException {
-        return new ResponseApi<>(0, "Owner successfully deleted", ownerService.deleteOwner(tinNumber));
+    public ResponseEntity<Boolean> deleteOwner(@PathVariable String tinNumber) throws OwnerNotFoundException {
+        return ResponseEntity.ok( ownerService.deleteOwner(tinNumber));
     }
 
 }
