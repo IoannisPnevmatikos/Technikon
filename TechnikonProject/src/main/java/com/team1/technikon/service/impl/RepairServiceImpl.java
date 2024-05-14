@@ -13,7 +13,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.Collections;
+import java.util.EnumSet;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -29,8 +32,13 @@ public class RepairServiceImpl implements RepairService {
 
     @Override
     public RepairDto createRepair(RepairDto repairDto) {
+        logger.info("Creating a repair: {}", repairDto);
+
+        //VALIDATE ENTITY REPAIR ATTRIBUTES
+        validateCreateRepair(repairDto);
+
+        //VALIDATE DATABASE
         try {
-            logger.info("Creating a repair: {}", repairDto);
             Repair repair = technikonMapper.toRepair(repairDto);
             return technikonMapper.toRepairDto(repairRepository.save(repair));
         } catch (Exception e) {
@@ -40,20 +48,20 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<RepairDto> getRepairByDate(LocalDateTime localDateTime) {
-        logger.info("Fetching repairs by date: {}", localDateTime);
-        List<Repair> repairs = repairRepository.getRepairByDate(localDateTime);
-        if (repairs.isEmpty()) {
-            logger.warn("No repairs found for the given date: {}", localDateTime);
-            throw new NoSuchElementException("No repairs found for the given date!");
-        }
-        return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
+    public List<RepairDto> getRepairByDate(LocalDate localDate) {
+        logger.info("Fetching repairs by date: {}", localDate);
+        Repair repair = repairRepository.findByLocalDate(localDate)
+                .orElseThrow(() -> {
+                    logger.warn("No repair found for the given date: {}", localDate);
+                    throw new NoSuchElementException("No repair found for the given date!");
+                });
+        return Collections.singletonList(technikonMapper.toRepairDto(repair));
     }
 
     @Override
-    public List<RepairDto> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate) {
+    public List<RepairDto> getRepairByRangeOfDates(LocalDate startingDate, LocalDate endingDate) {
         logger.info("Fetching repairs by date range: {} to {}", startingDate, endingDate);
-        List<Repair> repairs = repairRepository.getRepairByRangeOfDates(startingDate, endingDate);
+        List<Repair> repairs = repairRepository.findByLocalDateBetween(startingDate, endingDate);
         if (repairs.isEmpty()) {
             logger.warn("No repairs found for the given range of dates: {} to {}", startingDate, endingDate);
             throw new NoSuchElementException("No repairs found for the given range of dates!");
@@ -64,7 +72,7 @@ public class RepairServiceImpl implements RepairService {
     @Override
     public List<RepairDto> searchByOwnerTinNumber(long tinNumber) {
         logger.info("Searching repairs by owner's TIN number: {}", tinNumber);
-        List<Repair> repairs = repairRepository.searchByOwnerTinNumber(tinNumber);
+        List<Repair> repairs = repairRepository.findByPropertyOwnerTinNumber(tinNumber);
         if (repairs.isEmpty()) {
             logger.warn("No repairs found for the given owner's TIN number: {}", tinNumber);
             throw new NoSuchElementException("No repairs found for the given owner's TIN number!");
@@ -73,14 +81,27 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public RepairDto updateDate(long id, LocalDateTime localDateTime) {
-        logger.info("Updating repair date for repair ID {}: {}", id, localDateTime);
+    public RepairDto updateProperty(long id, RepairDto repairDto) {
+        logger.info("Updating repair for repair ID {}", id);
         Repair repair = repairRepository.findById(id)
                 .orElseThrow(() -> {
                     logger.warn("Repair not found with ID: {}", id);
                     return new NoSuchElementException("Repair not found with ID: " + id);
                 });
-        repair.setLocalDateTime(localDateTime);
+        repair = technikonMapper.toRepairNonNull(repairDto);
+        repairRepository.save(repair);
+        return technikonMapper.toRepairDto(repair);
+    }
+
+    /*@Override
+    public RepairDto updateDate(long id, LocalDate localDate) {
+        logger.info("Updating repair date for repair ID {}: {}", id, localDate);
+        Repair repair = repairRepository.findById(id)
+                .orElseThrow(() -> {
+                    logger.warn("Repair not found with ID: {}", id);
+                    return new NoSuchElementException("Repair not found with ID: " + id);
+                });
+        repair.setLocalDate(localDate);
         return technikonMapper.toRepairDto(repairRepository.save(repair));
     }
 
@@ -142,7 +163,7 @@ public class RepairServiceImpl implements RepairService {
                 });
         repair.setDescriptionText(descriptionText);
         return technikonMapper.toRepairDto(repairRepository.save(repair));
-    }
+    }*/
 
     @Override
     public void deleteRepair(long id) {
@@ -171,213 +192,94 @@ public class RepairServiceImpl implements RepairService {
                 .map(technikonMapper::toRepairDto)
                 .collect(Collectors.toList());
     }
+
+    //VALIDATE METHODS FOR ENTITY REPAIR
+    //EDW OUSIASTIKA THA EXOUME VALIDATION LOGIKO, OXI TYPE VALIDATION(GINETAI STO FRONT END)
+    //DIOTI PERNAEI HDH STO DTO STON CONTROLLER SAN SWSTOY TYPOU
+    private void validateCreateRepair(RepairDto repairDto) {
+        validateLocalDate(repairDto.localDate());
+        validateShortDescription(repairDto.shortDescription());
+        validateTypeOfRepair(repairDto.typeOfRepair());
+        validateStatusOfRepair(repairDto.statusOfRepair());
+        validateCost(repairDto.cost());
+        validateDescriptionText(repairDto.descriptionText());
+    }
+
+    private void validateLocalDate(LocalDate localDate) {
+        if (localDate == null) {
+            throw new IllegalArgumentException("LocalDate cannot be null");
+        }
+
+        if (localDate.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("LocalDate cannot be in the past");
+        }
+
+        LocalDate latestAllowedDate = LocalDate.of(2100, 12, 31);
+
+        if (localDate.isAfter(latestAllowedDate)) {
+            throw new IllegalArgumentException("LocalDate must be before " + latestAllowedDate);
+        }
+
+        if (!localDate.isLeapYear() && localDate.getMonthValue() == 2 && localDate.getDayOfMonth() == 29) {
+            throw new IllegalArgumentException("Invalid date for non-leap year");
+        }
+
+        DayOfWeek dayOfWeek = localDate.getDayOfWeek();
+        if (dayOfWeek == DayOfWeek.SATURDAY || dayOfWeek == DayOfWeek.SUNDAY) {
+            throw new IllegalArgumentException("Date cannot fall on a weekend");
+        }
+    }
+
+    private void validateShortDescription(String shortDescription) {
+        if (shortDescription == null || shortDescription.length() < 3 || shortDescription.length() > 255) {
+            throw new IllegalArgumentException("Short description must be between 3 and 255 characters");
+        }
+
+        if (shortDescription.trim().isEmpty()) {
+            throw new IllegalArgumentException("Short description cannot be empty or consist only of whitespace");
+        }
+
+        if (!shortDescription.matches("^[a-zA-Z0-9\\s]+$")) {
+            throw new IllegalArgumentException("Short description cannot contain special characters");
+        }
+
+
+    }
+
+    private static void validateTypeOfRepair(TypeOfRepair typeOfRepair) {
+        if (typeOfRepair == null || !EnumSet.allOf(TypeOfRepair.class).contains(typeOfRepair)) {
+            throw new IllegalArgumentException("Invalid type of repair");
+        }
+    }
+
+    private static void validateStatusOfRepair(StatusOfRepair statusOfRepair) {
+        if (statusOfRepair == null || !EnumSet.allOf(StatusOfRepair.class).contains(statusOfRepair)) {
+            throw new IllegalArgumentException("Invalid status of repair");
+        }
+    }
+
+    private void validateCost(BigDecimal cost) {
+        if (cost == null || cost.compareTo(BigDecimal.ZERO) <= 0) {
+            throw new IllegalArgumentException("Cost must be a positive non-zero value");
+        }
+
+        BigDecimal maxCost = new BigDecimal("1000000"); // Or any other maximum cost
+        if (cost.compareTo(maxCost) > 0) {
+            throw new IllegalArgumentException("Cost exceeds maximum allowed value");
+        }
+
+    }
+
+    private void validateDescriptionText(String descriptionText) {
+        if (descriptionText != null && descriptionText.length() > 1000) {
+            throw new IllegalArgumentException("Description text length cannot exceed 1000 characters");
+        }
+
+        /*if (!descriptionText.matches("^[\p{L}0-9\\s.,!?]+$")) {
+            throw new IllegalArgumentException("Description text cannot contain special characters");
+        }*/
+
+    }
+
 }
 
-
-
-
-
-/*
-package com.team1.technikon.service.impl;
-
-import com.team1.technikon.dto.RepairDto;
-import com.team1.technikon.dto.ResponseApi;
-import com.team1.technikon.mapper.TechnikonMapper;
-import com.team1.technikon.model.Repair;
-import com.team1.technikon.model.enums.StatusOfRepair;
-import com.team1.technikon.model.enums.TypeOfRepair;
-import com.team1.technikon.repository.RepairRepository;
-import com.team1.technikon.service.RepairService;
-import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
-
-import java.math.BigDecimal;
-import java.time.LocalDateTime;
-import java.util.List;
-import java.util.stream.Collectors;
-
-@Service
-@AllArgsConstructor
-public class RepairServiceImpl implements RepairService {
-
-
-    private final RepairRepository repairRepository;
-    private final TechnikonMapper technikonMapper;
-
-    // CREATE
-    @Override
-    public ResponseApi<Repair> createRepair(RepairDto repairDto) {
-        Repair repair = technikonMapper.toRepair(repairDto);
-        repairRepository.save(repair);
-        return new ResponseApi<>(0,"New repair created!",repair);
-    }
-
-    // SEARCHES
-    @Override
-    public ResponseApi<List<RepairDto>> getRepairByDate(LocalDateTime localDateTime) {
-        List<RepairDto> repairDtos = repairRepository.getRepairByDate(localDateTime)
-                .stream()
-                .map(technikonMapper::toRepairDto)
-                .collect(Collectors.toList());
-
-        if (!repairDtos.isEmpty()) {
-            return new ResponseApi<>(0, "Repairs for the given date: ", repairDtos);
-        } else {
-            return new ResponseApi<>(0, "No repairs found for the given date!", null);
-        }
-    }
-
-    @Override
-    public ResponseApi<List<RepairDto>> getRepairByRangeOfDates(LocalDateTime startingDate, LocalDateTime endingDate) {
-        List<Repair> repairs = repairRepository.getRepairByRangeOfDates(startingDate, endingDate);
-
-        if (!repairs.isEmpty()) {
-            List<RepairDto> repairDtos = repairs.stream()
-                    .map(technikonMapper::toRepairDto)
-                    .collect(Collectors.toList());
-            return new ResponseApi<>(0, "Repairs for the given range of dates: ", repairDtos);
-        } else {
-            return new ResponseApi<>(0, "No repairs found for the given range of dates", null);
-        }
-    }
-
-
-    @Override
-    public ResponseApi<List<Repair>> searchByOwnerTinNumber(long tinNumber) {
-        List<Repair> repairs = repairRepository.searchByOwnerTinNumber(tinNumber);
-
-        if (!repairs.isEmpty()) {
-            return new ResponseApi<>(0, "Repairs found for the given owner's TIN number: ", repairs);
-        } else {
-            return new ResponseApi<>(0, "No repairs found for the given owner's TIN number", null);
-        }
-    }
-
-    // UPDATES
-    @Override
-    public ResponseApi<Repair> updateShortDescription(long id, String shortDescription) {
-        int updateResult = repairRepository.updateShortDescription(id, shortDescription);
-
-        if (updateResult == 1) {
-            Repair updatedRepair = repairRepository.findById(id).orElse(null);
-            if (updatedRepair != null) {
-                return new ResponseApi<>(0, "Short description updated successfully", updatedRepair);
-            } else {
-                return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-            }
-        } else {
-            return new ResponseApi<>(0, "Update failed for repair with ID: " + id, null);
-        }
-    }
-
-    @Override
-    public ResponseApi<Repair> updateDate(long id, LocalDateTime localDateTime) {
-        int updateResult = repairRepository.updateDate(id, localDateTime);
-
-        if (updateResult == 1) {
-            Repair updatedRepair = repairRepository.findById(id).orElse(null);
-            if (updatedRepair != null) {
-                return new ResponseApi<>(0, "Repair updated successfully", updatedRepair);
-            } else {
-                return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-            }
-        } else {
-            return new ResponseApi<>(0, "Update failed for repair with ID: " + id, null);
-        }
-    }
-
-    @Override
-    public ResponseApi<Repair> updateTypeOfRepair(long id, TypeOfRepair typeOfRepair) {
-        int updateResult = repairRepository.updateTypeOfRepair(id, typeOfRepair);
-
-        if (updateResult == 1) {
-            Repair updatedRepair = repairRepository.findById(id).orElse(null);
-            if (updatedRepair != null) {
-                return new ResponseApi<>(0, "Type of repair updated successfully", updatedRepair);
-            } else {
-                return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-            }
-        } else {
-            return new ResponseApi<>(0, "Update failed for repair with ID: " + id, null);
-        }
-    }
-
-    @Override
-    public ResponseApi<Repair> updateStatusOfRepair(long id, StatusOfRepair statusOfRepair) {
-        int updateResult = repairRepository.updateStatusOfRepair(id, statusOfRepair);
-
-        if (updateResult == 1) {
-            Repair updatedRepair = repairRepository.findById(id).orElse(null);
-            if (updatedRepair != null) {
-                return new ResponseApi<>(0, "Status of repair updated successfully", updatedRepair);
-            } else {
-                return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-            }
-        } else {
-            return new ResponseApi<>(0, "Update failed for repair with ID: " + id, null);
-        }
-    }
-
-    @Override
-    public ResponseApi<Repair> updateCost(long id, BigDecimal cost) {
-        int updateResult = repairRepository.updateCost(id, cost);
-
-        if (updateResult == 1) {
-            Repair updatedRepair = repairRepository.findById(id).orElse(null);
-            if (updatedRepair != null) {
-                return new ResponseApi<>(0, "Cost updated successfully", updatedRepair);
-            } else {
-                return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-            }
-        } else {
-            return new ResponseApi<>(0, "Update failed for repair with ID: " + id, null);
-        }
-    }
-
-    @Override
-    public ResponseApi<Repair> updateDescriptionText(long id, String descriptionText) {
-        int updateResult = repairRepository.updateDescriptionText(id, descriptionText);
-
-        if (updateResult == 1) {
-            Repair updatedRepair = repairRepository.findById(id).orElse(null);
-            if (updatedRepair != null) {
-                return new ResponseApi<>(0, "Description text updated successfully", updatedRepair);
-            } else {
-                return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-            }
-        } else {
-            return new ResponseApi<>(0, "Update failed for repair with ID: " + id, null);
-        }
-    }
-
-    @Override
-    public ResponseApi<Repair> deleteRepair(long id) {
-        Repair repair = repairRepository.findById(id).orElse(null);
-
-        if (repair == null) {
-            return new ResponseApi<>(0, "Repair not found with ID: " + id, null);
-        }
-
-        if (!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) {
-            return new ResponseApi<>(0, "Cannot delete repair with ID: " + id + ". It is not in PENDING status", null);
-        }
-
-        repairRepository.deleteById(id);
-        return new ResponseApi<>(0, "Repair deleted successfully", repair);
-    }
-
-    @Override
-    public ResponseApi<List<Repair>> getAllData() {
-        List<Repair> allRepairs = repairRepository.findAll();
-
-        if (!allRepairs.isEmpty()) {
-            return new ResponseApi<>(0, "Repairs found:", allRepairs);
-        } else {
-            return new ResponseApi<>(0, "No repairs found", null);
-        }
-    }
-}
-
-
-*/
