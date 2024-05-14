@@ -2,6 +2,8 @@ package com.team1.technikon.service;
 
 import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.ResponseApi;
+import com.team1.technikon.exception.OwnerFailToCreateException;
+import com.team1.technikon.exception.OwnerNotFoundException;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.Repair;
@@ -12,12 +14,12 @@ import java.util.List;
 public interface PropertyService {
 
     //CREATE
-    ResponseApi<Property> createProperty(PropertyDto propertyDto);
+    PropertyDto createProperty(PropertyDto propertyDto) throws OwnerFailToCreateException;
 
     //SEARCH
-    ResponseApi<Property> getPropertyById(long propertyId);
-    List<Property> getPropertyByOwnerTinNumber(long tinNumber);
-    List<Property> getPropertyByLocation(); // mallon (x,y)
+    PropertyDto getPropertyById(String propertyId) throws OwnerNotFoundException;
+    List<Property> getPropertyByOwnerTinNumber(String tinNumber) throws OwnerNotFoundException;
+    List<Property> getPropertyByLocation() throws OwnerNotFoundException; // mallon (x,y)
     List<Property> getAllData();
 
     //UPDATE
@@ -28,9 +30,9 @@ public interface PropertyService {
 //    ResponseApi<Property> updatePropertyType(long propertyId, TypeOfProperty typeOfProperty);
 //    ResponseApi<Property> updatePhoto(long propertyId, String photo);
 //    ResponseApi<Property> updateMapLocation(long propertyId, MapLocation mapLocation);
-    ResponseApi<Property> updateProperty(long id, PropertyDto propertyDto);
+    PropertyDto updateProperty(long id, PropertyDto propertyDto);
 
     //DELETE
-    ResponseApi<Property> deleteProperty(long propertyId);
+    boolean deleteProperty(long id) throws OwnerNotFoundException;
 
 }
