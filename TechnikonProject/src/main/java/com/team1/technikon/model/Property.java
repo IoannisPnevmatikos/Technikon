@@ -12,7 +12,7 @@ import java.util.List;
 @Entity
 public class Property extends BaseModel{
     @Column(unique = true)
-    private long propertyId;
+    private String propertyId;
     private String address;
     private String yearOfConstruction; // CHEEEECK!!!!!!
     private TypeOfProperty typeOfProperty;

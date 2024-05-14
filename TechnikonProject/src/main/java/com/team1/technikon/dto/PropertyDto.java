@@ -4,7 +4,7 @@ import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.enums.TypeOfProperty;
 
-public record PropertyDto(long propertyId,
+public record PropertyDto(String propertyId,
                           String address,
                           String yearOfConstruction,
                           TypeOfProperty typeOfProperty,
