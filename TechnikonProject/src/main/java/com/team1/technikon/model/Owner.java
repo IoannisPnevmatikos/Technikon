@@ -5,19 +5,24 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@EqualsAndHashCode(callSuper = true)
 @Data
 @Entity
-public class Owner {
-    @Id
+public class Owner extends BaseModel {
+
     @Column(unique = true)
-    private long tinNumber;
+    private String tinNumber;
+
     private String firstName;
     private String lastName;
+    @NotBlank
     private String address;
     @Column(unique = true)
     private String phone;

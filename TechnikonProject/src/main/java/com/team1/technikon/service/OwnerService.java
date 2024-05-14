@@ -10,24 +10,27 @@ public interface OwnerService {
 
     //CREATE
     OwnerDto createOwner(OwnerDto ownerDto) throws OwnerFailToCreateException;
-
     //SEARCH
-    OwnerDto getOwnerByTin(long tinNumber) throws OwnerNotFoundException;
+    OwnerDto getOwnerByTin(String tinNumber) throws OwnerNotFoundException;
 
     OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException;
 
     OwnerDto getOwnerByUsername(String username) throws OwnerNotFoundException;
 
     //UPDATE
-    boolean updateAddress(long tinNumber, String address) throws OwnerNotFoundException;
+    boolean updateAddress(String tinNumber, String address) throws OwnerNotFoundException;
 
-    boolean updateEmail(long tinNumber, String email) throws OwnerNotFoundException;
+    boolean updateEmail(String tinNumber, String email) throws OwnerNotFoundException;
 
-    boolean updatePassword(long tinNumber, String password) throws OwnerNotFoundException;
+    boolean updatePassword(String tinNumber, String password) throws OwnerNotFoundException;
+
+    boolean updateOwner(String tinNumber,OwnerDto ownerDto) throws OwnerNotFoundException;
 
     //DELETE
-    boolean deleteOwner(long tinNumber) throws OwnerNotFoundException;
+    boolean deleteOwner(String tinNumber) throws OwnerNotFoundException;
 
     // GET ALL DATA
     List<OwnerDto> getAllData() throws OwnerNotFoundException;
+
+    List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException;
 }
