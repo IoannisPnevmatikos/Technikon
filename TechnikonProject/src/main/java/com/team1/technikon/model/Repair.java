@@ -6,16 +6,13 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Data
 @Entity
-public class Repair {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
+public class Repair extends BaseModel{
     @Column(columnDefinition = "TIMESTAMP")
-    private LocalDateTime localDateTime;
+    private LocalDate localDate;
     private String shortDescription;
     private TypeOfRepair typeOfRepair;
     private StatusOfRepair statusOfRepair;

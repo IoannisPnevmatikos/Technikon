@@ -4,58 +4,31 @@ import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface RepairRepository extends JpaRepository<Repair, Long> {
 
-    // SEARCHES
-    @Query("select r from Repair r where r.localDateTime = :localDateTime")
-    List<Repair> getRepairByDate(@Param("localDateTime") LocalDateTime localDateTime);
+    Optional<Repair> findByLocalDate(LocalDate localDate);
 
-    @Query("select r from Repair r where r.localDateTime between :startingDate and :endingDate")
-    List<Repair> getRepairByRangeOfDates(@Param("startingDate") LocalDateTime startingDate, @Param("endingDate") LocalDateTime endingTime);
+    List<Repair> findByPropertyOwnerTinNumber(long tinNumber);
 
-    @Query("select r from Repair r where r.property.owner.tinNumber = :tinNumber")
-    List<Repair> searchByOwnerTinNumber(@Param("tinNumber") long tinNumber);
+    List<Repair> findByLocalDateBetween(LocalDate startingDate, LocalDate endingDate);
 
-    // UPDATES
-    @Transactional
-    @Modifying
-    @Query("update Repair r set r.localDateTime = :localDateTime where  r.id = :id")
-    int updateDate(@Param("id") long id, @Param("localDateTime") LocalDateTime localDateTime);
+    // NOT USED - CAN DELETE THEM
+    Optional<Repair> findByShortDescription(String shortDescription);
 
-    @Transactional
-    @Modifying
-    @Query("update Repair r set r.shortDescription = :shortDescription where r.id = :id")
-    int updateShortDescription(@Param("id") long id, @Param("shortDescription") String shortDescription);
+    Optional<Repair> findByTypeOfRepair(TypeOfRepair typeOfRepair);
 
-    @Transactional
-    @Modifying
-    @Query("update Repair r set r.typeOfRepair = :typeOfRepair where r.id = :id")
-    int updateTypeOfRepair(@Param("id") long id, @Param("typeOfRepair") TypeOfRepair typeOfRepair);
+    Optional<Repair> findByStatusOfRepair(StatusOfRepair statusOfRepair);
 
-    @Transactional
-    @Modifying
-    @Query("update Repair r set r.statusOfRepair = :statusOfRepair where r.id = :id")
-    int updateStatusOfRepair(@Param("id") long id, @Param("statusOfRepair") StatusOfRepair statusOfRepair);
+    Optional<Repair> findByCost(BigDecimal cost);
 
-    @Transactional
-    @Modifying
-    @Query("update Repair r set r.cost = :cost where r.id = :id")
-    int updateCost(@Param("id") long id, @Param("cost") BigDecimal cost);
-
-    @Transactional
-    @Modifying
-    @Query("update Repair r set r.descriptionText = :descriptionText where r.id = :id")
-    int updateDescriptionText(@Param("id") long id, @Param("descriptionText") String descriptionText);
+    Optional<Repair> findByDescriptionText(String descriptionText);
 
 }

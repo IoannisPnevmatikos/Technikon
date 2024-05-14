@@ -76,7 +76,7 @@ public class DataGenerator {
                 for (int k = 0; k < km; k++) {
                     repairService.createRepair(new RepairDto(
                             faker.date().birthday(0,5).toInstant()
-                                    .atZone(ZoneId.systemDefault()).toLocalDateTime(),
+                                    .atZone(ZoneId.systemDefault()).toLocalDate(),
                             faker.lorem().toString(),
                             TypeOfRepair.values()[faker.number().numberBetween(0,5)],
                             StatusOfRepair.values()[faker.number().numberBetween(0,3)],
