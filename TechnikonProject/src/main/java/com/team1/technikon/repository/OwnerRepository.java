@@ -13,7 +13,7 @@ import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
-    List<Owner> findOwnersByActiveTrue();
+   // List<Owner> findOwnersByActiveTrue();
 
     Optional<Owner> findByTinNumber(String tinNumber);
 
@@ -39,15 +39,15 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     @Query("update Owner o set o.password = :password where o.tinNumber = :tinNumber")
     int updatePassword(@Param("tinNumber") String tinNumber, @Param("password") String password);
 
-    @Transactional
     @Modifying
-    @Query("update Owner o set o.email =:email,o.address =: address,o.phone  =: phone  where o.tinNumber = :tinNumber")
-    int updateOwnerByTinNumber(@Param("tinNumber") String tinNumber, @Param("email") String email, @Param("address") String address, @Param("phone") String phone);
+    @Transactional
+    @Query("update Owner o set o.email = ?2,o.address = ?3,o.phone  = ?4  where o.tinNumber = ?1")
+    int updateOwnerByTinNumber(String tinNumber,  String email, String address,  String phone);
 
-    @Transactional
-    @Modifying
-    @Query("delete Owner o where o.tinNumber = : tinNumber")
-    int deleteByTinNumber(@Param("tinNumber") String tinNumber);
+   @Transactional
+//    @Modifying
+//    @Query("delete Owner o where o.tinNumber = : tinNumber")
+    void deleteByTinNumber(String tinNumber);
 
 
 }

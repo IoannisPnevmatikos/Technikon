@@ -12,7 +12,7 @@ public interface RepairService {
     RepairDto createRepair(RepairDto repairDto);
     List<RepairDto> getRepairByDate(LocalDate localDate);
     List<RepairDto> getRepairByRangeOfDates(LocalDate startingDate, LocalDate endingDate);
-    List<RepairDto> searchByOwnerTinNumber(long tinNumber);
+    List<RepairDto> searchByOwnerTinNumber(String tinNumber);
     RepairDto updateProperty(long id, RepairDto repairDto);
     /*RepairDto updateDate(long id, LocalDate localDate);
     RepairDto updateShortDescription(long id, String shortDescription);

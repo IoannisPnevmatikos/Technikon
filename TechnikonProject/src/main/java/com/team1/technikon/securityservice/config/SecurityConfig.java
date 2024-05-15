@@ -38,7 +38,8 @@ public class SecurityConfig {
                                 "/actuator/**",
                                 "/swagger-ui/**",
                                 "/auth/signup",
-                                "/auth/login"
+                                "/auth/login",
+                                "api/v1/owner/**"
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**"

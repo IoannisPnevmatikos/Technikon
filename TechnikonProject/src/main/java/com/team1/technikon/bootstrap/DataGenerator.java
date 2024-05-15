@@ -45,22 +45,21 @@ public class DataGenerator {
                     faker.name().firstName(),
                     faker.name().lastName(),
                     faker.address().streetAddress(),
-                    faker.phoneNumber().toString()+i,
+                    faker.phoneNumber().phoneNumber().replaceAll("-","").replaceAll("[()]", "").replace(".","").replace(" ","").substring(0,10),
                     faker.internet().password(),
                     faker.internet().emailAddress(),
-                    faker.leagueOfLegends().champion()
+                    faker.name().username().replace(".","").replace(" ",""
                     )
-            );
+            ));
             if (ownerService.getOwnerByTin(tin) != null) continue;
             int jm = faker.number().numberBetween(1,3);
             for (int j = 0; j < jm; j++) {
-                long id = faker.number().numberBetween(10000000000L,99999999999L);
-
+                long idLong = faker.number().numberBetween(10000000000L,99999999999L);
+                String id = String.valueOf(idLong);
                 OwnerDto ownerDto = ownerService.getOwnerByTin(tin);
               Owner owner =  technikonMapper.toOwner(ownerDto);
 
-/*
-* ownerService.getOwnerByTin(tin).firstName(), ownerService.getOwnerByTin(tin).lastName(), ownerService.getOwnerByTin(tin).address(), ownerService.getOwnerByTin(tin).phone(), ownerService.getOwnerByTin(tin).password(), ownerService.getOwnerByTin(tin).email(), ownerService.getOwnerByTin(tin).username())*/
+
                 propertyService.createProperty(new PropertyDto(
                     id,
                     faker.address().streetAddress(),
@@ -82,7 +81,7 @@ public class DataGenerator {
                             StatusOfRepair.values()[faker.number().numberBetween(0,3)],
                             new BigDecimal(faker.number().randomDouble(2, 0, 1000)),
                             faker.lorem().toString(),
-                            propertyService.getPropertyById(id).getData()
+                            technikonMapper.toProperty(propertyService.getPropertyById(id))
                             )
                     );
                 }

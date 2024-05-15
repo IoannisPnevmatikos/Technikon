@@ -41,7 +41,7 @@ public class RepairController {
     }
 
     @GetMapping("/tinNumber/{tinNumber}")
-    public ResponseEntity<List<RepairDto>> searchRepairsByTinNumber(@PathVariable long tinNumber) {
+    public ResponseEntity<List<RepairDto>> searchRepairsByTinNumber(@PathVariable String tinNumber) {
         List<RepairDto> repairs = repairService.searchByOwnerTinNumber(tinNumber);
         return ResponseEntity.ok(repairs);
     }

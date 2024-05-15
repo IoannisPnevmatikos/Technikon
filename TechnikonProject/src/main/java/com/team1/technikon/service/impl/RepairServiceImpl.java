@@ -70,7 +70,7 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public List<RepairDto> searchByOwnerTinNumber(long tinNumber) {
+    public List<RepairDto> searchByOwnerTinNumber(String tinNumber) {
         logger.info("Searching repairs by owner's TIN number: {}", tinNumber);
         List<Repair> repairs = repairRepository.findByPropertyOwnerTinNumber(tinNumber);
         if (repairs.isEmpty()) {

@@ -16,7 +16,7 @@ public interface RepairRepository extends JpaRepository<Repair, Long> {
 
     Optional<Repair> findByLocalDate(LocalDate localDate);
 
-    List<Repair> findByPropertyOwnerTinNumber(long tinNumber);
+    List<Repair> findByPropertyOwnerTinNumber(String tinNumber);
 
     List<Repair> findByLocalDateBetween(LocalDate startingDate, LocalDate endingDate);
 
