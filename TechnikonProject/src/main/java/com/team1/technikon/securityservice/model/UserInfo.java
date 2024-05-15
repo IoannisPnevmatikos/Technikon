@@ -1,9 +1,8 @@
 package com.team1.technikon.securityservice.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.team1.technikon.model.BaseModel;
+import com.team1.technikon.model.Owner;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,12 +10,17 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserInfo {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private String name;
+public class UserInfo extends BaseModel {
+    private String firstName;
+    private String lastName;
+    @Column(unique = true)
+    private String username;
+    @Column(unique = true)
     private String email;
     private String password;
     private String role;
+
+    @OneToOne//(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id", referencedColumnName = "id")
+    Owner owner;
 }

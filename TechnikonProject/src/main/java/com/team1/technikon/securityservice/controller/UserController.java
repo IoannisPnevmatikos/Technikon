@@ -1,12 +1,14 @@
 package com.team1.technikon.securityservice.controller;
 
 import com.team1.technikon.securityservice.dto.AuthRequest;
+import com.team1.technikon.securityservice.dto.UserInfoDto;
 import com.team1.technikon.securityservice.model.UserInfo;
 import com.team1.technikon.securityservice.service.JwtService;
 import com.team1.technikon.securityservice.service.UserInfoService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -24,9 +26,16 @@ public class UserController {
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    @PostMapping("/signup")
-    public ResponseEntity<String> addNewUser(@RequestBody UserInfo userInfo) {
-        String response = service.addUser(userInfo);
+    @PostMapping("/signup/user")
+    public ResponseEntity<String> addNewUser(@RequestBody UserInfoDto userInfoDto) {
+        String response = service.addUser(userInfoDto);
+        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("/signup/admin")
+    public ResponseEntity<String> addNewAdmin(@RequestBody UserInfoDto userInfoDto) {
+        String response = service.addAdmin(userInfoDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
