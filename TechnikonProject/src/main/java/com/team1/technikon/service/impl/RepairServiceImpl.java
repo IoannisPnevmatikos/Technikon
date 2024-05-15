@@ -80,6 +80,7 @@ public class RepairServiceImpl implements RepairService {
         return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
     }
 
+    //hello
     @Override
     public RepairDto updateProperty(long id, RepairDto repairDto) {
         logger.info("Updating repair for repair ID {}", id);
