@@ -32,5 +32,5 @@ public interface OwnerService {
     // GET ALL DATA
     List<OwnerDto> getAllData() throws OwnerNotFoundException;
 
-    List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException;
+//    List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException;
 }

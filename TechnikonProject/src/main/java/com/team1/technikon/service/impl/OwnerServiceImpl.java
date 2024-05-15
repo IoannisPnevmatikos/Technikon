@@ -131,7 +131,7 @@ public class OwnerServiceImpl implements OwnerService {
                 return false;
             if(isValidOwner(ownerDto)) {
 
-                int result = ownerRepository.updateOwnerByTinNumber(ownerDto.tinNumber(), ownerDto.email(), ownerDto.address(), ownerDto.phone());
+                long result = ownerRepository.updateOwnerByTinNumber(ownerDto.tinNumber(), ownerDto.email(), ownerDto.address(), ownerDto.phone());
                 return result == 1;
             }
             else throw new OwnerFailToCreateException("Update failed! Check user input again." );
@@ -146,15 +146,16 @@ public class OwnerServiceImpl implements OwnerService {
         try {
             logger.info("Deleting an owner by tin number {}", tinNumber);
             Optional<Owner> owner = ownerRepository.findByTinNumber(tinNumber);
-            int result = 0;
+           // long result = 0;
             if (owner.isPresent() && owner.get().getProperties().isEmpty()) {
-                result = ownerRepository.deleteByTinNumber(tinNumber);
+                logger.info("Owner found to delete");
+               ownerRepository.deleteByTinNumber(tinNumber);
             } else {
                 owner.get().setActive(false);
                 ownerRepository.save(owner.get());
-                result = 1;
+              //  result = 1;
             }
-            return result == 1;
+            return true;
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
@@ -171,17 +172,17 @@ public class OwnerServiceImpl implements OwnerService {
         }
 
     }
-
-    @Override
-    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
-        try {
-            logger.info("Getting all Activeowners.");
-            return ownerRepository.findOwnersByActiveTrue().stream().map(technikonMapper::toOwnerDto
-            ).collect(Collectors.toList());
-        } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
-        }
-    }
+//
+//    @Override
+//    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
+//        try {
+//            logger.info("Getting all Activeowners.");
+//            return ownerRepository.findOwnersByActiveTrue().stream().map(technikonMapper::toOwnerDto
+//            ).collect(Collectors.toList());
+//        } catch (Exception e) {
+//            throw new OwnerNotFoundException(e.getMessage());
+//        }
+//    }
 
 //    *********************VALIDATIONS*********************
 

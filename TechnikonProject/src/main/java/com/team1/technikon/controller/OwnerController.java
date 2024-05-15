@@ -30,10 +30,10 @@ public class OwnerController {
         return ResponseEntity.ok( ownerService.getAllData());
     }
 
-    @GetMapping
-    public ResponseEntity<List<OwnerDto>> getActiveOwners() throws OwnerNotFoundException {
-        return ResponseEntity.ok(ownerService.getAllActiveOwners());
-    }
+//    @GetMapping
+//    public ResponseEntity<List<OwnerDto>> getActiveOwners() throws OwnerNotFoundException {
+//        return ResponseEntity.ok(ownerService.getAllActiveOwners());
+//    }
 
 
     @GetMapping("/tinNumber/{tinNumber}")
