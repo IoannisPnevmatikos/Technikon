@@ -21,7 +21,7 @@ public class UserInfoDetails implements UserDetails {
     private final boolean enabled = true;
 
     public UserInfoDetails(UserInfo userInfo) {
-        username = userInfo.getName();
+        username = userInfo.getUsername();
         password = userInfo.getPassword();
         authorities = Arrays.stream(userInfo.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)

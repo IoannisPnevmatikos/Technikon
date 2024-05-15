@@ -4,7 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something" />
+    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/dto/UserInfoDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/mapper/UserInfoMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/model/Owner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/model/Owner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/config/SecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/model/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/model/UserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/service/UserInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/service/UserInfoService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +24,7 @@
         <option value="Class" />
         <option value="Enum" />
         <option value="Record" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -26,6 +35,7 @@
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -110,6 +120,29 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="testing something" />
