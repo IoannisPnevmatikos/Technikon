@@ -8,6 +8,7 @@ import com.team1.technikon.model.Property;
 import com.team1.technikon.model.Repair;
 import org.mapstruct.*;
 
+
 @Mapper(componentModel = "spring"  )
 @MapperConfig(unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface TechnikonMapper {

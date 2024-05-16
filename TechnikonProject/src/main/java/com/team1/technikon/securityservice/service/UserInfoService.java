@@ -18,17 +18,23 @@ import java.util.Optional;
 public class UserInfoService implements UserDetailsService {
     private final UserInfoRepository repository;
     private final PasswordEncoder encoder;
-    private final UserInfoMapper userInfoMapper;
+//    private final UserInfoMapper userInfoMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<UserInfo> userDetail = repository.findByName(username);
+        Optional<UserInfo> userDetail = repository.findByUsername(username);
         return userDetail.map(UserInfoDetails::new)
                 .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
     }
 
     public String addUser(UserInfoDto userInfoDto) {
-        UserInfo userInfo = userInfoMapper.toUserInfo(userInfoDto);
+//        UserInfo userInfo = userInfoMapper.toUserInfo(userInfoDto);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(0L);
+        userInfo.setFirstName(userInfoDto.firstName());
+        userInfo.setLastName(userInfoDto.lastName());
+        userInfo.setUsername(userInfoDto.username());
+        userInfo.setEmail(userInfoDto.email());
         userInfo.setPassword(encoder.encode(userInfo.getPassword()));
         userInfo.setRole("USER");
         repository.save(userInfo);
@@ -36,7 +42,13 @@ public class UserInfoService implements UserDetailsService {
     }
 
     public String addAdmin(UserInfoDto userInfoDto) {
-        UserInfo userInfo = userInfoMapper.toUserInfo(userInfoDto);
+//        UserInfo userInfo = userInfoMapper.toUserInfo(userInfoDto);
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(0L);
+        userInfo.setFirstName(userInfoDto.firstName());
+        userInfo.setLastName(userInfoDto.lastName());
+        userInfo.setUsername(userInfoDto.username());
+        userInfo.setEmail(userInfoDto.email());
         userInfo.setPassword(encoder.encode(userInfo.getPassword()));
         userInfo.setRole("ADMIN");
         repository.save(userInfo);

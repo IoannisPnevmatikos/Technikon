@@ -67,7 +67,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserInfoRepository repository, PasswordEncoder passwordEncoder, UserInfoMapper userInfoMapper) {
-        return new UserInfoService(repository, passwordEncoder, userInfoMapper);
+    public UserDetailsService userDetailsService(UserInfoRepository repository, PasswordEncoder passwordEncoder) {
+        return new UserInfoService(repository, passwordEncoder);
     }
 }
