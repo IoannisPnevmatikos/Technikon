@@ -10,6 +10,6 @@ import org.mapstruct.ReportingPolicy;
 @MapperConfig(unmappedSourcePolicy = ReportingPolicy.IGNORE, unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface UserInfoMapper {
     
-    UserInfo toUserInfo(UserInfoDto userInfoDto);
+ //   UserInfo toUserInfo(UserInfoDto userInfoDto);
     
 }

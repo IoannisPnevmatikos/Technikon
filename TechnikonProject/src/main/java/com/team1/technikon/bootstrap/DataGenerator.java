@@ -12,8 +12,7 @@ import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfProperty;
 import com.team1.technikon.model.enums.TypeOfRepair;
-import com.team1.technikon.securityservice.dto.UserInfoDto;
-import com.team1.technikon.securityservice.service.UserInfoService;
+import com.team1.technikon.securityservice.model.UserInfo;
 import com.team1.technikon.service.OwnerService;
 import com.team1.technikon.service.PropertyService;
 import com.team1.technikon.service.RepairService;
@@ -26,64 +25,33 @@ import java.math.BigDecimal;
 import java.time.ZoneId;
 
 @AllArgsConstructor
-@Configuration
+//@Configuration
 public class DataGenerator {
     private final OwnerService ownerService;
     private final PropertyService propertyService;
     private final RepairService repairService;
     private final TechnikonMapper technikonMapper;
-    private final UserInfoService userInfoService;
     private final   Faker faker = new Faker();
 
-    @Bean
+//    @Bean
     public CommandLineRunner myCommandLineRunner() {
         return this::run;
     }
 
     private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException {
-
-        userInfoService.addAdmin(
-                new UserInfoDto(
-                        "Andreas",
-                        "Chrysolouris",
-                        "andreas",
-                        "andreas.chrysolouris@scytalys.com",
-                        "1234"
-                )
-        );
-
-        userInfoService.addAdmin(
-                new UserInfoDto(
-                        "Ioannis",
-                        "Pnevmatikos",
-                        "ioannis",
-                        "ioannis.pnevmatikos@scytalys.com",
-                        "1234"
-                )
-        );
-
-        userInfoService.addAdmin(
-                new UserInfoDto(
-                        "Minkyeong",
-                        "Youn",
-                        "minkyeong",
-                        "minkyeong.youn@scytalys.com",
-                        "1234"
-                )
-        );
-
         for (int i = 0; i < 3; i++) {
             String tin = String.valueOf(faker.number().numberBetween(100000000,999999999));
             ownerService.createOwner(new OwnerDto(
                     tin,
-                    faker.name().firstName(),
-                    faker.name().lastName(),
+//                    faker.name().firstName(),
+//                    faker.name().lastName(),
                     faker.address().streetAddress(),
                     faker.phoneNumber().phoneNumber().replaceAll("-","").replaceAll("[()]", "").replace(".","").replace(" ","").substring(0,10),
-                    faker.internet().password(),
-                    faker.internet().emailAddress(),
-                    faker.name().username().replace(".","").replace(" ",""
-                    )
+                    null
+//                    faker.internet().password(),
+//                    faker.internet().emailAddress(),
+//                    faker.name().username().replace(".","").replace(" ",""
+                //    )
             ));
             if (ownerService.getOwnerByTin(tin) != null) continue;
             int jm = faker.number().numberBetween(1,3);
