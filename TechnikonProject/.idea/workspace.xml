@@ -5,13 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/dto/UserInfoDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/mapper/UserInfoMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/model/BaseAccount.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/bootstrap/DataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/bootstrap/DataGenerator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/mapper/TechnikonMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/mapper/TechnikonMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/model/Owner.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/model/Owner.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/bootstrap/InitialAdmin.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/mapper/UserInfoMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/mapper/UserInfoMapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/model/UserInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/model/UserInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/repository/UserInfoRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/repository/UserInfoRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/service/UserInfoService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/service/UserInfoService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/OwnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/OwnerServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -21,10 +26,10 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Enum" />
         <option value="Record" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
@@ -60,34 +65,42 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Application.TechnikonApplication.executor&quot;: &quot;Run&quot;,
-    &quot;Maven.technikon [clean].executor&quot;: &quot;Run&quot;,
-    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
-    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
-    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
-    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;Spring Boot.TechnikonApplication.executor&quot;: &quot;Run&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;andreas&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/andreasc/IdeaProjects/Technikon/TechnikonProject/src/main/java/com/team1/technikon&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.TechnikonApplication.executor": "Run",
+    "Application.app.executor": "Run",
+    "Maven.technikon [clean].executor": "Run",
+    "RequestMappingsPanelOrder0": "0",
+    "RequestMappingsPanelOrder1": "1",
+    "RequestMappingsPanelWidth0": "75",
+    "RequestMappingsPanelWidth1": "75",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "Spring Boot.TechnikonApplication.executor": "Run",
+    "git-widget-placeholder": "andreas",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/andreasc/IdeaProjects/Technikon/TechnikonProject/src/main/java/com/team1/technikon",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\andreasc\IdeaProjects\Technikon\TechnikonProject\src\main\java\com\team1\technikon" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Application.app">
+    <configuration name="app" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="com.team1.technikon.TechnikonApplication" />
+      <module name="technikon" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="TechnikonApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="technikon" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.team1.technikon.TechnikonApplication" />
@@ -95,6 +108,9 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Application.app" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">

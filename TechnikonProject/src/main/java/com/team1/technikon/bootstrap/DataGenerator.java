@@ -12,6 +12,8 @@ import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfProperty;
 import com.team1.technikon.model.enums.TypeOfRepair;
+import com.team1.technikon.securityservice.dto.UserInfoDto;
+import com.team1.technikon.securityservice.service.UserInfoService;
 import com.team1.technikon.service.OwnerService;
 import com.team1.technikon.service.PropertyService;
 import com.team1.technikon.service.RepairService;
@@ -30,6 +32,7 @@ public class DataGenerator {
     private final PropertyService propertyService;
     private final RepairService repairService;
     private final TechnikonMapper technikonMapper;
+    private final UserInfoService userInfoService;
     private final   Faker faker = new Faker();
 
     @Bean
@@ -38,6 +41,37 @@ public class DataGenerator {
     }
 
     private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException {
+
+        userInfoService.addAdmin(
+                new UserInfoDto(
+                        "Andreas",
+                        "Chrysolouris",
+                        "andreas",
+                        "andreas.chrysolouris@scytalys.com",
+                        "1234"
+                )
+        );
+
+        userInfoService.addAdmin(
+                new UserInfoDto(
+                        "Ioannis",
+                        "Pnevmatikos",
+                        "ioannis",
+                        "ioannis.pnevmatikos@scytalys.com",
+                        "1234"
+                )
+        );
+
+        userInfoService.addAdmin(
+                new UserInfoDto(
+                        "Minkyeong",
+                        "Youn",
+                        "minkyeong",
+                        "minkyeong.youn@scytalys.com",
+                        "1234"
+                )
+        );
+
         for (int i = 0; i < 3; i++) {
             String tin = String.valueOf(faker.number().numberBetween(100000000,999999999));
             ownerService.createOwner(new OwnerDto(
