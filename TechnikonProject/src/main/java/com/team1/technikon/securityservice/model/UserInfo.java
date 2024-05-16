@@ -20,7 +20,7 @@ public class UserInfo extends BaseModel {
     private String password;
     private String role;
 
-    @OneToOne//(cascade = CascadeType.ALL)
-    @JoinColumn(name = "owner_id", referencedColumnName = "id")
-    Owner owner;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "owner_id" ,referencedColumnName = "id")
+    private Owner owner;
 }

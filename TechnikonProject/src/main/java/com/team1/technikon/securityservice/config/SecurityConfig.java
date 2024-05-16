@@ -1,10 +1,11 @@
 package com.team1.technikon.securityservice.config;
 
 
+import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.securityservice.filter.JwtAuthFilter;
 import com.team1.technikon.securityservice.mapper.UserInfoMapper;
-import com.team1.technikon.securityservice.repository.UserInfoRepository;
-import com.team1.technikon.securityservice.service.UserInfoService;
+import com.team1.technikon.securityservice.repository.UserRepository;
+import com.team1.technikon.securityservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -40,7 +41,7 @@ public class SecurityConfig {
                                 "/swagger-ui/**",
                                 "/auth/signup/user",
                                 "/auth/login",
-                                "api/v1/owner/**"
+                                "api/v1/owner"
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**",
@@ -67,7 +68,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserInfoRepository repository, PasswordEncoder passwordEncoder, UserInfoMapper userInfoMapper) {
-        return new UserInfoService(repository, passwordEncoder, userInfoMapper);
+    public UserDetailsService userDetailsService(UserRepository repository, PasswordEncoder passwordEncoder) {
+        return new UserService(repository, passwordEncoder);
     }
 }

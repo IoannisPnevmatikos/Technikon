@@ -21,9 +21,9 @@ public class Owner extends BaseModel {
     private String address;
     @Column(unique = true)
     private String phone;
-    private boolean isActive;
+    private boolean isActive = true;
 
-    @OneToOne(mappedBy = "userInfo")
+    @OneToOne(cascade = CascadeType.ALL ,mappedBy = "owner")
     UserInfo userInfo;
 
     @JsonIgnore

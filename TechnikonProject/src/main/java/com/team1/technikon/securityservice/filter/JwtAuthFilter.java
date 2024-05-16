@@ -2,7 +2,7 @@ package com.team1.technikon.securityservice.filter;
 
 
 import com.team1.technikon.securityservice.service.JwtServiceImpl;
-import com.team1.technikon.securityservice.service.UserInfoService;
+import com.team1.technikon.securityservice.service.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,7 +22,7 @@ import java.io.IOException;
 @AllArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtServiceImpl jwtServiceImpl;
-    private final UserInfoService userDetailsService;
+    private final UserService userDetailsService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request,
