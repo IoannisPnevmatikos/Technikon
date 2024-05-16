@@ -2,9 +2,8 @@ package com.team1.technikon.securityservice.config;
 
 
 import com.team1.technikon.securityservice.filter.JwtAuthFilter;
-import com.team1.technikon.securityservice.mapper.UserInfoMapper;
-import com.team1.technikon.securityservice.repository.UserInfoRepository;
-import com.team1.technikon.securityservice.service.UserInfoService;
+import com.team1.technikon.securityservice.repository.UserRepository;
+import com.team1.technikon.securityservice.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
