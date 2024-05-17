@@ -2,8 +2,7 @@ package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.ResponseApi;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.*;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.enums.TypeOfProperty;
@@ -22,37 +21,37 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @PostMapping
-    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto) throws OwnerFailToCreateException {
-       return ResponseEntity.ok(propertyService.createProperty(propertyDto));
+    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException {
+        return ResponseEntity.ok(propertyService.createProperty(propertyDto));
     }
 
     @GetMapping("/propertyId/{propertyId}")
-    public ResponseEntity<PropertyDto> getProperty(@PathVariable String propertyId) throws OwnerNotFoundException {
+    public ResponseEntity<PropertyDto> getProperty(@PathVariable String propertyId) throws InvalidInputException, EntityNotFoundException {
         return ResponseEntity.ok(propertyService.getPropertyById(propertyId));
     }
 
-    @GetMapping("/tinNumber/{tinNumber}") //den doyleyei!!!!!!!!
-    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@PathVariable String tinNumber) throws OwnerNotFoundException {
+    @GetMapping("/tinNumber/{tinNumber}")
+    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@PathVariable String tinNumber) throws EntityNotFoundException {
         return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(tinNumber));
     }
 
     @GetMapping("/area/{area}")
-    public ResponseEntity<List<Property>> getPropertyByLocation(@PathVariable String area) throws OwnerNotFoundException {
+    public ResponseEntity<List<Property>> getPropertyByLocation(@PathVariable String area) throws EntityNotFoundException {
         return ResponseEntity.ok(propertyService.getPropertyByLocation());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) {
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException {
         return ResponseEntity.ok(propertyService.updateProperty(id, propertyDto));
     }
 
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable long id) throws OwnerNotFoundException {
+    public ResponseEntity<Boolean> delete(@PathVariable long id) throws EntityNotFoundException {
         return ResponseEntity.ok(propertyService.deleteProperty(id));
     }
 
-          //  deleteProperty
+    //  deleteProperty
 
     @GetMapping
     public ResponseEntity<List<Property>> getAllData() {
