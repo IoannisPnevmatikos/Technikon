@@ -4,8 +4,7 @@ import com.github.javafaker.Faker;
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.PropertyDto;
 import com.team1.technikon.dto.RepairDto;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.*;
 import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Owner;
@@ -38,7 +37,7 @@ public class DataGenerator {
         return this::run;
     }
 
-    private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException {
+    private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException, InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
         for (int i = 0; i < 3; i++) {
             String tin = String.valueOf(faker.number().numberBetween(100000000,999999999));
             ownerService.createOwner(new OwnerDto(
