@@ -47,12 +47,11 @@ public class RepairController {
     }
 
 
-
-    /*@PutMapping("/descText/{id}/{descText}")
-    public ResponseEntity<RepairDto> updateDescText(@PathVariable long id, @RequestBody String descText) {
-        RepairDto repair = repairService.updateDescriptionText(id, descText);
+    @PutMapping("/descText/{id}/{descText}")
+    public ResponseEntity<RepairDto> updateRepairId(@PathVariable long id, @RequestBody RepairDto repairDto) {
+        RepairDto repair = repairService.updateRepair(id, repairDto);
         return ResponseEntity.ok(repair);
-    }*/
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteRepair(@PathVariable long id) {
