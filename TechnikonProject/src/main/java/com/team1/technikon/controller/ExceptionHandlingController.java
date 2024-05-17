@@ -1,10 +1,7 @@
 package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.ApplicationErrorResponse;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
-import com.team1.technikon.exception.RepairFailToCreateException;
-import com.team1.technikon.exception.RepairNotFoundException;
+import com.team1.technikon.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.ErrorResponse;
@@ -36,5 +33,23 @@ public class ExceptionHandlingController {
     public ResponseEntity<ApplicationErrorResponse> handleRepairFailToCreateException(RepairFailToCreateException e) {
         ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApplicationErrorResponse> handleEntityNotFoundException(EntityNotFoundException e) {
+        ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.NOT_FOUND.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(errorResponse);
+    }
+
+    @ExceptionHandler(EntityFailToCreateException.class)
+    public ResponseEntity<ApplicationErrorResponse> handleEntityFailToCreateException(EntityFailToCreateException e) {
+        ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.CONFLICT.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(errorResponse);
+    }
+
+    @ExceptionHandler(InvalidInputException.class)
+    public ResponseEntity<ApplicationErrorResponse> handleEntityFailToCreateException(InvalidInputException e) {
+        ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
     }
 }
