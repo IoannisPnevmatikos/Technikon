@@ -37,7 +37,7 @@ public class DataGenerator {
         return this::run;
     }
 
-    private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException, InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
+    private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException, InvalidInputException, EntityFailToCreateException, EntityNotFoundException, UnauthorizedAccessException {
         for (int i = 0; i < 3; i++) {
             String tin = String.valueOf(faker.number().numberBetween(100000000,999999999));
             ownerService.createOwner(new OwnerDto(
@@ -71,7 +71,7 @@ public class DataGenerator {
                   owner
                     )
                 );
-                if (propertyService.getPropertyById(id)==null) continue;
+                if (propertyService.getPropertyById(null, id)==null) continue;
                 int km = faker.number().numberBetween(1,3);
                 for (int k = 0; k < km; k++) {
                     repairService.createRepair(new RepairDto(
@@ -82,7 +82,7 @@ public class DataGenerator {
                             StatusOfRepair.values()[faker.number().numberBetween(0,3)],
                             new BigDecimal(faker.number().randomDouble(2, 0, 1000)),
                             faker.lorem().toString(),
-                            technikonMapper.toProperty(propertyService.getPropertyById(id))
+                            technikonMapper.toProperty(propertyService.getPropertyById(null, id))
                             )
                     );
                 }
