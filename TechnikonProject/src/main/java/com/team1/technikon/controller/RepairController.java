@@ -1,15 +1,11 @@
 package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.RepairDto;
-import com.team1.technikon.model.enums.StatusOfRepair;
-import com.team1.technikon.model.enums.TypeOfRepair;
 import com.team1.technikon.service.RepairService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
