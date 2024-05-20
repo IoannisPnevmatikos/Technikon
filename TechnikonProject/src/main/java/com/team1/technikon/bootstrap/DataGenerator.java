@@ -43,7 +43,7 @@ public class DataGenerator {
             ownerService.createOwner(new OwnerDto(
                     tin,
 //                    faker.name().firstName(),
-//                    faker.name().lastName(),
+//
                     faker.address().streetAddress(),
                     faker.phoneNumber().phoneNumber().replaceAll("-","").replaceAll("[()]", "").replace(".","").replace(" ","").substring(0,10),
                     null

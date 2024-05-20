@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 @Service
 @AllArgsConstructor
@@ -102,19 +103,43 @@ public class UserService implements UserDetailsService {
     }
 
     public String addAdmin(UserInfoDto userInfoDto) {
-        UserInfo userInfo = new UserInfo(
-                userInfoDto.firstName(),
-                userInfoDto.lastName(),
-                userInfoDto.username(),
-                userInfoDto.email(),
-                encoder.encode(userInfoDto.password()),
-                "ADMIN",
-                null
-        );
-//        userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-//        userInfo.setRole("ADMIN");
-        repository.save(userInfo);
-        return "User Added Successfully";
+
+        if(isValidUserInfo(userInfoDto)) {
+            UserInfo userInfo = new UserInfo(
+                    userInfoDto.firstName(),
+                    userInfoDto.lastName(),
+                    userInfoDto.username(),
+                    userInfoDto.email(),
+                    encoder.encode(userInfoDto.password()),
+                    "ADMIN",
+                    null
+            );
+            userInfo.setPassword(encoder.encode(userInfo.getPassword()));
+            userInfo.setRole("ADMIN");
+            repository.save(userInfo);
+            return "User Added Successfully";
+        }
+        return "Invalid User fields or duplicate";
     }
+
+    private boolean isValidUserInfo(UserInfoDto userInfoDto) {
+        return ( isValidEmail(userInfoDto.email()) &&
+                isValidUsername(userInfoDto.username())&&
+                isValidName(userInfoDto.firstName(), userInfoDto.lastName()));
+    }
+    private boolean isValidEmail(String email) {
+        String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        return Pattern.compile(regexPattern).matcher(email).matches();
+    }
+    private boolean isValidUsername(String username) {
+        String regexPattern = "^[A-Za-z]\\w{5,29}$";
+        return Pattern.compile(regexPattern).matcher(username).matches();
+    }
+
+    private boolean isValidName(String firstName, String lastName) {
+        String regexPattern = "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$";
+        return Pattern.compile(regexPattern).matcher(firstName).matches() && Pattern.compile(regexPattern).matcher(lastName).matches();
+    }
+
 
 }

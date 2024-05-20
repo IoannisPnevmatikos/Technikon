@@ -13,19 +13,35 @@ import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
-   // List<Owner> findOwnersByActiveTrue();
+
+
+    @Query("select o from Owner o where o.isActive = true")
+    List<Owner> findOwnersByIsActiveTrue();
 
     Optional<Owner> findByTinNumber(String tinNumber);
 
-    @Transactional
+    @Query ("select o from Owner o where o.userInfo.email =:email")
+    Optional<Owner> findOwnerByEmail(@Param("email") String email);
+
+    @Query ("select o from Owner o where o.userInfo.firstName =:firstName")
+    Optional<Owner> findOwnerByFirstName(@Param("firstName") String firstName);
+
+    @Query ("select o from Owner o where o.userInfo.lastName =:lastName")
+    Optional<Owner> findOwnerByLastName(@Param("lastName") String lastName);
+
+   // @Transactional
     @Modifying
     @Query("update Owner o set o.address = :address where o.tinNumber = :tinNumber")
-    int updateAddress(@Param("tinNumber") String tinNumber, @Param("address") String address);
+    int updateAddress( @Param("address") String address,@Param("tinNumber") String tinNumber);
 
-   @Transactional
-   @Modifying
-//    @Query("delete Owner o where o.tinNumber = : tinNumber")
-    void deleteByTinNumber(String tinNumber);
+    @Transactional
+    @Modifying
+    @Query("delete Owner o where o.tinNumber = :tinNumber")
+    void deleteByTinNumber(@Param("tinNumber") String tinNumber);
 
+  //  @Transactional
+    @Modifying
+    @Query("update Owner o SET o.phone = :phone where o.tinNumber = :tinNumber")
+    int updateOwnerByPhone( @Param("phone") String phone,@Param("tinNumber") String tinNumber);
 
 }

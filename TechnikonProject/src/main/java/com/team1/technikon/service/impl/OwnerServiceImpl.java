@@ -47,10 +47,26 @@ public class OwnerServiceImpl implements OwnerService {
             if (isValidTinNumber(tinNumber)) {
                 logger.info("Getting an owner with tin Number {}", tinNumber);
                 return ownerRepository.findByTinNumber(tinNumber).map(technikonMapper::toOwnerDto).get();
-            } else throw new OwnerNotFoundException("Invalid tin Number. Check tinNumber again.");
+            }
+            else throw new  OwnerNotFoundException("Invalid tin Number. Check tinNumber again.");
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
+    }
+
+    @Override
+    public OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException {
+        return ownerRepository.findOwnerByEmail(email).map(technikonMapper::toOwnerDto).get();
+    }
+
+    @Override
+    public OwnerDto getOwnerByFirstName(String firstName) throws OwnerNotFoundException {
+        return ownerRepository.findOwnerByFirstName(firstName).map(technikonMapper::toOwnerDto).get();
+    }
+
+    @Override
+    public OwnerDto getOwnerByLastName(String lastName) throws OwnerNotFoundException {
+        return ownerRepository.findOwnerByLastName(lastName).map(technikonMapper::toOwnerDto).get();
     }
 
     @Override
@@ -62,7 +78,18 @@ public class OwnerServiceImpl implements OwnerService {
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
-   }
+    }
+
+    @Override
+    public boolean updateOwnerByPhone(String tinNumber, String phoneNumber) throws OwnerNotFoundException {
+        try {
+            if (ownerRepository.updateOwnerByPhone(tinNumber, phoneNumber) == 1)
+                return true;
+            else throw new OwnerNotFoundException("Update failed! Check tinNumber again. ");
+        } catch (Exception e) {
+            throw new OwnerNotFoundException(e.getMessage());
+        }
+    }
 
     @Override
     public boolean deleteOwner(String tinNumber) throws OwnerNotFoundException {
@@ -85,7 +112,7 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
-    public List<OwnerDto> getAllData() throws OwnerNotFoundException {
+    public List<OwnerDto> getAllOwners() throws OwnerNotFoundException {
         try {
             logger.info("Getting all owners.");
             return ownerRepository.findAll().stream().map(technikonMapper::toOwnerDto
@@ -95,26 +122,23 @@ public class OwnerServiceImpl implements OwnerService {
         }
 
     }
-//
-//    @Override
-//    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
-//        try {
-//            logger.info("Getting all Activeowners.");
-//            return ownerRepository.findOwnersByActiveTrue().stream().map(technikonMapper::toOwnerDto
-//            ).collect(Collectors.toList());
-//        } catch (Exception e) {
-//            throw new OwnerNotFoundException(e.getMessage());
-//        }
-//    }
+
+    @Override
+    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
+        try {
+            logger.info("Getting all Activeowners.");
+            return ownerRepository.findOwnersByIsActiveTrue().stream().map(technikonMapper::toOwnerDto
+            ).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new OwnerNotFoundException(e.getMessage());
+        }
+    }
 
 //    *********************VALIDATIONS*********************
 
     private boolean isValidOwner(OwnerDto ownerDto) {
         return isValidTinNumber(ownerDto.tinNumber()) &&
-//                isValidEmail(ownerDto.email()) &&
                 isValidPhone(ownerDto.phone());
-//                isValidUsername(ownerDto.username()) &&
-//                isValidName(ownerDto.firstName(), ownerDto.lastName());
     }
 
     private boolean isValidTinNumber(String tinNumber) {
@@ -122,24 +146,9 @@ public class OwnerServiceImpl implements OwnerService {
         return Pattern.compile(regexPattern).matcher(tinNumber).matches();
     }
 
-//    private boolean isValidEmail(String email) {
-//        String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
-//        return Pattern.compile(regexPattern).matcher(email).matches();
-//    }
-
     private boolean isValidPhone(String phone) {
         return phone.length() == 10;
     }
-//
-//    private boolean isValidUsername(String username) {
-//        String regexPattern = "^[A-Za-z]\\w{5,29}$";
-//        return Pattern.compile(regexPattern).matcher(username).matches();
-//    }
-//
-//    private boolean isValidName(String firstName, String lastName) {
-//        String regexPattern = "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$";
-//        return Pattern.compile(regexPattern).matcher(firstName).matches() && Pattern.compile(regexPattern).matcher(lastName).matches();
-//    }
 
 
 }
