@@ -2,7 +2,6 @@ package com.team1.technikon.securityservice.service;
 
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.exception.OwnerNotFoundException;
-import com.team1.technikon.mapper.TechnikonMapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.securityservice.dto.UserInfoDto;
 import com.team1.technikon.securityservice.model.UserInfo;
@@ -23,8 +22,6 @@ import java.util.regex.Pattern;
 public class UserService implements UserDetailsService {
     private final UserRepository repository;
     private final PasswordEncoder encoder;
-    //    private final UserInfoMapper userInfoMapper;
-//    private final TechnikonMapper technikonMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -96,8 +93,6 @@ public class UserService implements UserDetailsService {
                 "USER",
                 null
         );
-//        userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-//        userInfo.setRole("USER");
         repository.save(userInfo);
         return "User Added Successfully";
     }
@@ -114,8 +109,6 @@ public class UserService implements UserDetailsService {
                     "ADMIN",
                     null
             );
-            userInfo.setPassword(encoder.encode(userInfo.getPassword()));
-            userInfo.setRole("ADMIN");
             repository.save(userInfo);
             return "User Added Successfully";
         }
