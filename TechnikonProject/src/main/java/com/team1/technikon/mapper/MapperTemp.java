@@ -7,7 +7,7 @@ import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.Repair;
 
-public class Mapper {
+public class MapperTemp {
 
     public static OwnerDto mapToOwnerDto(Owner owner) {
         return new OwnerDto(

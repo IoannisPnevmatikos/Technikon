@@ -5,7 +5,7 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
-import com.team1.technikon.mapper.Mapper;
+import com.team1.technikon.mapper.MapperTemp;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.repository.RepairRepository;
@@ -24,7 +24,7 @@ import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static com.team1.technikon.mapper.Mapper.*;
+import static com.team1.technikon.mapper.MapperTemp.*;
 
 @Service
 @AllArgsConstructor
@@ -91,7 +91,7 @@ public class RepairServiceImpl implements RepairService {
             logger.warn("No repairs found for the given range of dates: {} to {}", startingDate, endingDate);
             throw new EntityNotFoundException("No repairs found for the given range of dates: " + startingDate + " to " + endingDate);
         }
-        return repairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
+        return repairs.stream().map(MapperTemp::mapToRepairDto).collect(Collectors.toList());
     }
 
     @Override
@@ -107,7 +107,7 @@ public class RepairServiceImpl implements RepairService {
             logger.warn("No repairs found for the given owner's TIN number: {}", tinNumber);
             throw new EntityNotFoundException("No repairs found for the given owner's TIN number: " + tinNumber);
         }
-        return repairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
+        return repairs.stream().map(MapperTemp::mapToRepairDto).collect(Collectors.toList());
     }
 
     @Override
@@ -165,7 +165,7 @@ public class RepairServiceImpl implements RepairService {
             throw new EntityNotFoundException("No repairs found!");
         }
         return allRepairs.stream()
-                .map(Mapper::mapToRepairDto)
+                .map(MapperTemp::mapToRepairDto)
                 .collect(Collectors.toList());
     }
 
