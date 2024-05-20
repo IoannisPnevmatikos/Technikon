@@ -5,14 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/bootstrap/DataGenerator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/bootstrap/DataGenerator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/mapper/Mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/mapper/MapperTemp.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/bootstrap/InitialAdmin.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/bootstrap/InitialAdmin.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/OwnerServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/OwnerServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/PropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/PropertyController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
