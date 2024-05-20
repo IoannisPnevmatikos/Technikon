@@ -141,5 +141,4 @@ public class UserService implements UserDetailsService {
         return Pattern.compile(regexPattern).matcher(firstName).matches() && Pattern.compile(regexPattern).matcher(lastName).matches();
     }
 
-
 }

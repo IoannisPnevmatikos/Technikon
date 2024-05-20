@@ -3,7 +3,7 @@ package com.team1.technikon.service.impl;
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
-import com.team1.technikon.mapper.TechnikonMapper;
+import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.service.OwnerService;
@@ -18,12 +18,15 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
+import static com.team1.technikon.mapper.Mapper.mapToOwnerDto;
+import static com.team1.technikon.mapper.Mapper.mapToOwner;
+
+
 @Service
 @AllArgsConstructor(onConstructor_ = {@Autowired})
 public class OwnerServiceImpl implements OwnerService {
 
     private final OwnerRepository ownerRepository;
-    private final TechnikonMapper technikonMapper;
     private static final Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
 
@@ -32,7 +35,7 @@ public class OwnerServiceImpl implements OwnerService {
         try {
             if (isValidOwner(ownerDto)) {
                 logger.info("Creating an owner {}", ownerDto);
-                return technikonMapper.toOwnerDto(ownerRepository.save(technikonMapper.toOwner(ownerDto)));
+                return mapToOwnerDto(ownerRepository.save(mapToOwner(ownerDto)));
             } else throw new OwnerFailToCreateException("Validation failed! Check user input again. ");
         } catch (Exception e) {
             throw new OwnerFailToCreateException(e.getMessage());
@@ -46,7 +49,7 @@ public class OwnerServiceImpl implements OwnerService {
         try {
             if (isValidTinNumber(tinNumber)) {
                 logger.info("Getting an owner with tin Number {}", tinNumber);
-                return ownerRepository.findByTinNumber(tinNumber).map(technikonMapper::toOwnerDto).get();
+                return mapToOwnerDto(ownerRepository.findByTinNumber(tinNumber).get());
             }
             else throw new  OwnerNotFoundException("Invalid tin Number. Check tinNumber again.");
         } catch (Exception e) {
@@ -56,17 +59,17 @@ public class OwnerServiceImpl implements OwnerService {
 
     @Override
     public OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException {
-        return ownerRepository.findOwnerByEmail(email).map(technikonMapper::toOwnerDto).get();
+        return mapToOwnerDto(ownerRepository.findOwnerByEmail(email).get());
     }
 
     @Override
     public OwnerDto getOwnerByFirstName(String firstName) throws OwnerNotFoundException {
-        return ownerRepository.findOwnerByFirstName(firstName).map(technikonMapper::toOwnerDto).get();
+        return mapToOwnerDto(ownerRepository.findOwnerByFirstName(firstName).get());
     }
 
     @Override
     public OwnerDto getOwnerByLastName(String lastName) throws OwnerNotFoundException {
-        return ownerRepository.findOwnerByLastName(lastName).map(technikonMapper::toOwnerDto).get();
+        return mapToOwnerDto(ownerRepository.findOwnerByLastName(lastName).get());
     }
 
     @Override
@@ -115,8 +118,7 @@ public class OwnerServiceImpl implements OwnerService {
     public List<OwnerDto> getAllOwners() throws OwnerNotFoundException {
         try {
             logger.info("Getting all owners.");
-            return ownerRepository.findAll().stream().map(technikonMapper::toOwnerDto
-            ).collect(Collectors.toList());
+            return ownerRepository.findAll().stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
@@ -127,7 +129,7 @@ public class OwnerServiceImpl implements OwnerService {
     public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
         try {
             logger.info("Getting all Activeowners.");
-            return ownerRepository.findOwnersByIsActiveTrue().stream().map(technikonMapper::toOwnerDto
+            return ownerRepository.findOwnersByIsActiveTrue().stream().map(Mapper::mapToOwnerDto
             ).collect(Collectors.toList());
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
