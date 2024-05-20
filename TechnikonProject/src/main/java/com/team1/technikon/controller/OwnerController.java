@@ -12,6 +12,8 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @AllArgsConstructor
 @RestController
@@ -21,9 +23,9 @@ public class OwnerController {
     private final OwnerService ownerService;
 //
     @PostMapping
-    public ResponseEntity<OwnerDto> createOwner(@RequestBody OwnerDto ownerDto) throws OwnerFailToCreateException {
-        return ResponseEntity.ok(ownerService.createOwner(ownerDto));
+    public ResponseEntity<Owner> createOwner(@RequestBody Map< String ,OwnerDto> map) throws OwnerFailToCreateException {
 
+        return ResponseEntity.ok(ownerService.createOwner(map));
     }
 //
     @GetMapping

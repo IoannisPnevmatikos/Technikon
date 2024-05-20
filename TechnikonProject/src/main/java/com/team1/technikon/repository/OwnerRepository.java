@@ -1,5 +1,6 @@
 package com.team1.technikon.repository;
 
+import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.model.Owner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

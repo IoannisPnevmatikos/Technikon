@@ -37,8 +37,8 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/actuator/**",
                                 "/auth/signup/user",
-                                "/auth/login"
-//                                "api/**"
+                                "/auth/login",
+                                "api/**"
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**",

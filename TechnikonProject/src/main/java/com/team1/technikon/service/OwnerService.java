@@ -3,13 +3,15 @@ package com.team1.technikon.service;
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.model.Owner;
 
 import java.util.List;
+import java.util.Map;
 
 public interface OwnerService {
 
     //CREATE
-    OwnerDto createOwner(OwnerDto ownerDto) throws OwnerFailToCreateException;
+    Owner createOwner(Map<String, OwnerDto> ownerDtoMap) throws OwnerFailToCreateException;
     //SEARCH
     OwnerDto getOwnerByTin(String tinNumber) throws OwnerNotFoundException;
 
