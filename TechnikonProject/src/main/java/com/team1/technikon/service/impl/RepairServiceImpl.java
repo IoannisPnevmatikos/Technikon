@@ -5,30 +5,26 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
-import com.team1.technikon.mapper.TechnikonMapper;
+import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
-import com.team1.technikon.model.enums.TypeOfRepair;
 import com.team1.technikon.repository.RepairRepository;
 import com.team1.technikon.service.RepairService;
 import com.team1.technikon.validation.RepairValidator;
 import lombok.AllArgsConstructor;
-import lombok.val;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-
 import java.math.BigDecimal;
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import static com.team1.technikon.mapper.Mapper.*;
 
 @Service
 @AllArgsConstructor
@@ -37,7 +33,6 @@ public class RepairServiceImpl implements RepairService {
     private static final Logger logger = LoggerFactory.getLogger(RepairServiceImpl.class);
 
     private final RepairRepository repairRepository;
-    private final TechnikonMapper technikonMapper;
 
      /* IN EVERY METHOD I NEED TO FETCH THE OWNER AND OWNER PROPERTIES FIRST AND THEN IMPLEMENT THE METHODS
      * SINCE AN OWNER CANT SEARCH-DELETE ETC REPAIRS BY DATE OR ANY OTHER CRITERION OF OTHER OWNERS*/
@@ -51,11 +46,11 @@ public class RepairServiceImpl implements RepairService {
         RepairValidator.validateCreateRepair(repairDto);
 
         try {
-            Repair repair = technikonMapper.toRepair(repairDto);
+            Repair repair = mapToRepair(repairDto);
             // Save the repair entity
             repair = repairRepository.save(repair);
 
-            return technikonMapper.toRepairDto(repair);
+            return mapToRepairDto(repair);
         } catch (DataIntegrityViolationException e) {
             logger.error("Failed to create repair: {}", e.getMessage());
             throw new EntityFailToCreateException("Failed to create repair: Duplicate entry or invalid data.");
@@ -80,7 +75,7 @@ public class RepairServiceImpl implements RepairService {
                     return new EntityNotFoundException("No repair found for the given date: " + localDate);
                 });
 
-        return Collections.singletonList(technikonMapper.toRepairDto(repair));
+        return Collections.singletonList(mapToRepairDto(repair));
     }
 
     @Override
@@ -96,7 +91,7 @@ public class RepairServiceImpl implements RepairService {
             logger.warn("No repairs found for the given range of dates: {} to {}", startingDate, endingDate);
             throw new EntityNotFoundException("No repairs found for the given range of dates: " + startingDate + " to " + endingDate);
         }
-        return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
+        return repairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
 
     @Override
@@ -112,7 +107,7 @@ public class RepairServiceImpl implements RepairService {
             logger.warn("No repairs found for the given owner's TIN number: {}", tinNumber);
             throw new EntityNotFoundException("No repairs found for the given owner's TIN number: " + tinNumber);
         }
-        return repairs.stream().map(technikonMapper::toRepairDto).collect(Collectors.toList());
+        return repairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
 
     @Override
@@ -131,9 +126,9 @@ public class RepairServiceImpl implements RepairService {
                     return new EntityNotFoundException("Repair not found with ID: " + id);
                 });
         Repair repair;
-        repair = technikonMapper.toRepairNonNull(repairDto);
+        repair = mapToRepairNonNull(repairDto);
         repairRepository.save(repair);
-        return technikonMapper.toRepairDto(repair);
+        return mapToRepairDto(repair);
 
 
     }
@@ -170,7 +165,7 @@ public class RepairServiceImpl implements RepairService {
             throw new EntityNotFoundException("No repairs found!");
         }
         return allRepairs.stream()
-                .map(technikonMapper::toRepairDto)
+                .map(Mapper::mapToRepairDto)
                 .collect(Collectors.toList());
     }
 
