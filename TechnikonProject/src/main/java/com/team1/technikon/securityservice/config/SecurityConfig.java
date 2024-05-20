@@ -36,10 +36,9 @@ public class SecurityConfig {
                 .authorizeHttpRequests((ant) -> ant
                         .requestMatchers(
                                 "/actuator/**",
-                                "/swagger-ui/**",
                                 "/auth/signup/user",
-                                "/auth/login",
-                                "api/v1/owner/**"
+                                "/auth/login"
+//                                "api/**"
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**",

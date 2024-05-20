@@ -48,8 +48,15 @@ public class ExceptionHandlingController {
     }
 
     @ExceptionHandler(InvalidInputException.class)
-    public ResponseEntity<ApplicationErrorResponse> handleEntityFailToCreateException(InvalidInputException e) {
+    public ResponseEntity<ApplicationErrorResponse> handleEntityInvalidInputException(InvalidInputException e) {
         ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.BAD_REQUEST.value(), e.getMessage(), System.currentTimeMillis());
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(errorResponse);
+    }
+
+
+    @ExceptionHandler(UnauthorizedAccessException.class)
+    public ResponseEntity<ApplicationErrorResponse> handleEntityUnauthorizedAccessException(UnauthorizedAccessException e) {
+        ApplicationErrorResponse errorResponse = new ApplicationErrorResponse(HttpStatus.UNAUTHORIZED.value(), e.getMessage(), System.currentTimeMillis());
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(errorResponse);
     }
 }

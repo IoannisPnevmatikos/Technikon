@@ -25,30 +25,30 @@ public class PropertyController {
         return ResponseEntity.ok(propertyService.createProperty(propertyDto));
     }
 
-    @GetMapping("/propertyId/{propertyId}")
-    public ResponseEntity<PropertyDto> getProperty(@PathVariable String propertyId) throws InvalidInputException, EntityNotFoundException {
-        return ResponseEntity.ok(propertyService.getPropertyById(propertyId));
+    @GetMapping("/propertyId")
+    public ResponseEntity<PropertyDto> getProperty(@RequestParam(value = "id") Long ownerId, @RequestParam String propertyId) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+        return ResponseEntity.ok(propertyService.getPropertyById(ownerId, propertyId));
     }
 
-    @GetMapping("/tinNumber/{tinNumber}")
-    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@PathVariable String tinNumber) throws EntityNotFoundException {
-        return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(tinNumber));
+    @GetMapping("/tinNumber")
+    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@RequestParam(value = "id") Long ownerId, @RequestParam String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException {
+        return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(ownerId, tinNumber));
     }
 
-    @GetMapping("/area/{area}")
-    public ResponseEntity<List<Property>> getPropertyByLocation(@PathVariable String area) throws EntityNotFoundException {
-        return ResponseEntity.ok(propertyService.getPropertyByLocation());
+    @GetMapping("/area")
+    public ResponseEntity<List<Property>> getPropertyByLocation(@RequestParam(value = "id") Long ownerId, @RequestParam String area) throws EntityNotFoundException {
+        return ResponseEntity.ok(propertyService.getPropertyByLocation(ownerId));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException {
-        return ResponseEntity.ok(propertyService.updateProperty(id, propertyDto));
+    @PutMapping
+    public ResponseEntity<PropertyDto> updatePropertyId(@RequestParam(value = "oId") Long ownerId, @RequestParam(value = "pId") long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+        return ResponseEntity.ok(propertyService.updateProperty(ownerId, id, propertyDto));
     }
 
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> delete(@PathVariable long id) throws EntityNotFoundException {
-        return ResponseEntity.ok(propertyService.deleteProperty(id));
+    @DeleteMapping
+    public ResponseEntity<Boolean> delete(@RequestParam(value = "oId") Long ownerId, @RequestParam(value = "pId") long id) throws EntityNotFoundException {
+        return ResponseEntity.ok(propertyService.deleteProperty(ownerId, id));
     }
 
     //  deleteProperty
@@ -58,6 +58,7 @@ public class PropertyController {
         return ResponseEntity.ok(propertyService.getAllData());
     }
 
+}
 
 //    @PutMapping("/propertyId/{propertyId}/{newPropertyId}")
 //    public ResponseApi<Property> updatePropertyId(@PathVariable long propertyId, @PathVariable long newPropertyId) {
@@ -85,4 +86,3 @@ public class PropertyController {
 //        return propertyService.updateMapLocation(propertyId, mapLocation);
 //    }
 
-}

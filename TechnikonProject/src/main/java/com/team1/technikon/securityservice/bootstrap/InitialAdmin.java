@@ -40,15 +40,17 @@ public class InitialAdmin {
                 )
         );
 
-        UserInfoDto userInfoDto = new UserInfoDto("Minkyeong",
+        UserInfoDto userInfoDto = new UserInfoDto(
+                "Minkyeong",
                 "Youn",
                 "minkyeong",
                 "minkyeong.youn@scytalys.com",
-                "1234");
-//
-//        userService.addAdmin(
-//       userInfoDto
-//        );
+                "1234"
+        );
+
+        userService.addAdmin(
+        userInfoDto
+        );
 //        Owner owner = new Owner();
 //        owner.setPhone("1234567890");
 //        owner.setAddress("sdfasdfasdf");
