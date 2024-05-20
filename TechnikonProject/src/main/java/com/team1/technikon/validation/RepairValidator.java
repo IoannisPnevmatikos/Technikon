@@ -22,7 +22,7 @@ public class RepairValidator {
     }
 
     public static void validateTinNumber(String tinNumber) throws InvalidInputException {
-        if (tinNumber == null || tinNumber.isEmpty() || !tinNumber.matches("\\d{11}")) {
+        if (tinNumber == null || tinNumber.isEmpty() || !tinNumber.matches("\\d{9}")) {
             throw new InvalidInputException("TIN number is in wrong form.");
         }
     }
