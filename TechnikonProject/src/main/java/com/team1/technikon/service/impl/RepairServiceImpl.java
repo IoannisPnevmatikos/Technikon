@@ -5,7 +5,7 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
-import com.team1.technikon.mapper.MapperTemp;
+import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.repository.RepairRepository;
@@ -19,12 +19,15 @@ import org.springframework.cache.annotation.CachePut;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.team1.technikon.mapper.MapperTemp.*;
+import static com.team1.technikon.mapper.Mapper.*;
 
 @Service
 @AllArgsConstructor
@@ -34,7 +37,7 @@ public class RepairServiceImpl implements RepairService {
 
     private final RepairRepository repairRepository;
 
-     /* IN EVERY METHOD I NEED TO FETCH THE OWNER AND OWNER PROPERTIES FIRST AND THEN IMPLEMENT THE METHODS
+    /* IN EVERY METHOD I NEED TO FETCH THE OWNER AND OWNER PROPERTIES FIRST AND THEN IMPLEMENT THE METHODS
      * SINCE AN OWNER CANT SEARCH-DELETE ETC REPAIRS BY DATE OR ANY OTHER CRITERION OF OTHER OWNERS*/
 
     @Override
@@ -91,7 +94,7 @@ public class RepairServiceImpl implements RepairService {
             logger.warn("No repairs found for the given range of dates: {} to {}", startingDate, endingDate);
             throw new EntityNotFoundException("No repairs found for the given range of dates: " + startingDate + " to " + endingDate);
         }
-        return repairs.stream().map(MapperTemp::mapToRepairDto).collect(Collectors.toList());
+        return repairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
 
     @Override
@@ -107,7 +110,7 @@ public class RepairServiceImpl implements RepairService {
             logger.warn("No repairs found for the given owner's TIN number: {}", tinNumber);
             throw new EntityNotFoundException("No repairs found for the given owner's TIN number: " + tinNumber);
         }
-        return repairs.stream().map(MapperTemp::mapToRepairDto).collect(Collectors.toList());
+        return repairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
 
     @Override
@@ -165,7 +168,7 @@ public class RepairServiceImpl implements RepairService {
             throw new EntityNotFoundException("No repairs found!");
         }
         return allRepairs.stream()
-                .map(MapperTemp::mapToRepairDto)
+                .map(Mapper::mapToRepairDto)
                 .collect(Collectors.toList());
     }
 

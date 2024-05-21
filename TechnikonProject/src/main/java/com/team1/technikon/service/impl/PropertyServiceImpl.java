@@ -13,12 +13,11 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import static com.team1.technikon.mapper.MapperTemp.*;
+import static com.team1.technikon.mapper.Mapper.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
 
 @Service
 @AllArgsConstructor
@@ -110,11 +109,15 @@ public class PropertyServiceImpl implements PropertyService {
     @Transactional
     @Override
     public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
-        Property property;
-        property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
         if (property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to modify this entity");
-        if (!isValidPropertyDto(propertyDto)) throw new InvalidInputException("Validation failed! Check user input again.");
-        property = mapToPropertyNoNull(propertyDto);
+        if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
+        if (propertyDto.address()!=null) property.setAddress(propertyDto.address());
+        if (propertyDto.yearOfConstruction()!=null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
+        if (propertyDto.typeOfProperty()!=null) property.setTypeOfProperty(propertyDto.typeOfProperty());
+        if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
+        if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
+        if (!isValidPropertyDto(mapToPropertyDto(property))) throw new InvalidInputException("Validation failed! Check user input again.");
         propertyRepository.save(property);
         return mapToPropertyDto(property);
     }

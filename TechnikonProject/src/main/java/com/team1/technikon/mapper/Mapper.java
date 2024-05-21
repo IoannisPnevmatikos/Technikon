@@ -7,14 +7,18 @@ import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.Repair;
 
-public class MapperTemp {
+public class Mapper {
 
     public static OwnerDto mapToOwnerDto(Owner owner) {
         return new OwnerDto(
                 owner.getTinNumber(),
+                owner.getFirstName(),
+                owner.getLastName(),
+                owner.getUsername(),
+                owner.getPassword(),
+                owner.getEmail(),
                 owner.getAddress(),
-                owner.getPhone(),
-                owner.getUserInfo()
+                owner.getPhone()
         );
     }
 
@@ -23,7 +27,11 @@ public class MapperTemp {
         owner.setTinNumber(ownerDto.tinNumber());
         owner.setAddress(ownerDto.address());
         owner.setPhone(ownerDto.phone());
-        owner.setUserInfo(ownerDto.userInfo());
+        owner.setFirstName(ownerDto.firstName());
+        owner.setLastName(ownerDto.lastName());
+        owner.setUsername(ownerDto.username());
+        owner.setPassword(ownerDto.password());
+        owner.setEmail(ownerDto.email());
         return owner;
     }
 
@@ -89,13 +97,13 @@ public class MapperTemp {
 
     public static Property mapToPropertyNoNull(PropertyDto propertyDto) {
         Property property = new Property();
-        if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
-        if (propertyDto.address()!=null) property.setAddress(propertyDto.address());
-        if (propertyDto.yearOfConstruction()!=null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
-        if (propertyDto.typeOfProperty()!=null) property.setTypeOfProperty(propertyDto.typeOfProperty());
-        if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
-        if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
-        if (propertyDto.owner()!=null) property.setOwner(propertyDto.owner());
+        if (propertyDto.propertyId() != null) property.setPropertyId(propertyDto.propertyId());
+        if (propertyDto.address() != null) property.setAddress(propertyDto.address());
+        if (propertyDto.yearOfConstruction() != null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
+        if (propertyDto.typeOfProperty() != null) property.setTypeOfProperty(propertyDto.typeOfProperty());
+        if (propertyDto.photo() != null) property.setPhoto(propertyDto.photo());
+        if (propertyDto.mapLocation() != null) property.setMapLocation(propertyDto.mapLocation());
+        if (propertyDto.owner() != null) property.setOwner(propertyDto.owner());
         return property;
     }
 
