@@ -13,14 +13,11 @@ import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-
+import static com.team1.technikon.mapper.Mapper.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-
-import static com.team1.technikon.mapper.MapperTemp.*;
-
 
 @Service
 @AllArgsConstructor
@@ -33,14 +30,15 @@ public class PropertyServiceImpl implements PropertyService {
     //CREATE
     @Override
     public PropertyDto createProperty(PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException {
-        if (true) {//isValidPropertyDto(propertyDto)) {
+        if (true){//isValidPropertyDto(propertyDto)) {
             try {
                 log.info("Creating new property {}", propertyDto);
                 return mapToPropertyDto(propertyRepository.save(mapToProperty(propertyDto)));
             } catch (Exception e) {
                 throw new EntityFailToCreateException(e.getMessage());
             }
-        } else {
+        }
+        else {
             throw new InvalidInputException("Validation failed! Check user input again.");
         }
     }
@@ -48,7 +46,7 @@ public class PropertyServiceImpl implements PropertyService {
     //SEARCH
     @Override
     public PropertyDto getPropertyById(Long ownerId, String propertyId) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
-        if (isValidE9(propertyId)) {
+        if (isValidE9(propertyId)){
             try {
                 log.info("Getting property with E9 Number {}", propertyId);
                 PropertyDto propertyDto = mapToPropertyDto(propertyRepository.findByPropertyId(propertyId).get());
@@ -57,7 +55,8 @@ public class PropertyServiceImpl implements PropertyService {
             } catch (Exception e) {
                 throw new EntityNotFoundException(e.getMessage());
             }
-        } else throw new InvalidInputException("Validation failed! Check user input again.");
+        }
+        else throw new InvalidInputException("Validation failed! Check user input again.");
     }
 
     @Override
@@ -68,8 +67,7 @@ public class PropertyServiceImpl implements PropertyService {
 //        });
 //        return response;
         String ownerTin = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested property not found.")).getTinNumber();
-        if (ownerId != null && !tinNumber.matches(ownerTin))
-            throw new UnauthorizedAccessException("You are unable to retrieve this data");
+        if (ownerId != null && !tinNumber.matches(ownerTin)) throw new UnauthorizedAccessException("You are unable to retrieve this data");
         try {
             log.info("Getting all properties from owner {}", tinNumber);
             return propertyRepository.findByOwnerTinNumber(tinNumber);
@@ -111,13 +109,15 @@ public class PropertyServiceImpl implements PropertyService {
     @Transactional
     @Override
     public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
-        Property property;
-        property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
-        if (property.getOwner().getId() != ownerId)
-            throw new UnauthorizedAccessException("You are unable to modify this entity");
-        if (!isValidPropertyDto(propertyDto))
-            throw new InvalidInputException("Validation failed! Check user input again.");
-        property = mapToPropertyNoNull(propertyDto);
+        Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
+        if (property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to modify this entity");
+        if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
+        if (propertyDto.address()!=null) property.setAddress(propertyDto.address());
+        if (propertyDto.yearOfConstruction()!=null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
+        if (propertyDto.typeOfProperty()!=null) property.setTypeOfProperty(propertyDto.typeOfProperty());
+        if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
+        if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
+        if (!isValidPropertyDto(mapToPropertyDto(property))) throw new InvalidInputException("Validation failed! Check user input again.");
         propertyRepository.save(property);
         return mapToPropertyDto(property);
     }
@@ -129,9 +129,9 @@ public class PropertyServiceImpl implements PropertyService {
         try {
             Optional<Property> property = propertyRepository.findById(id);
             if (property.isEmpty()) return false;
-            if (ownerId != null && property.get().getOwner().getId() != ownerId)
-                throw new UnauthorizedAccessException("You are unable to delete this entity");
-            if (property.get().getRepairs().isEmpty()) {
+            if (ownerId != null && property.get().getOwner().getId() != ownerId) throw new UnauthorizedAccessException("You are unable to delete this entity");
+            if (property.get().getRepairs().isEmpty())
+            {
                 propertyRepository.deleteById(id);
             } else {
                 property.get().setActive(false);
