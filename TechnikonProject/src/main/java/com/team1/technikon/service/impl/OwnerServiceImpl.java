@@ -47,8 +47,9 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
         try {
             if (isValidOwner(ownerDto)) {
                 logger.info("Creating an owner {}", ownerDto);
-                mapToOwner(ownerDto).setPassword(encoder.encode(ownerDto.password()));
-                return mapToOwnerDto(ownerRepository.save(mapToOwner(ownerDto)));
+                Owner owner = mapToOwner(ownerDto);
+                owner.setPassword(encoder.encode(ownerDto.password()));
+                return mapToOwnerDto(ownerRepository.save(owner));
             } else throw new OwnerFailToCreateException("Validation failed! Check user input again. ");
         } catch (Exception e) {
             throw new OwnerFailToCreateException(e.getMessage());
