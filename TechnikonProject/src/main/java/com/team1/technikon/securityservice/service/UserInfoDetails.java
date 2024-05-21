@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class UserInfoDetails implements UserDetails {
+    private final long id;
     private final String username;
     private final String password;
     private final List<GrantedAuthority> authorities;
@@ -21,6 +22,7 @@ public class UserInfoDetails implements UserDetails {
     private final boolean enabled = true;
 
     public UserInfoDetails(Owner owner) {
+        id = owner.getId();
         username = owner.getUsername();
         password = owner.getPassword();
         authorities = Arrays.stream(owner.getRole().split(","))

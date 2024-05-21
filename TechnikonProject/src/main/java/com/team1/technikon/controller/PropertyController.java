@@ -6,9 +6,11 @@ import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
+import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.PropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,13 +23,23 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @PostMapping
-    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException {
+    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityFailToCreateException {
+        Long id = null;
+        if (authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
+            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+            id = userInfoDetails.getId();
+        }
         return ResponseEntity.ok(propertyService.createProperty(propertyDto));
     }
 
     @GetMapping("/propertyId")
-    public ResponseEntity<PropertyDto> getProperty(@RequestBody Long ownerId, @RequestBody String propertyId) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
-        return ResponseEntity.ok(propertyService.getPropertyById(ownerId, propertyId));
+    public ResponseEntity<PropertyDto> getProperty(@RequestBody String propertyId, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+        Long id = null;
+        if (authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
+            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+            id = userInfoDetails.getId();
+        }
+        return ResponseEntity.ok(propertyService.getPropertyById(id, propertyId));
     }
 
     @GetMapping("/tinNumber")
