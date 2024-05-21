@@ -111,14 +111,13 @@ public class PropertyServiceImpl implements PropertyService {
     public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
         if (property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to modify this entity");
-        if (!isValidPropertyDto(propertyDto)) throw new InvalidInputException("Validation failed! Check user input again.");
-        Property updateProperty = mapToProperty(propertyDto);
-        if (updateProperty.getPropertyId()!=null) property.setPropertyId(updateProperty.getPropertyId());
-        if (updateProperty.getAddress()!=null) property.setAddress(updateProperty.getAddress());
-        if (updateProperty.getYearOfConstruction()!=null) property.setYearOfConstruction(updateProperty.getYearOfConstruction());
-        if (updateProperty.getTypeOfProperty()!=null) property.setTypeOfProperty(updateProperty.getTypeOfProperty());
-        if (updateProperty.getPhoto()!=null) property.setPhoto(updateProperty.getPhoto());
-        if (updateProperty.getMapLocation()!=null) property.setMapLocation(updateProperty.getMapLocation());
+        if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
+        if (propertyDto.address()!=null) property.setAddress(propertyDto.address());
+        if (propertyDto.yearOfConstruction()!=null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
+        if (propertyDto.typeOfProperty()!=null) property.setTypeOfProperty(propertyDto.typeOfProperty());
+        if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
+        if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
+        if (!isValidPropertyDto(mapToPropertyDto(property))) throw new InvalidInputException("Validation failed! Check user input again.");
         propertyRepository.save(property);
         return mapToPropertyDto(property);
     }
