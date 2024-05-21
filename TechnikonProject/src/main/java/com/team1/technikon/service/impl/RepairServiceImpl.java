@@ -118,18 +118,22 @@ public class RepairServiceImpl implements RepairService {
     public RepairDto updateRepair(long id, RepairDto repairDto) throws EntityNotFoundException, InvalidInputException {
         logger.info("Updating repair for repair ID {}", id);
 
+        Repair repair = repairRepository.findById(id).orElseThrow(() -> {
+            logger.warn("Repair not found with ID: {}", id);
+            return new EntityNotFoundException("Requested repair not found");
+        });
+        if(repair.getLocalDate()!=null) repair.setLocalDate(repairDto.localDate());
+        if(repair.getShortDescription()!=null) repair.setShortDescription((repairDto.shortDescription()));
+        if(repair.getTypeOfRepair()!=null) repair.setTypeOfRepair(repairDto.typeOfRepair());
+        if(repair.getStatusOfRepair()!=null) repair.setStatusOfRepair(repairDto.statusOfRepair());
+        if(repair.getCost()!=null) repair.setCost(repairDto.cost());
+        if(repair.getDescriptionText()!=null) repair.setDescriptionText(repairDto.descriptionText());
+        // DEN YLOPOIEITAI TO UPDATE TO PROPERTY
+
         // VALIDATE ENTITY REPAIR ATTRIBUTES
         RepairValidator.validateCreateRepair(repairDto);
         RepairValidator.validateLocalDate(repairDto.localDate());
 
-        // VALIDATE DATABASE
-        repairRepository.findById(id)
-                .orElseThrow(() -> {
-                    logger.warn("Repair not found with ID: {}", id);
-                    return new EntityNotFoundException("Repair not found with ID: " + id);
-                });
-        Repair repair;
-        repair = mapToRepairNonNull(repairDto);
         repairRepository.save(repair);
         return mapToRepairDto(repair);
 
