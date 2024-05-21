@@ -1,6 +1,6 @@
 package com.team1.technikon.securityservice.service;
 
-import com.team1.technikon.securityservice.model.UserInfo;
+import com.team1.technikon.model.Owner;
 import lombok.Getter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,10 +20,10 @@ public class UserInfoDetails implements UserDetails {
     private final boolean credentialsNonExpired = true;
     private final boolean enabled = true;
 
-    public UserInfoDetails(UserInfo userInfo) {
-        username = userInfo.getUsername();
-        password = userInfo.getPassword();
-        authorities = Arrays.stream(userInfo.getRole().split(","))
+    public UserInfoDetails(Owner owner) {
+        username = owner.getUsername();
+        password = owner.getPassword();
+        authorities = Arrays.stream(owner.getRole().split(","))
                 .map(SimpleGrantedAuthority::new)
                 .collect(Collectors.toList());
     }

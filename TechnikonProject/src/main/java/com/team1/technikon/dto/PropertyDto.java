@@ -10,4 +10,5 @@ public record PropertyDto(String propertyId,
                           TypeOfProperty typeOfProperty,
                           String photo,
                           MapLocation mapLocation,
-                          Owner owner) {}
+                          Owner owner) {
+}

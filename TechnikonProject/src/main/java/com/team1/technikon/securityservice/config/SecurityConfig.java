@@ -1,9 +1,9 @@
 package com.team1.technikon.securityservice.config;
 
 
+import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.securityservice.filter.JwtAuthFilter;
-import com.team1.technikon.securityservice.repository.UserRepository;
-import com.team1.technikon.securityservice.service.UserService;
+import com.team1.technikon.service.impl.OwnerServiceImpl;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -37,8 +37,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/actuator/**",
                                 "/auth/signup/user",
-                                "/auth/login",
-                                "api/**"
+                                "/auth/login"
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**",
@@ -65,7 +64,7 @@ public class SecurityConfig {
     }
 
     @Bean
-    public UserDetailsService userDetailsService(UserRepository repository, PasswordEncoder passwordEncoder) {
-        return new UserService(repository, passwordEncoder);
+    public UserDetailsService userDetailsService(OwnerRepository repository, PasswordEncoder passwordEncoder) {
+        return new OwnerServiceImpl(repository, passwordEncoder);
     }
 }
