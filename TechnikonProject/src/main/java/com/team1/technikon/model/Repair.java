@@ -2,7 +2,9 @@ package com.team1.technikon.model;
 
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 import java.math.BigDecimal;
@@ -10,7 +12,7 @@ import java.time.LocalDate;
 
 @Data
 @Entity
-public class Repair extends BaseModel{
+public class Repair extends BaseModel {
     @Column(columnDefinition = "TIMESTAMP")
     private LocalDate localDate;
     private String shortDescription;

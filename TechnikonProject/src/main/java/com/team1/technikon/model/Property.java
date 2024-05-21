@@ -2,7 +2,10 @@ package com.team1.technikon.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.team1.technikon.model.enums.TypeOfProperty;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToMany;
 import lombok.Data;
 
 import java.util.ArrayList;
@@ -10,7 +13,7 @@ import java.util.List;
 
 @Data
 @Entity
-public class Property extends BaseModel{
+public class Property extends BaseModel {
     @Column(unique = true)
     private String propertyId;
     private String address;
