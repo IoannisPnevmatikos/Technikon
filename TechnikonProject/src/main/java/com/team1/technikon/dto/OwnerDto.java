@@ -1,9 +1,12 @@
 package com.team1.technikon.dto;
 
-import com.team1.technikon.securityservice.model.UserInfo;
-
 public record OwnerDto(String tinNumber,
+                       String firstName,
+                       String lastName,
+                       String username,
+                       String password,
+                       String email,
                        String address,
-                       String phone,
-                       UserInfo userInfo) {
+                       String phone
+) {
 }

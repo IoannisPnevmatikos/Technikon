@@ -1,16 +1,22 @@
 package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.OwnerDto;
+import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.OwnerFailToCreateException;
 import com.team1.technikon.exception.OwnerNotFoundException;
 import com.team1.technikon.mapper.MapperTemp;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
+import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.OwnerService;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -18,23 +24,30 @@ import java.util.Optional;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import static com.team1.technikon.mapper.MapperTemp.mapToOwnerDto;
 import static com.team1.technikon.mapper.MapperTemp.mapToOwner;
+import static com.team1.technikon.mapper.MapperTemp.mapToOwnerDto;
 
 
 @Service
 @AllArgsConstructor(onConstructor_ = {@Autowired})
-public class OwnerServiceImpl implements OwnerService {
+public class OwnerServiceImpl implements OwnerService, UserDetailsService {
 
     private final OwnerRepository ownerRepository;
+    private final PasswordEncoder encoder;
     private static final Logger logger = LoggerFactory.getLogger(OwnerServiceImpl.class);
 
+
+    @Override
+    public OwnerDto getOwnerByUsername(String username) {
+        return mapToOwnerDto(ownerRepository.findByUsername(username).get());
+    }
 
     @Override
     public OwnerDto createOwner(OwnerDto ownerDto) throws OwnerFailToCreateException {
         try {
             if (isValidOwner(ownerDto)) {
                 logger.info("Creating an owner {}", ownerDto);
+                mapToOwner(ownerDto).setPassword(encoder.encode(ownerDto.password()));
                 return mapToOwnerDto(ownerRepository.save(mapToOwner(ownerDto)));
             } else throw new OwnerFailToCreateException("Validation failed! Check user input again. ");
         } catch (Exception e) {
@@ -44,14 +57,40 @@ public class OwnerServiceImpl implements OwnerService {
 
     }
 
+    public String addUser(SignUpDto signUpDto) {
+        Owner owner = new Owner();
+        owner.setRole("USER");
+        owner.setUsername(signUpDto.username());
+        owner.setPassword(encoder.encode(signUpDto.password()));
+        owner.setEmail(signUpDto.email());
+        return ownerRepository.save(owner).toString();
+    }
+
+    @Override
+    public String addAdmin(SignUpDto signUpDto) {
+        Owner owner = new Owner();
+        owner.setRole("ADMIN");
+        owner.setUsername(signUpDto.username());
+        owner.setPassword(encoder.encode(signUpDto.password()));
+        owner.setEmail(signUpDto.email());
+        return ownerRepository.save(owner).toString();
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<Owner> userDetail = ownerRepository.findByUsername(username);
+        return userDetail.map(UserInfoDetails::new)
+                .orElseThrow(() -> new UsernameNotFoundException("User not found " + username));
+    }
+
+
     @Override
     public OwnerDto getOwnerByTin(String tinNumber) throws OwnerNotFoundException {
         try {
             if (isValidTinNumber(tinNumber)) {
                 logger.info("Getting an owner with tin Number {}", tinNumber);
                 return mapToOwnerDto(ownerRepository.findByTinNumber(tinNumber).get());
-            }
-            else throw new  OwnerNotFoundException("Invalid tin Number. Check tinNumber again.");
+            } else throw new OwnerNotFoundException("Invalid tin Number. Check tinNumber again.");
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
@@ -115,6 +154,16 @@ public class OwnerServiceImpl implements OwnerService {
     }
 
     @Override
+    public boolean updateOwnerPassword(String username, String newPw) {
+        return ownerRepository.updateOwnerPassword(username, encoder.encode(newPw)) == 1;
+    }
+
+    @Override
+    public boolean updateOwnerEmail(Long id, String newEmail) {
+        return ownerRepository.updateOwnerEmail(id, newEmail) == 1;
+    }
+
+    @Override
     public List<OwnerDto> getAllOwners() throws OwnerNotFoundException {
         try {
             logger.info("Getting all owners.");
@@ -138,11 +187,6 @@ public class OwnerServiceImpl implements OwnerService {
 
 //    *********************VALIDATIONS*********************
 
-    private boolean isValidOwner(OwnerDto ownerDto) {
-        return isValidTinNumber(ownerDto.tinNumber()) &&
-                isValidPhone(ownerDto.phone());
-    }
-
     private boolean isValidTinNumber(String tinNumber) {
         String regexPattern = "^[0-9]{9}$";
         return Pattern.compile(regexPattern).matcher(tinNumber).matches();
@@ -152,5 +196,26 @@ public class OwnerServiceImpl implements OwnerService {
         return phone.length() == 10;
     }
 
+    private boolean isValidEmail(String email) {
+        String regexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+        return Pattern.compile(regexPattern).matcher(email).matches();
+    }
+
+    private boolean isValidUsername(String username) {
+        String regexPattern = "^[A-Za-z]\\w{5,29}$";
+        return Pattern.compile(regexPattern).matcher(username).matches();
+    }
+
+    private boolean isValidName(String firstName, String lastName) {
+        String regexPattern = "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$";
+        return Pattern.compile(regexPattern).matcher(firstName).matches() && Pattern.compile(regexPattern).matcher(lastName).matches();
+    }
+
+    private boolean isValidOwner(OwnerDto ownerDto) {
+        return (isValidEmail(ownerDto.email()) &&
+                isValidUsername(ownerDto.username()) &&
+                isValidName(ownerDto.firstName(), ownerDto.lastName()) && isValidTinNumber(ownerDto.tinNumber()) &&
+                isValidPhone(ownerDto.phone()));
+    }
 
 }

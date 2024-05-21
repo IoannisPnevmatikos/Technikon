@@ -1,14 +1,9 @@
 package com.team1.technikon.repository;
 
-import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
-import com.team1.technikon.model.enums.TypeOfProperty;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,6 +12,7 @@ import java.util.Optional;
 public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     Optional<Property> findByPropertyId(String propertyId);
+
     List<Property> findByOwnerTinNumber(String tinNumber);
 
     @Query("select p from Property p where p.mapLocation =:mapLocation")

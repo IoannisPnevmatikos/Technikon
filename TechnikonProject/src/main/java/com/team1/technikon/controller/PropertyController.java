@@ -1,11 +1,11 @@
 package com.team1.technikon.controller;
 
 import com.team1.technikon.dto.PropertyDto;
-import com.team1.technikon.dto.ResponseApi;
-import com.team1.technikon.exception.*;
-import com.team1.technikon.model.MapLocation;
+import com.team1.technikon.exception.EntityFailToCreateException;
+import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
-import com.team1.technikon.model.enums.TypeOfProperty;
 import com.team1.technikon.service.PropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

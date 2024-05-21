@@ -20,28 +20,58 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     Optional<Owner> findByTinNumber(String tinNumber);
 
-    @Query ("select o from Owner o where o.userInfo.email =:email")
+    @Query("select o from Owner o where o.email =:email")
     Optional<Owner> findOwnerByEmail(@Param("email") String email);
 
-    @Query ("select o from Owner o where o.userInfo.firstName =:firstName")
+    @Query("select o from Owner o where o.firstName =:firstName")
     Optional<Owner> findOwnerByFirstName(@Param("firstName") String firstName);
 
-    @Query ("select o from Owner o where o.userInfo.lastName =:lastName")
+    @Query("select o from Owner o where o.lastName =:lastName")
     Optional<Owner> findOwnerByLastName(@Param("lastName") String lastName);
 
-   // @Transactional
+    Optional<Owner> findByUsername(String username);
+
+    @Query("select o from Owner o where o.role = :role ")
+    List<Optional<Owner>> findUsersByRole(@Param("role") String role);
+
+    @Transactional
+    @Modifying
+    @Query("update Owner u set u = :user where u.tinNumber = :tinNumber")
+    int updateUserByOwnerTinNumber(@Param("tinNumber") String tinNumber, @Param("user") Owner userInfo);
+
+    @Transactional
+    @Modifying
+    @Query("update Owner o set o = :owner where o.id = :id")
+    int updateUserByOwnerId(@Param("id") Long id, @Param("id") Owner owner);
+
+    @Transactional
+    @Modifying
+    @Query("update Owner o set o.password = :password where o.username = :username")
+    int updateOwnerPassword(@Param("username") String username, @Param("password") String password);
+
+    @Transactional
+    @Modifying
+    @Query("update Owner o set o.email = :password where o.id = :id")
+    int updateOwnerEmail(@Param("id") Long id, @Param("password") String password);
+
+
+    @Modifying
+    @Query("update Owner o set o=:owner")
+    int updateOwner(@Param("owner") Owner owner);
+
+    // @Transactional
     @Modifying
     @Query("update Owner o set o.address = :address where o.tinNumber = :tinNumber")
-    int updateAddress( @Param("address") String address,@Param("tinNumber") String tinNumber);
+    int updateAddress(@Param("address") String address, @Param("tinNumber") String tinNumber);
 
     @Transactional
     @Modifying
     @Query("delete Owner o where o.tinNumber = :tinNumber")
     void deleteByTinNumber(@Param("tinNumber") String tinNumber);
 
-  //  @Transactional
+    //  @Transactional
     @Modifying
     @Query("update Owner o SET o.phone = :phone where o.tinNumber = :tinNumber")
-    int updateOwnerByPhone( @Param("phone") String phone,@Param("tinNumber") String tinNumber);
+    int updateOwnerByPhone(@Param("phone") String phone, @Param("tinNumber") String tinNumber);
 
 }
