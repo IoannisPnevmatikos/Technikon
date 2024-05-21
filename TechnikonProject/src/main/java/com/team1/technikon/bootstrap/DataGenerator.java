@@ -45,8 +45,8 @@ public class DataGenerator {
         ownerService.addAdmin(
                 new SignUpDto(
                         "minkyeong",
-                        "minkyeong.youn@scytalys.com",
-                        "1234"
+                        "1234",
+                        "minkyeong.youn@scytalys.com"
                 )
         );
 
