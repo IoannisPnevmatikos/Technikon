@@ -27,7 +27,7 @@ public interface PropertyService {
     PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException;
 
     //DELETE
-    boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException;
+    boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException;
 
 }
 // update cascade the propertyIds to repairs table
