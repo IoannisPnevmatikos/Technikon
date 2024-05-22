@@ -18,7 +18,6 @@ import static com.team1.technikon.validation.PropertyValidator.isValidE9;
 import static com.team1.technikon.validation.PropertyValidator.isValidPropertyDto;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -65,7 +64,7 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<Property> getPropertyByLocation(Long ownerId) throws EntityNotFoundException {
+    public List<Property> getPropertyByLocation(Long ownerId) {
         return null;
     }
 

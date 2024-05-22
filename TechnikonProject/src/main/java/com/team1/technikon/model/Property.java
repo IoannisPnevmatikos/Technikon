@@ -18,7 +18,7 @@ public class Property extends BaseModel {
     @Column(unique = true)
     private String propertyId;
     private String address;
-    private String yearOfConstruction;
+    private Integer yearOfConstruction;
     private TypeOfProperty typeOfProperty;
     private String photo;
     private MapLocation mapLocation;

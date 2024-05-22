@@ -52,7 +52,7 @@ public class PropertyController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteProperty(@PathVariable long id, Authentication authentication) throws EntityNotFoundException {
+    public ResponseEntity<Boolean> deleteProperty(@PathVariable long id, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
         return ResponseEntity.ok(propertyService.deleteProperty(ownerId, id));

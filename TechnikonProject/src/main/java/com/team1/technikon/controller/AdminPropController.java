@@ -49,7 +49,7 @@ public class AdminPropController {
     }
 
     @DeleteMapping("/property/{id}")
-    public ResponseEntity<Boolean> deleteProperty(@RequestBody long id, Authentication authentication) throws EntityNotFoundException {
+    public ResponseEntity<Boolean> deleteProperty(@RequestBody long id, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         return ResponseEntity.ok(propertyService.deleteProperty(null, id));
     }
 

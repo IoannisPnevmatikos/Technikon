@@ -17,10 +17,9 @@ public class PropertyValidator {
         if (!propertyId.matches("\\d{11}")) throw new InvalidInputException("Validation failed! Invalid E9.");
     }
 
-    public static void isValidYearOfConstruction(String yearOfConstruction) throws InvalidInputException {
+    public static void isValidYearOfConstruction(Integer yearOfConstruction) throws InvalidInputException {
         int minRange = 1800; // Minimum range value
         int maxRange = LocalDate.now().getYear(); // Maximum range value
-        String regex = String.format("\\b([1-9]%d|[1-9]\\d{2}|9[0-%d]\\d|9%d)\\b", minRange / 1000, (maxRange / 1000) % 10, (maxRange % 1000) / 100);
-        if (!yearOfConstruction.matches(regex))  throw new InvalidInputException("Validation failed! Invalid year of construction.");
+        if (yearOfConstruction > maxRange || yearOfConstruction < minRange)  throw new InvalidInputException("Validation failed! Invalid year of construction.");
     }
 }
