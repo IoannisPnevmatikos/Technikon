@@ -39,7 +39,6 @@ public class RepairServiceImpl implements RepairService {
     private final PropertyRepository propertyRepository;
 
     @Override
-//    @CachePut(value = "repairs", key = "#result.id")
     public RepairDto createRepair(long ownerId, RepairDto repairDto) throws EntityFailToCreateException, InvalidInputException {
         logger.info("Creating a repair for owner ID {}: {}", ownerId, repairDto);
 
@@ -79,7 +78,6 @@ public class RepairServiceImpl implements RepairService {
         }
     }
 
-    @Cacheable("repairs")
     @Override
     public List<RepairDto> getRepairByDate(long ownerId, LocalDate localDate) throws EntityNotFoundException, InvalidInputException {
 
@@ -111,7 +109,6 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    @Cacheable("repairs")
     public List<RepairDto> getRepairByRangeOfDates(long ownerId, LocalDate startingDate, LocalDate endingDate) throws EntityNotFoundException, InvalidInputException {
 
         // Validate input dates
@@ -141,7 +138,7 @@ public class RepairServiceImpl implements RepairService {
         return ownerRepairsInRange.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
 
-    @Cacheable("repairs")
+    @Override
     public List<RepairDto> searchByOwnerId(long id) throws EntityNotFoundException {
 
         logger.info("Fetching repairs for owner ID: {}", id);
@@ -163,7 +160,6 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    @CachePut(value = "repairs", key = "#id")
     public RepairDto updateRepair(long ownerId, long id, RepairDto repairDto) throws EntityNotFoundException, InvalidInputException {
         logger.info("Updating repair for repair ID {} and owner ID {}", id, ownerId);
 
@@ -198,7 +194,6 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    @CacheEvict(value = "repairs", key = "#id")
     public void deleteRepair(long ownerId, long id) throws IllegalStateException, EntityNotFoundException {
         logger.info("Deleting repair with ID: {} for owner ID: {}", id, ownerId);
 
