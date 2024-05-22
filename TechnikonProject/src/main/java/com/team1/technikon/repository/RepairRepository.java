@@ -4,6 +4,7 @@ import com.team1.technikon.model.Repair;
 import com.team1.technikon.model.enums.StatusOfRepair;
 import com.team1.technikon.model.enums.TypeOfRepair;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
@@ -14,21 +15,11 @@ import java.util.Optional;
 @Repository
 public interface RepairRepository extends JpaRepository<Repair, Long> {
 
-    Optional<Repair> findByLocalDate(LocalDate localDate);
+    List<Repair> findByLocalDate(LocalDate localDate);
 
-    List<Repair> findByPropertyOwnerTinNumber(String tinNumber);
+    @Query("SELECT r FROM Repair r WHERE r.property.owner.id = :ownerId")
+    List<Repair> findByOwnerId(Long ownerId);
 
     List<Repair> findByLocalDateBetween(LocalDate startingDate, LocalDate endingDate);
-
-    // NOT USED - CAN DELETE THEM
-    Optional<Repair> findByShortDescription(String shortDescription);
-
-    Optional<Repair> findByTypeOfRepair(TypeOfRepair typeOfRepair);
-
-    Optional<Repair> findByStatusOfRepair(StatusOfRepair statusOfRepair);
-
-    Optional<Repair> findByCost(BigDecimal cost);
-
-    Optional<Repair> findByDescriptionText(String descriptionText);
 
 }
