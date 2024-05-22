@@ -29,44 +29,34 @@ public class PropertyServiceImpl implements PropertyService {
 
     //CREATE
     @Override
-    public PropertyDto createProperty(PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException {
-        if (true){//isValidPropertyDto(propertyDto)) {
-            try {
-                log.info("Creating new property {}", propertyDto);
-                return mapToPropertyDto(propertyRepository.save(mapToProperty(propertyDto)));
-            } catch (Exception e) {
-                throw new EntityFailToCreateException(e.getMessage());
-            }
-        }
-        else {
-            throw new InvalidInputException("Validation failed! Check user input again.");
+    public PropertyDto createProperty(long id, PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
+        isValidPropertyDto(propertyDto);
+        log.info("Creating new property {}", propertyDto);
+        Property property = mapToProperty(propertyDto);
+        property.setOwner(ownerRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Owner not found.")));
+        try {
+            return mapToPropertyDto(propertyRepository.save(mapToProperty(propertyDto)));
+        } catch (Exception e) {
+            throw new EntityFailToCreateException(e.getMessage());
         }
     }
 
     //SEARCH
     @Override
     public PropertyDto getPropertyById(Long ownerId, String propertyId) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
-        if (isValidE9(propertyId)){
-            try {
-                log.info("Getting property with E9 Number {}", propertyId);
-                PropertyDto propertyDto = mapToPropertyDto(propertyRepository.findByPropertyId(propertyId).get());
-                if (ownerId == null || ownerId == propertyDto.owner().getId()) return propertyDto;
-                else throw new UnauthorizedAccessException("You are unable to retrieve this data");
-            } catch (Exception e) {
-                throw new EntityNotFoundException(e.getMessage());
-            }
-        }
-        else throw new InvalidInputException("Validation failed! Check user input again.");
+        isValidE9(propertyId);
+        log.info("Getting property with E9 Number {}", propertyId);
+        Property property = propertyRepository.findByPropertyId(propertyId).orElseThrow(() -> new EntityNotFoundException("Property not found."));
+        if (!(ownerId == null || ownerId == property.getOwner().getId())) throw new UnauthorizedAccessException("You are unable to retrieve this data");
+        return mapToPropertyDto(property);
     }
+
+
 
     @Override
     public List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException {
-//        List<Property> properties = propertyRepository.findByOwnerTinNumber(tinNumber);
-//        properties.forEach(property -> {
-//            if (property.isActive()) response.add(property);
-//        });
-//        return response;
-        String ownerTin = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested property not found.")).getTinNumber();
+
+        String ownerTin = ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
         if (ownerId != null && !tinNumber.matches(ownerTin)) throw new UnauthorizedAccessException("You are unable to retrieve this data");
         try {
             log.info("Getting all properties from owner {}", tinNumber);
@@ -143,18 +133,19 @@ public class PropertyServiceImpl implements PropertyService {
         }
     }
 
-    private boolean isValidPropertyDto(PropertyDto propertyDto) {
-        return isValidE9(propertyDto.propertyId()) && isValidYearOfConstruction(propertyDto.yearOfConstruction());
+    private void isValidPropertyDto(PropertyDto propertyDto) throws InvalidInputException {
+        isValidE9(propertyDto.propertyId());
+        isValidYearOfConstruction(propertyDto.yearOfConstruction());
     }
 
-    private boolean isValidE9(String propertyId) {
-        return propertyId.matches("\\d{11}");
+    private void isValidE9(String propertyId) throws InvalidInputException {
+        if (!propertyId.matches("\\d{11}")) throw new InvalidInputException("Validation failed! Invalid E9.");
     }
 
-    private boolean isValidYearOfConstruction(String yearOfConstruction) {
+    private void isValidYearOfConstruction(String yearOfConstruction) throws InvalidInputException {
         int minRange = 1800; // Minimum range value
         int maxRange = LocalDate.now().getYear(); // Maximum range value
         String regex = String.format("\\b([1-9]%d|[1-9]\\d{2}|9[0-%d]\\d|9%d)\\b", minRange / 1000, (maxRange / 1000) % 10, (maxRange % 1000) / 100);
-        return (yearOfConstruction.matches(regex));
+        if (!yearOfConstruction.matches(regex))  throw new InvalidInputException("Validation failed! Invalid year of construction.");
     }
 }

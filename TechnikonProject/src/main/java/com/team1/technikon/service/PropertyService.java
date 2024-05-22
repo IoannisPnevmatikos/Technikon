@@ -12,7 +12,7 @@ import java.util.List;
 public interface PropertyService {
 
     //CREATE
-    PropertyDto createProperty(PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException;
+    PropertyDto createProperty(long id, PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException;
 
     //SEARCH
     PropertyDto getPropertyById(Long ownerId, String propertyId) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException;
