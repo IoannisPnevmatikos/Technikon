@@ -2,8 +2,8 @@ package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.EntityFailToCreateException;
+import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
@@ -38,21 +38,23 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
 
 
     @Override
-    public OwnerDto getOwnerByUsername(String username) {
-        return mapToOwnerDto(ownerRepository.findByUsername(username).get());
+    public OwnerDto getOwnerByUsername(String username) throws EntityNotFoundException {
+
+            return mapToOwnerDto(ownerRepository.findByUsername(username).orElseThrow(()-> new EntityNotFoundException("Entity not found")));
+
     }
 
     @Override
-    public OwnerDto createOwner(OwnerDto ownerDto) throws OwnerFailToCreateException {
+    public OwnerDto createOwner(OwnerDto ownerDto) throws EntityFailToCreateException {
         try {
             if (isValidOwner(ownerDto)) {
                 logger.info("Creating an owner {}", ownerDto);
                 Owner owner = mapToOwner(ownerDto);
                 owner.setPassword(encoder.encode(ownerDto.password()));
                 return mapToOwnerDto(ownerRepository.save(owner));
-            } else throw new OwnerFailToCreateException("Validation failed! Check user input again. ");
+            } else throw new EntityFailToCreateException("Validation failed! Check user input again. ");
         } catch (Exception e) {
-            throw new OwnerFailToCreateException(e.getMessage());
+            throw new EntityFailToCreateException(e.getMessage());
 
         }
 
@@ -61,20 +63,24 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     public String addUser(SignUpDto signUpDto) {
         Owner owner = new Owner();
         owner.setRole("USER");
+        //if(isValidSignUpDto(signUpDto)){
         owner.setUsername(signUpDto.username());
         owner.setPassword(encoder.encode(signUpDto.password()));
         owner.setEmail(signUpDto.email());
+
         return ownerRepository.save(owner).toString();
+        //}
+        //else catch exception  EntityFailToCreateException
     }
 
     @Override
     public String addAdmin(SignUpDto signUpDto) {
         Owner owner = new Owner();
-        owner.setRole("ADMIN");
+        owner.setRole("ADMIN");   //if(isValidSignUpDto(signUpDto)){
         owner.setUsername(signUpDto.username());
         owner.setPassword(encoder.encode(signUpDto.password()));
         owner.setEmail(signUpDto.email());
-        return ownerRepository.save(owner).toString();
+        return ownerRepository.save(owner).toString();    //}
     }
 
     @Override
@@ -86,60 +92,60 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
 
 
     @Override
-    public OwnerDto getOwnerByTin(String tinNumber) throws OwnerNotFoundException {
+    public OwnerDto getOwnerByTin(String tinNumber) throws EntityNotFoundException {
         try {
             if (isValidTinNumber(tinNumber)) {
                 logger.info("Getting an owner with tin Number {}", tinNumber);
                 return mapToOwnerDto(ownerRepository.findByTinNumber(tinNumber).get());
-            } else throw new OwnerNotFoundException("Invalid tin Number. Check tinNumber again.");
+            } else throw new EntityNotFoundException("Invalid tin Number. Check tinNumber again.");
         } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
     @Override
-    public OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException {
-        return mapToOwnerDto(ownerRepository.findOwnerByEmail(email).get());
+    public OwnerDto getOwnerByEmail(String email) throws EntityNotFoundException {
+            return mapToOwnerDto(ownerRepository.findOwnerByEmail(email).orElseThrow(()-> new EntityNotFoundException("Entity not found")));
     }
 
     @Override
-    public OwnerDto getOwnerByFirstName(String firstName) throws OwnerNotFoundException {
-        return mapToOwnerDto(ownerRepository.findOwnerByFirstName(firstName).get());
+    public OwnerDto getOwnerByFirstName(String firstName) throws EntityNotFoundException {
+            return mapToOwnerDto(ownerRepository.findOwnerByFirstName(firstName).orElseThrow(()-> new EntityNotFoundException("Entity not found")));
     }
 
     @Override
-    public OwnerDto getOwnerByLastName(String lastName) throws OwnerNotFoundException {
-        return mapToOwnerDto(ownerRepository.findOwnerByLastName(lastName).get());
+    public OwnerDto getOwnerByLastName(String lastName) throws EntityNotFoundException {
+            return mapToOwnerDto(ownerRepository.findOwnerByLastName(lastName).orElseThrow(()-> new EntityNotFoundException("Entity not found")));
     }
 
     @Override
-    public List<OwnerDto> getAllOwners() throws OwnerNotFoundException {
+    public List<OwnerDto> getAllOwners() throws EntityNotFoundException {
         try {
             logger.info("Getting all owners.");
             return ownerRepository.findAll().stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
         }
 
     }
 
     @Override
-    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
+    public List<OwnerDto> getAllActiveOwners() throws EntityNotFoundException {
         try {
             logger.info("Getting all Activeowners.");
             return ownerRepository.findOwnersByIsActiveTrue().stream().map(Mapper::mapToOwnerDto
             ).collect(Collectors.toList());
         } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
     @Override
-    public OwnerDto updateOwner(String tinNumber, OwnerDto ownerDto) throws OwnerNotFoundException {
+    public OwnerDto updateOwner(String tinNumber, OwnerDto ownerDto) throws EntityNotFoundException {
         try {
            return mapToOwnerDto(ownerRepository.save(mapToOwner(ownerDto)));
         } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 
@@ -149,22 +155,26 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     }
 
     @Override
-    public boolean deleteOwner(String tinNumber) throws OwnerNotFoundException {
+    public boolean deleteOwner(String tinNumber) throws EntityNotFoundException {
         try {
             logger.info("Deleting an owner by tin number {}", tinNumber);
             Optional<Owner> owner = ownerRepository.findByTinNumber(tinNumber);
             // long result = 0;
+
             if (owner.isPresent() && owner.get().getProperties().isEmpty()) {
-                logger.info("Owner found to delete");
-                ownerRepository.deleteByTinNumber(tinNumber);
-            } else {
                 owner.get().setActive(false);
                 ownerRepository.save(owner.get());
-                //  result = 1;
+                return true;
             }
-            return true;
+            else {
+                logger.info("Owner found to delete");
+                ownerRepository.deleteByTinNumber(tinNumber);
+            }
+
+            return false;
+
         } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
+            throw new EntityNotFoundException(e.getMessage());
         }
     }
 

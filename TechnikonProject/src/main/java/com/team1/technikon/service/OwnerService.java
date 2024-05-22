@@ -2,45 +2,43 @@ package com.team1.technikon.service;
 
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.EntityFailToCreateException;
+import com.team1.technikon.exception.EntityNotFoundException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
 import java.util.List;
-
 
 public interface OwnerService extends UserDetailsService {
 
     //CREATE
 
-    String addUser(SignUpDto signUpDto) throws OwnerFailToCreateException;
+    String addUser(SignUpDto signUpDto) throws EntityFailToCreateException;
 
-    String addAdmin(SignUpDto signUpDto);
+    String addAdmin(SignUpDto signUpDto) throws EntityFailToCreateException;
 
-    OwnerDto getOwnerByUsername(String username);
+    OwnerDto getOwnerByUsername(String username) throws EntityNotFoundException;
 
-    OwnerDto createOwner(OwnerDto ownerdto) throws OwnerFailToCreateException;
+    OwnerDto createOwner(OwnerDto ownerdto) throws EntityFailToCreateException;
 
     //SEARCH
-    OwnerDto getOwnerByTin(String tinNumber) throws OwnerNotFoundException;
+    OwnerDto getOwnerByTin(String tinNumber) throws EntityNotFoundException;
 
-    OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException;
+    OwnerDto getOwnerByEmail(String email) throws EntityNotFoundException;
 
-    OwnerDto getOwnerByFirstName(String firstName) throws OwnerNotFoundException;
+    OwnerDto getOwnerByFirstName(String firstName) throws EntityNotFoundException;
 
-    OwnerDto getOwnerByLastName(String lastName) throws OwnerNotFoundException;
+    OwnerDto getOwnerByLastName(String lastName) throws EntityNotFoundException;
 
     // GET ALL DATA
-    List<OwnerDto> getAllOwners() throws OwnerNotFoundException;
+    List<OwnerDto> getAllOwners() throws EntityNotFoundException;
 
-    List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException;
+    List<OwnerDto> getAllActiveOwners() throws EntityNotFoundException;
 
     //UPDATE
-    OwnerDto updateOwner(String tinNumber, OwnerDto ownerDto) throws OwnerNotFoundException;
+    OwnerDto updateOwner(String tinNumber, OwnerDto ownerDto) throws EntityNotFoundException;
 
     boolean updateOwnerPassword(String username, String newPw);
     //DELETE
-    boolean deleteOwner(String tinNumber) throws OwnerNotFoundException;
+    boolean deleteOwner(String tinNumber) throws EntityNotFoundException;
 
 
 }
