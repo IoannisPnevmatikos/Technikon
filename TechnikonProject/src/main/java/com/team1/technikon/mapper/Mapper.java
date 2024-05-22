@@ -67,7 +67,7 @@ public class Mapper {
                 repair.getStatusOfRepair(),
                 repair.getCost(),
                 repair.getDescriptionText(),
-                repair.getProperty()
+                repair.getProperty().getPropertyId() // Return the property ID
         );
     }
 
@@ -79,19 +79,7 @@ public class Mapper {
         repair.setStatusOfRepair(repairDto.statusOfRepair());
         repair.setCost(repairDto.cost());
         repair.setDescriptionText(repairDto.descriptionText());
-        repair.setProperty(repairDto.property());
-        return repair;
-    }
-
-    public static Repair mapToRepairNonNull(RepairDto repairDto) {
-        Repair repair = new Repair();
-        repair.setLocalDate(repairDto.localDate());
-        repair.setShortDescription(repairDto.shortDescription());
-        repair.setTypeOfRepair(repairDto.typeOfRepair());
-        repair.setStatusOfRepair(repairDto.statusOfRepair());
-        repair.setCost(repairDto.cost());
-        repair.setDescriptionText(repairDto.descriptionText());
-        repair.setProperty(repairDto.property());
+        // Note: Property will be set in the service method after fetching it by ID
         return repair;
     }
 
