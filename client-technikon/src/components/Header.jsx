@@ -29,15 +29,18 @@ const Header = () => {
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/owner">Owner</Link>
-          </Typography>          
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to="/property">Properties</Link>
+          </Typography>     
+          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to="/repairs">Repairs</Link>
+          </Typography>     
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/signup">Sign Up</Link>
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to="/login">Login</Link>
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/repairs">Repairs</Link>
           </Typography>
         </Toolbar>
       </AppBar>
