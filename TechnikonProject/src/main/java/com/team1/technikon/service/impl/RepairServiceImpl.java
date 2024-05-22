@@ -13,6 +13,7 @@ import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.repository.PropertyRepository;
 import com.team1.technikon.repository.RepairRepository;
 import com.team1.technikon.service.RepairService;
+import com.team1.technikon.validation.PropertyValidator;
 import com.team1.technikon.validation.RepairValidator;
 import lombok.AllArgsConstructor;
 import org.slf4j.Logger;
@@ -38,13 +39,13 @@ public class RepairServiceImpl implements RepairService {
     private final PropertyRepository propertyRepository;
 
     @Override
-    @CachePut(value = "repairs", key = "#result.id")
+//    @CachePut(value = "repairs", key = "#result.id")
     public RepairDto createRepair(long ownerId, RepairDto repairDto) throws EntityFailToCreateException, InvalidInputException {
         logger.info("Creating a repair for owner ID {}: {}", ownerId, repairDto);
 
         // Validate entity repair attributes
         RepairValidator.validateCreateRepair(repairDto);
-        RepairValidator.validateTinNumber(repairDto.propertyId());
+        PropertyValidator.isValidE9(repairDto.propertyId());
 
         try {
             // Fetch the owner entity using the ownerId
@@ -66,7 +67,7 @@ public class RepairServiceImpl implements RepairService {
             repair.setProperty(managedProperty);
 
             // Save the repair entity
-            repair = repairRepository.save(repair);
+            repairRepository.save(repair);
 
             return Mapper.mapToRepairDto(repair);
         } catch (DataIntegrityViolationException e) {
@@ -188,7 +189,7 @@ public class RepairServiceImpl implements RepairService {
 
         // Validate updated repair attributes
         RepairValidator.validateCreateRepair(repairDto);
-        RepairValidator.validateLocalDate(repairDto.localDate());
+        RepairValidator.validateLocalDateAtCreate(repairDto.localDate());
 
         // Save the updated repair
         repairRepository.save(repair);
@@ -220,6 +221,6 @@ public class RepairServiceImpl implements RepairService {
         }
 
         // Delete the repair
-        repairRepository.delete(repair);
+        repairRepository.deleteById(id);
     }
 }

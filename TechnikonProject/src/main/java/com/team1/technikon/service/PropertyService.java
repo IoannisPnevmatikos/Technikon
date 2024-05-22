@@ -12,14 +12,14 @@ import java.util.List;
 public interface PropertyService {
 
     //CREATE
-    PropertyDto createProperty(PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException;
+    PropertyDto createProperty(long id, PropertyDto propertyDto) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException;
 
     //SEARCH
     PropertyDto getPropertyById(Long ownerId, String propertyId) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException;
 
     List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException;
 
-    List<Property> getPropertyByLocation(Long ownerId) throws EntityNotFoundException; // mallon (x,y)
+    List<Property> getPropertyByLocation(Long ownerId); // mallon (x,y)
 
     List<Property> getAllData();
 
@@ -27,7 +27,7 @@ public interface PropertyService {
     PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException;
 
     //DELETE
-    boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException;
+    boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException;
 
 }
 // update cascade the propertyIds to repairs table

@@ -10,6 +10,7 @@ import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.PropertyService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,54 +24,48 @@ public class PropertyController {
     private PropertyService propertyService;
 
     @PostMapping
-    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityFailToCreateException {
-        Long id = null;
-        if (authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-            id = userInfoDetails.getId();
-        }
-        return ResponseEntity.ok(propertyService.createProperty(propertyDto));
+    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+        long id = userInfoDetails.getId();
+        return ResponseEntity.ok(propertyService.createProperty(id, propertyDto));
     }
 
-    @GetMapping("/propertyId")
-    public ResponseEntity<PropertyDto> getProperty(@RequestBody String propertyId, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
-        Long id = null;
-        if (authentication.getAuthorities().stream().noneMatch(a -> a.getAuthority().equals("ADMIN"))) {
-            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-            id = userInfoDetails.getId();
-        }
+    @GetMapping("/propertyId/{propertyId}")
+    public ResponseEntity<PropertyDto> getProperty(@PathVariable String propertyId, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+        long id = userInfoDetails.getId();
         return ResponseEntity.ok(propertyService.getPropertyById(id, propertyId));
     }
 
-    @GetMapping("/tinNumber")
-    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@RequestBody Long ownerId, @RequestBody String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException {
-        return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(ownerId, tinNumber));
+    @GetMapping("/tinNumber/{tinNumber}")
+    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@PathVariable String tinNumber, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+        long id = userInfoDetails.getId();
+        return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(id, tinNumber));
     }
 
-    @GetMapping("/area")
-    public ResponseEntity<List<Property>> getPropertyByLocation(@RequestBody Long ownerId, @RequestBody String area) throws EntityNotFoundException {
-        return ResponseEntity.ok(propertyService.getPropertyByLocation(ownerId));
-    }
-
-    @PutMapping
-    public ResponseEntity<PropertyDto> updatePropertyId(@RequestBody Long ownerId, @RequestBody long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+    @PutMapping("/{id}")
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+        long ownerId = userInfoDetails.getId();
         return ResponseEntity.ok(propertyService.updateProperty(ownerId, id, propertyDto));
     }
 
-
-    @DeleteMapping
-    public ResponseEntity<Boolean> delete(@RequestBody Long ownerId, @RequestBody long id) throws EntityNotFoundException {
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Boolean> deleteProperty(@PathVariable long id, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+        long ownerId = userInfoDetails.getId();
         return ResponseEntity.ok(propertyService.deleteProperty(ownerId, id));
     }
 
-    //  deleteProperty
-
-    @GetMapping
-    public ResponseEntity<List<Property>> getAllData() {
-        return ResponseEntity.ok(propertyService.getAllData());
-    }
-
 }
+
+    //  deleteProperty
+    ////    @GetMapping("/area")
+    ////    public ResponseEntity<List<Property>> getPropertyByLocation(@RequestBody Long ownerId, @RequestBody String area, Authentication authentication) throws EntityNotFoundException {
+    ////        return ResponseEntity.ok(propertyService.getPropertyByLocation(ownerId));
+    ////    }
+
 
 //    @PutMapping("/propertyId/{propertyId}/{newPropertyId}")
 //    public ResponseApi<Property> updatePropertyId(@PathVariable long propertyId, @PathVariable long newPropertyId) {

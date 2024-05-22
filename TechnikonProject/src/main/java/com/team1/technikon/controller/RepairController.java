@@ -56,7 +56,7 @@ public class RepairController {
     }
 
 
-    @PutMapping("/descText/{id}/{descText}")
+    @PutMapping("/{id}")
     public ResponseEntity<RepairDto> updateRepair(@PathVariable long id, @RequestBody RepairDto repairDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();

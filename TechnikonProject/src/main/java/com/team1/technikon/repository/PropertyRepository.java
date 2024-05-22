@@ -15,8 +15,8 @@ public interface PropertyRepository extends JpaRepository<Property, Long> {
 
     List<Property> findByOwnerTinNumber(String tinNumber);
 
-    @Query("select p from Property p where p.mapLocation =:mapLocation")
-    List<Property> getPropertyByLocation(); // NA TO DOYME META
+//    @Query("select p from Property p where p.mapLocation =:mapLocation")
+//    List<Property> getPropertyByLocation(); // NA TO DOYME META
 
 //    @Query("select p from Property p where p.owner.tinNumber = :tinNumber")
 //    List<Property> getPropertyByOwnerTinNumber(@Param("tinNumber") long tinNumber);

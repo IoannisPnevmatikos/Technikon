@@ -35,6 +35,12 @@ function Footer() {
               <Link href="/owner" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
                 Owner
               </Link>
+              <Link href="/property" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
+                Properties
+              </Link>
+              <Link href="/repair" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
+                Repairs
+              </Link>
               <Link href="/signup" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
                 Sign Up
               </Link>

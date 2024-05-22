@@ -42,8 +42,7 @@ public class Mapper {
                 property.getYearOfConstruction(),
                 property.getTypeOfProperty(),
                 property.getPhoto(),
-                property.getMapLocation(),
-                property.getOwner()
+                property.getMapLocation()
         );
     }
 
@@ -55,7 +54,6 @@ public class Mapper {
         property.setTypeOfProperty(propertyDto.typeOfProperty());
         property.setPhoto(propertyDto.photo());
         property.setMapLocation(propertyDto.mapLocation());
-        property.setOwner(propertyDto.owner());
         return property;
     }
 
@@ -81,18 +79,6 @@ public class Mapper {
         repair.setDescriptionText(repairDto.descriptionText());
         // Note: Property will be set in the service method after fetching it by ID
         return repair;
-    }
-
-    public static Property mapToPropertyNoNull(PropertyDto propertyDto) {
-        Property property = new Property();
-        if (propertyDto.propertyId() != null) property.setPropertyId(propertyDto.propertyId());
-        if (propertyDto.address() != null) property.setAddress(propertyDto.address());
-        if (propertyDto.yearOfConstruction() != null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
-        if (propertyDto.typeOfProperty() != null) property.setTypeOfProperty(propertyDto.typeOfProperty());
-        if (propertyDto.photo() != null) property.setPhoto(propertyDto.photo());
-        if (propertyDto.mapLocation() != null) property.setMapLocation(propertyDto.mapLocation());
-        if (propertyDto.owner() != null) property.setOwner(propertyDto.owner());
-        return property;
     }
 
 }

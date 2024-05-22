@@ -8,6 +8,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,10 +18,11 @@ public class Property extends BaseModel {
     @Column(unique = true)
     private String propertyId;
     private String address;
-    private String yearOfConstruction; // CHEEEECK!!!!!!
+    private Integer yearOfConstruction;
     private TypeOfProperty typeOfProperty;
     private String photo;
     private MapLocation mapLocation;
+    private LocalDate registrationDate = LocalDate.now();
     private boolean isActive = true;
 
     @ManyToOne
