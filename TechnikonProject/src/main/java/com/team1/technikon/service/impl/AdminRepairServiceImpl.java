@@ -40,7 +40,7 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     private final PropertyRepository propertyRepository;
 
     @Override
-    @CachePut(value = "repairs", key = "#result.id")
+//    @CachePut(value = "repairs", key = "#result.id")
     public RepairDto createRepair(RepairDto repairDto) throws EntityFailToCreateException, InvalidInputException {
         logger.info("Creating a repair: {}", repairDto);
 
@@ -165,7 +165,7 @@ public class AdminRepairServiceImpl implements AdminRepairService {
         }
 
         // Delete the repair
-        repairRepository.delete(repair);
+        repairRepository.deleteById(id);
     }
 
     @Override
