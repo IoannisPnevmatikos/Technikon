@@ -66,12 +66,6 @@ public class UserController {
         } else return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
     }
 
-    //    @PreAuthorize("hasAuthority('USER')")
-    @PutMapping("/{userId}/changeEmail")
-    public ResponseEntity<Boolean> changeEmail(@PathVariable(name = "userId") Long userId, @RequestBody String newEmail) throws OwnerNotFoundException {
-        return ResponseEntity.ok(ownerService.updateOwnerEmail(userId, newEmail));
-    }
-
 
 //    @PreAuthorize("hasAuthority('ADMIN')")
 //    @GetMapping("/{userId}/addOwner")

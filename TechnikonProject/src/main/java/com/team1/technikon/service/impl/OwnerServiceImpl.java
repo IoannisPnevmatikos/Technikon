@@ -113,25 +113,39 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     }
 
     @Override
-    public boolean updateAddress(String tinNumber, String address) throws OwnerNotFoundException {
+    public List<OwnerDto> getAllOwners() throws OwnerNotFoundException {
         try {
-            if (ownerRepository.updateAddress(tinNumber, address) == 1)
-                return true;
-            else throw new OwnerNotFoundException("Update failed! Check tinNumber again. ");
+            logger.info("Getting all owners.");
+            return ownerRepository.findAll().stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
+        } catch (Exception e) {
+            throw new OwnerNotFoundException(e.getMessage());
+        }
+
+    }
+
+    @Override
+    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
+        try {
+            logger.info("Getting all Activeowners.");
+            return ownerRepository.findOwnersByIsActiveTrue().stream().map(Mapper::mapToOwnerDto
+            ).collect(Collectors.toList());
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
     }
 
     @Override
-    public boolean updateOwnerByPhone(String tinNumber, String phoneNumber) throws OwnerNotFoundException {
+    public OwnerDto updateOwner(String tinNumber, OwnerDto ownerDto) throws OwnerNotFoundException {
         try {
-            if (ownerRepository.updateOwnerByPhone(tinNumber, phoneNumber) == 1)
-                return true;
-            else throw new OwnerNotFoundException("Update failed! Check tinNumber again. ");
+           return mapToOwnerDto(ownerRepository.save(mapToOwner(ownerDto)));
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }
+    }
+
+    @Override
+    public boolean updateOwnerPassword(String username, String newPw) {
+        return ownerRepository.updateOwnerPassword(username, encoder.encode(newPw)) == 1;
     }
 
     @Override
@@ -149,38 +163,6 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
                 //  result = 1;
             }
             return true;
-        } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
-        }
-    }
-
-    @Override
-    public boolean updateOwnerPassword(String username, String newPw) {
-        return ownerRepository.updateOwnerPassword(username, encoder.encode(newPw)) == 1;
-    }
-
-    @Override
-    public boolean updateOwnerEmail(Long id, String newEmail) {
-        return ownerRepository.updateOwnerEmail(id, newEmail) == 1;
-    }
-
-    @Override
-    public List<OwnerDto> getAllOwners() throws OwnerNotFoundException {
-        try {
-            logger.info("Getting all owners.");
-            return ownerRepository.findAll().stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
-        } catch (Exception e) {
-            throw new OwnerNotFoundException(e.getMessage());
-        }
-
-    }
-
-    @Override
-    public List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException {
-        try {
-            logger.info("Getting all Activeowners.");
-            return ownerRepository.findOwnersByIsActiveTrue().stream().map(Mapper::mapToOwnerDto
-            ).collect(Collectors.toList());
         } catch (Exception e) {
             throw new OwnerNotFoundException(e.getMessage());
         }

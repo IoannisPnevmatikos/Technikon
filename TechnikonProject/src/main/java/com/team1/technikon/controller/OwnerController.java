@@ -60,15 +60,9 @@ public class OwnerController {
         return ResponseEntity.ok(ownerService.getOwnerByUsername(username));
     }
 
-    //
-    @PutMapping("/{tinNumber}/address")
-    public ResponseEntity<Boolean> updateAddress(@PathVariable String tinNumber, @RequestBody String address) throws OwnerNotFoundException {
-        return ResponseEntity.ok(ownerService.updateAddress(tinNumber, address));
-    }
-
-    @PutMapping("/{tinNumber}/phone")
-    public ResponseEntity<Boolean> updatePhone(@PathVariable String tinNumber, @RequestBody String phone) throws OwnerNotFoundException {
-        return ResponseEntity.ok(ownerService.updateOwnerByPhone(tinNumber, phone));
+    @PutMapping("/{tinNumber}")
+    public ResponseEntity<OwnerDto> updateOwner(@PathVariable String tinNumber, @RequestBody OwnerDto ownerDto) throws OwnerNotFoundException {
+        return ResponseEntity.ok(ownerService.updateOwner(tinNumber, ownerDto));
     }
 
     @DeleteMapping("/{tinNumber}")

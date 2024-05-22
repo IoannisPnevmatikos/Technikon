@@ -36,14 +36,11 @@ public interface OwnerService extends UserDetailsService {
     List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException;
 
     //UPDATE
-    boolean updateAddress(String tinNumber, String address) throws OwnerNotFoundException;
+    OwnerDto updateOwner(String tinNumber, OwnerDto ownerDto) throws OwnerNotFoundException;
 
-    boolean updateOwnerByPhone(String tinNumber, String phoneNumber) throws OwnerNotFoundException;
-
+    boolean updateOwnerPassword(String username, String newPw);
     //DELETE
     boolean deleteOwner(String tinNumber) throws OwnerNotFoundException;
 
-    boolean updateOwnerPassword(String username, String newPw);
 
-    boolean updateOwnerEmail(Long id, String newEmail);
 }
