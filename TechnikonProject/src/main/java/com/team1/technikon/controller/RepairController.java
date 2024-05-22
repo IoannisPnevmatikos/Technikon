@@ -33,7 +33,8 @@ public class RepairController {
     @GetMapping("/{date}")
     public ResponseEntity<List<RepairDto>> getRepairsByDate(@PathVariable("date") LocalDate date, Authentication authentication) throws InvalidInputException, EntityNotFoundException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-        long ownerId = userInfoDetails.getId();List<RepairDto> repairs = repairService.getRepairByDate(ownerId,date);
+        long ownerId = userInfoDetails.getId();
+        List<RepairDto> repairs = repairService.getRepairByDate(ownerId,date);
         return ResponseEntity.ok(repairs);
     }
 
@@ -56,7 +57,7 @@ public class RepairController {
 
 
     @PutMapping("/descText/{id}/{descText}")
-    public ResponseEntity<RepairDto> updateRepairId(@PathVariable long id, @RequestBody RepairDto repairDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException {
+    public ResponseEntity<RepairDto> updateRepair(@PathVariable long id, @RequestBody RepairDto repairDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
         RepairDto repair = repairService.updateRepair(ownerId, id, repairDto);
@@ -70,14 +71,6 @@ public class RepairController {
         repairService.deleteRepair(ownerId,id);
         return ResponseEntity.ok().build();
     }
-
-    /*@GetMapping
-    public ResponseEntity<List<RepairDto>> getAllData() throws EntityNotFoundException {
-        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-        Long ownerId = userInfoDetails.getId();
-        List<RepairDto> repairs = repairService.getAllData();
-        return ResponseEntity.ok(repairs);
-    }*/
 }
 
 

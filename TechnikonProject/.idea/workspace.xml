@@ -5,9 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/AdminRepairService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/AdminRepairServiceImpl.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/RepairController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/RepairController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/dto/RepairDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/dto/RepairDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/mapper/Mapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/mapper/Mapper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/repository/RepairRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/repository/RepairRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/RepairService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/RepairService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" afterDir="false" />
@@ -22,9 +26,9 @@
       <list>
         <option value="Enum" />
         <option value="Record" />
-        <option value="Interface" />
         <option value="JUnit5 Test Class" />
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
@@ -90,6 +94,9 @@
   }
 }</component>
   <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="com.team1.technikon.service" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\andreasc\IdeaProjects\Technikon\TechnikonProject\src\main\java\com\team1\technikon" />
     </key>

@@ -18,7 +18,9 @@ public interface RepairRepository extends JpaRepository<Repair, Long> {
     List<Repair> findByLocalDate(LocalDate localDate);
 
     @Query("SELECT r FROM Repair r WHERE r.property.owner.id = :ownerId")
-    List<Repair> findByOwnerId(Long ownerId);
+    List<Repair> findByOwnerId(long ownerId);
+
+    List<Repair> findByOwnerTinNumber(String tinNumber);
 
     List<Repair> findByLocalDateBetween(LocalDate startingDate, LocalDate endingDate);
 

@@ -17,7 +17,7 @@ public interface RepairService {
     List<RepairDto> getRepairByRangeOfDates(long ownerId,LocalDate startingDate, LocalDate endingDate) throws EntityNotFoundException, InvalidInputException;
 
     // ousiastika myrepairs gia ton owner
-    List<RepairDto> searchByOwnerId(long ownerId) throws InvalidInputException, EntityNotFoundException;
+    List<RepairDto> searchByOwnerId(long id) throws InvalidInputException, EntityNotFoundException;
 
     RepairDto updateRepair(long ownerId, long id, RepairDto repairDto) throws EntityNotFoundException, InvalidInputException;
 

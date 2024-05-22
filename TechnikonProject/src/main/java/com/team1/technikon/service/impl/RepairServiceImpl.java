@@ -1,7 +1,6 @@
 package com.team1.technikon.service.impl;
 
 import com.team1.technikon.dto.RepairDto;
-import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
@@ -24,14 +23,9 @@ import org.springframework.cache.annotation.Cacheable;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.team1.technikon.mapper.Mapper.*;
 
 @Service
 @AllArgsConstructor
@@ -45,40 +39,36 @@ public class RepairServiceImpl implements RepairService {
 
     @Override
     @CachePut(value = "repairs", key = "#result.id")
-    public RepairDto createRepair(long ownerId,RepairDto repairDto) throws EntityFailToCreateException, InvalidInputException {
+    public RepairDto createRepair(long ownerId, RepairDto repairDto) throws EntityFailToCreateException, InvalidInputException {
         logger.info("Creating a repair for owner ID {}: {}", ownerId, repairDto);
 
-        // VALIDATE ENTITY REPAIR ATTRIBUTES
+        // Validate entity repair attributes
         RepairValidator.validateCreateRepair(repairDto);
+        RepairValidator.validateTinNumber(repairDto.propertyId());
 
         try {
             // Fetch the owner entity using the ownerId
             Owner owner = ownerRepository.findById(ownerId)
                     .orElseThrow(() -> new InvalidInputException("Owner with ID " + ownerId + " not found."));
 
-            // Validate the property in the repairDto
-            Property property = repairDto.property();
-            if (property == null) {
-                throw new InvalidInputException("Property must be provided.");
-            }
-
             // Fetch the property from the repository to ensure it's managed by the persistence context
-            Property managedProperty = propertyRepository.findById(property.getId())
-                    .orElseThrow(() -> new InvalidInputException("Property with ID " + property.getId() + " not found."));
+            Property managedProperty = propertyRepository.findByPropertyId(repairDto.propertyId())
+                    .orElseThrow(() -> new InvalidInputException("Property with ID " + repairDto.propertyId() + " not found."));
 
             // Ensure the property belongs to the owner
-            if (!Long.valueOf(managedProperty.getOwner().getId()).equals(ownerId)) {
-                throw new InvalidInputException("Property with ID " + property.getId() + " does not belong to owner with ID " + ownerId);
+            if (managedProperty.getOwner().getId() != ownerId) {
+                throw new InvalidInputException("Property with ID " + repairDto.propertyId() + " does not belong to owner with ID " + ownerId);
             }
 
-            Repair repair = mapToRepair(repairDto);
+            // Map RepairDto to Repair entity
+            Repair repair = Mapper.mapToRepair(repairDto);
             // Associate the managed property with the repair
             repair.setProperty(managedProperty);
 
             // Save the repair entity
             repair = repairRepository.save(repair);
 
-            return mapToRepairDto(repair);
+            return Mapper.mapToRepairDto(repair);
         } catch (DataIntegrityViolationException e) {
             logger.error("Failed to create repair: {}", e.getMessage());
             throw new EntityFailToCreateException("Failed to create repair: Duplicate entry or invalid data.");
@@ -87,7 +77,6 @@ public class RepairServiceImpl implements RepairService {
             throw new EntityFailToCreateException("Failed to create repair: " + e.getMessage());
         }
     }
-
 
     @Cacheable("repairs")
     @Override
@@ -107,8 +96,9 @@ public class RepairServiceImpl implements RepairService {
 
         // Filter repairs by the owner's properties
         List<Repair> ownerRepairs = repairs.stream()
-                .filter(repair -> Long.valueOf(repair.getProperty().getOwner().getId()).equals(ownerId))
+                .filter(repair -> repair.getProperty().getOwner().getId() == ownerId)
                 .collect(Collectors.toList());
+
 
         if (ownerRepairs.isEmpty()) {
             logger.warn("No repairs found for the given date: {} and owner ID: {}", localDate, ownerId);
@@ -137,8 +127,9 @@ public class RepairServiceImpl implements RepairService {
 
         // Filter repairs by the owner's properties
         List<Repair> ownerRepairsInRange = repairsInRange.stream()
-                .filter(repair -> Long.valueOf(repair.getProperty().getOwner().getId()).equals(ownerId))
+                .filter(repair -> repair.getProperty().getOwner().getId() == ownerId)
                 .collect(Collectors.toList());
+
 
         if (ownerRepairsInRange.isEmpty()) {
             logger.warn("No repairs found for owner ID {} in the given range of dates: {} to {}", ownerId, startingDate, endingDate);
@@ -149,28 +140,26 @@ public class RepairServiceImpl implements RepairService {
         return ownerRepairsInRange.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
 
-    @Override
     @Cacheable("repairs")
-    public List<RepairDto> searchByOwnerId(long ownerId) throws EntityNotFoundException {
+    public List<RepairDto> searchByOwnerId(long id) throws EntityNotFoundException {
 
-        logger.info("Fetching repairs for owner ID: {}", ownerId);
+        logger.info("Fetching repairs for owner ID: {}", id);
 
         // Fetch the owner entity using the ownerId
-        Owner owner = ownerRepository.findById(ownerId)
-                .orElseThrow(() -> new EntityNotFoundException("Owner with ID " + ownerId + " not found."));
+        Owner owner = ownerRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Owner with ID " + id + " not found."));
 
         // Fetch repairs associated with the owner's properties
-        List<Repair> ownerRepairs = repairRepository.findByOwnerId(ownerId);
+        List<Repair> ownerRepairs = repairRepository.findByOwnerId(id);
 
         if (ownerRepairs.isEmpty()) {
-            logger.warn("No repairs found for owner ID: {}", ownerId);
-            throw new EntityNotFoundException("No repairs found for owner ID: " + ownerId);
+            logger.warn("No repairs found for owner ID: {}", id);
+            throw new EntityNotFoundException("No repairs found for owner ID: " + id);
         }
 
         // Map each Repair entity to RepairDto and return the list
         return ownerRepairs.stream().map(Mapper::mapToRepairDto).collect(Collectors.toList());
     }
-
 
     @Override
     @CachePut(value = "repairs", key = "#id")
@@ -188,13 +177,14 @@ public class RepairServiceImpl implements RepairService {
             throw new InvalidInputException("Repair with ID " + id + " does not belong to the specified owner.");
         }
 
+
         // Update the repair attributes
-        if (repair.getLocalDate() != null) repair.setLocalDate(repairDto.localDate());
-        if (repair.getShortDescription() != null) repair.setShortDescription(repairDto.shortDescription());
-        if (repair.getTypeOfRepair() != null) repair.setTypeOfRepair(repairDto.typeOfRepair());
-        if (repair.getStatusOfRepair() != null) repair.setStatusOfRepair(repairDto.statusOfRepair());
-        if (repair.getCost() != null) repair.setCost(repairDto.cost());
-        if (repair.getDescriptionText() != null) repair.setDescriptionText(repairDto.descriptionText());
+        if (repairDto.localDate() != null) repair.setLocalDate(repairDto.localDate());
+        if (repairDto.shortDescription() != null) repair.setShortDescription(repairDto.shortDescription());
+        if (repairDto.typeOfRepair() != null) repair.setTypeOfRepair(repairDto.typeOfRepair());
+        if (repairDto.statusOfRepair() != null) repair.setStatusOfRepair(repairDto.statusOfRepair());
+        if (repairDto.cost() != null) repair.setCost(repairDto.cost());
+        if (repairDto.descriptionText() != null) repair.setDescriptionText(repairDto.descriptionText());
 
         // Validate updated repair attributes
         RepairValidator.validateCreateRepair(repairDto);
@@ -203,13 +193,12 @@ public class RepairServiceImpl implements RepairService {
         // Save the updated repair
         repairRepository.save(repair);
 
-        return mapToRepairDto(repair);
+        return Mapper.mapToRepairDto(repair);
     }
-
 
     @Override
     @CacheEvict(value = "repairs", key = "#id")
-    public void deleteRepair(long ownerId,long id) throws IllegalStateException, EntityNotFoundException {
+    public void deleteRepair(long ownerId, long id) throws IllegalStateException, EntityNotFoundException {
         logger.info("Deleting repair with ID: {} for owner ID: {}", id, ownerId);
 
         // Fetch the repair entity by ID
@@ -223,6 +212,7 @@ public class RepairServiceImpl implements RepairService {
             throw new IllegalStateException("Cannot delete repair with ID: " + id + ". It does not belong to the specified owner.");
         }
 
+
         // Check if the repair is in PENDING status
         if (!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) {
             logger.error("Cannot delete repair with ID: {}. It is not in PENDING status", id);
@@ -232,75 +222,4 @@ public class RepairServiceImpl implements RepairService {
         // Delete the repair
         repairRepository.delete(repair);
     }
-
-
-    /*@Override
-    @Cacheable("repairs")
-    public List<RepairDto> getAllData() throws EntityNotFoundException {
-        logger.info("Fetching all repairs");
-        List<Repair> allRepairs = repairRepository.findAll();
-        if (allRepairs.isEmpty()) {
-            logger.warn("No repairs found!");
-            throw new EntityNotFoundException("No repairs found!");
-        }
-        return allRepairs.stream()
-                .map(Mapper::mapToRepairDto)
-                .collect(Collectors.toList());
-    }*/
-
-    //@Override
-    /*The method calculates repair reports based on provided date ranges. These reports are dynamically generated and likely to
-    change frequently. Caching data that is frequently updated defeats the purpose of caching, as it
-    would require frequent cache invalidation.*/
-    /*public List<RepairReportDto> getRepairReport(LocalDate startingDate, LocalDate endingDate) throws InvalidInputException, EntityNotFoundException {
-
-        // Validate input dates
-        RepairValidator.validateDateRange(startingDate, endingDate);
-
-        List<Repair> repairs = repairRepository.findByLocalDateBetween(startingDate, endingDate);
-
-        // Check if repairs are found
-        if (repairs.isEmpty()) {
-            throw new EntityNotFoundException("No repairs found for the specified date range.");
-        }
-
-        List<RepairReportDto> reportList = new ArrayList<>();
-
-        BigDecimal pendingTotalCost = BigDecimal.ZERO;
-        int pendingCount = 0;
-        BigDecimal inProgressTotalCost = BigDecimal.ZERO;
-        int inProgressCount = 0;
-        BigDecimal completedTotalCost = BigDecimal.ZERO;
-        int completedCount = 0;
-
-        for (Repair repair : repairs) {
-            StatusOfRepair status = repair.getStatusOfRepair();
-            BigDecimal cost = repair.getCost();
-
-            switch (status) {
-                case PENDING:
-                    pendingTotalCost = pendingTotalCost.add(cost);
-                    pendingCount++;
-                    break;
-                case IN_PROGRESS:
-                    inProgressTotalCost = inProgressTotalCost.add(cost);
-                    inProgressCount++;
-                    break;
-                case COMPLETE:
-                    completedTotalCost = completedTotalCost.add(cost);
-                    completedCount++;
-                    break;
-                default:
-                    break;
-            }
-        }
-
-        reportList.add(new RepairReportDto(StatusOfRepair.PENDING, pendingTotalCost, pendingCount));
-        reportList.add(new RepairReportDto(StatusOfRepair.IN_PROGRESS, inProgressTotalCost, inProgressCount));
-        reportList.add(new RepairReportDto(StatusOfRepair.COMPLETE, completedTotalCost, completedCount));
-
-        logger.info("Repair report for the period {} to {} : {}", startingDate, endingDate, reportList);
-
-        return reportList;
-    }*/
 }
