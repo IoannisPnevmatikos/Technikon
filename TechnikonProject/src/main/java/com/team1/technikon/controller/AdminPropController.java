@@ -13,7 +13,6 @@ import com.team1.technikon.service.RepairService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -44,17 +43,17 @@ public class AdminPropController {
     }
 
     @PutMapping("/property/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
         return ResponseEntity.ok(propertyService.updateProperty(null, id, propertyDto));
     }
 
     @DeleteMapping("/property/{id}")
-    public ResponseEntity<Boolean> deleteProperty(@RequestBody long id, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+    public ResponseEntity<Boolean> deleteProperty(@PathVariable long id) throws EntityNotFoundException, UnauthorizedAccessException {
         return ResponseEntity.ok(propertyService.deleteProperty(null, id));
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
-    @GetMapping
+    @GetMapping("/property")
     public ResponseEntity<List<Property>> getAllData() {
         return ResponseEntity.ok(propertyService.getAllData());
     }

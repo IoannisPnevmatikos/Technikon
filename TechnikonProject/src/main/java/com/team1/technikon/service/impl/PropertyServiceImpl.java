@@ -35,7 +35,7 @@ public class PropertyServiceImpl implements PropertyService {
         Property property = mapToProperty(propertyDto);
         property.setOwner(ownerRepository.findById(id).orElseThrow(()-> new EntityNotFoundException("Owner not found.")));
         try {
-            return mapToPropertyDto(propertyRepository.save(mapToProperty(propertyDto)));
+            return mapToPropertyDto(propertyRepository.save(property));
         } catch (Exception e) {
             throw new EntityFailToCreateException(e.getMessage());
         }
