@@ -11,18 +11,16 @@ function LoginPage() {
   const [username, setUsername] = useState(''); // Changed from email to username
   const [password, setPassword] = useState('');
   const login = useToken((state) => state.login);
-  const token = useToken((state)=> state.token);
+  const {token} = useToken();
 
   const handleSubmit = async (e) => {
 
     e.preventDefault();
     // Implement login logic here
     try {
-    console.log(token)
-    console.log('Logging in with', username, password);
+    console.log('Logging in with', username);
     await login({ username, password });
     alert('You have successfully logged in!');
-    console.log(token)
     navigate(paths.owner);
     } catch (error) {
       console.error('Login failed:', error);
