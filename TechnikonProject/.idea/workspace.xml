@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something" />
+    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/stores/useToken.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/stores/useToken.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Admin/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Admin/Admin.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Owner/Owner.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Owner/Owner.jsx" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,7 +45,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/IoannisPnevmatikos/Technikon.git&quot;,
-    &quot;accountId&quot;: &quot;7ab79ecb-1916-4227-9bb6-67963a8fb740&quot;
+    &quot;accountId&quot;: &quot;5f9fb599-2b44-4a55-baa0-1e33f29bbef3&quot;
   }
 }</component>
   <component name="MarkdownSettingsMigration">
@@ -67,7 +73,7 @@
     &quot;Spring Boot.TechnikonApplication.executor&quot;: &quot;Run&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;IoannisFeature&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;andreas&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/andreasc/IdeaProjects/Technikon/TechnikonProject&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -144,21 +150,13 @@
     </task>
     <task id="LOCAL-00003" summary="testing something">
       <option name="closed" value="true" />
-      <created>1716408181180</created>
+      <created>1716469322786</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1716408181180</updated>
+      <updated>1716469322786</updated>
     </task>
-    <task id="LOCAL-00004" summary="testing something">
-      <option name="closed" value="true" />
-      <created>1716408435636</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1716408435636</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
