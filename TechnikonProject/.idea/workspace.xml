@@ -5,9 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/config/SecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/config/SecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/controller/UserController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/securityservice/controller/UserController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-technikon/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/App.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-technikon/src/components/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/components/Footer.jsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../client-technikon/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/components/Header.jsx" afterDir="false" />
