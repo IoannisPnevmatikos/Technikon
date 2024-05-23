@@ -7,11 +7,12 @@ import login from "../api/Login/login"
     try {
       const token = await login(credentials);
       console.log(token)
-      set((state) => ({token: state.token}));
-   
-    } catch (error) {
+      set({token});
+    } 
+    catch (error) {
       console.error('Login failed:', error);
-    }  },  
+    }  
+  },  
   logout: () => set({ token: null }),
 }));
 
