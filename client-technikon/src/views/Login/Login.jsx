@@ -8,7 +8,7 @@ import useToken from '../../stores/useToken';
 function LoginPage() {
 
   const navigate = useNavigate();
-  const [username, setUsername] = useState(''); // Changed from email to username
+  const [username, setUsername] = useState(''); 
   const [password, setPassword] = useState('');
   const login = useToken((state) => state.login);
   const {token} = useToken();
@@ -37,7 +37,6 @@ function LoginPage() {
           Login
         </Typography>
         <form onSubmit={handleSubmit}>
-          {/* Changed email field to username field */}
           <TextField
             label="Username"
             type="text"
