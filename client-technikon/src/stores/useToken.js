@@ -8,6 +8,7 @@ import login from "../api/Login/login"
       const token = await login(credentials);
       console.log(token)
       set({token});
+      localStorage.setItem('token', token.data)
     } 
     catch (error) {
       console.error('Login failed:', error);
