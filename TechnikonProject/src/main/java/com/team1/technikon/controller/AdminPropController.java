@@ -49,7 +49,7 @@ public class AdminPropController {
     }
 
     @PutMapping("/property/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
         return ResponseEntity.ok(propertyService.updateProperty(null, id, propertyDto));
     }
 

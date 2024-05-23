@@ -84,7 +84,7 @@ public class PropertyServiceImpl implements PropertyService {
     //UPDATE
     @Transactional
     @Override
-    public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
+    public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
         if (ownerId!=null && property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
         if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
@@ -94,7 +94,11 @@ public class PropertyServiceImpl implements PropertyService {
         if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
         if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
         isValidPropertyDto(mapToPropertyDto(property));
-        propertyRepository.save(property);
+        try {
+            propertyRepository.save(property);
+        } catch (Exception e) {
+            throw new EntityFailToCreateException("E9 number for the property conflicts with an already existing property.");
+        }
         return mapToPropertyDto(property);
     }
 

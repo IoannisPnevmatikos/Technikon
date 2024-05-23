@@ -45,7 +45,7 @@ public class PropertyController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
         return ResponseEntity.ok(propertyService.updateProperty(ownerId, id, propertyDto));
