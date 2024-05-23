@@ -1,10 +1,10 @@
 package com.team1.technikon.securityservice.controller;
 
 import com.team1.technikon.dto.SignUpDto;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.securityservice.dto.AuthRequest;
 import com.team1.technikon.securityservice.service.JwtService;
+import com.team1.technikon.service.AdminOwnerService;
 import com.team1.technikon.service.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,20 +22,25 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
     private final OwnerService ownerService;
+    private final AdminOwnerService adminOwnerService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
     @PostMapping("/signup/user")
-    public ResponseEntity<String> addUser(@RequestBody SignUpDto signUpDto) throws OwnerFailToCreateException {
+    public ResponseEntity<String> addUser(@RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
         String response = ownerService.addUser(signUpDto);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("/signup/admin")
-    public ResponseEntity<String> addAdmin(@RequestBody SignUpDto signUpDto) throws OwnerFailToCreateException {
-        String response = ownerService.addAdmin(signUpDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(response);
+    public ResponseEntity<String> addAdmin(@RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
+        try {
+            String response = adminOwnerService.addAdmin(signUpDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+        } catch (Exception e) {
+            throw new EntityFailToCreateException(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
@@ -64,12 +69,6 @@ public class UserController {
         if (authentication.isAuthenticated()) {
             return ResponseEntity.ok(ownerService.updateOwnerPassword(authRequest.getUsername(), newPw));
         } else return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
-    }
-
-    //    @PreAuthorize("hasAuthority('USER')")
-    @PutMapping("/{userId}/changeEmail")
-    public ResponseEntity<Boolean> changeEmail(@PathVariable(name = "userId") Long userId, @RequestBody String newEmail) throws OwnerNotFoundException {
-        return ResponseEntity.ok(ownerService.updateOwnerEmail(userId, newEmail));
     }
 
 

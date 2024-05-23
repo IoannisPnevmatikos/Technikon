@@ -2,48 +2,30 @@ package com.team1.technikon.service;
 
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
-import com.team1.technikon.exception.OwnerFailToCreateException;
-import com.team1.technikon.exception.OwnerNotFoundException;
+import com.team1.technikon.exception.EntityFailToCreateException;
+import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import org.springframework.security.core.userdetails.UserDetailsService;
-
-import java.util.List;
-
 
 public interface OwnerService extends UserDetailsService {
 
     //CREATE
 
-    String addUser(SignUpDto signUpDto) throws OwnerFailToCreateException;
+    String addUser(SignUpDto signUpDto) throws EntityFailToCreateException;
 
-    String addAdmin(SignUpDto signUpDto);
-
-    OwnerDto getOwnerByUsername(String username);
-
-    OwnerDto createOwner(OwnerDto ownerdto) throws OwnerFailToCreateException;
+    OwnerDto createOwner(OwnerDto ownerdto) throws EntityFailToCreateException;
 
     //SEARCH
-    OwnerDto getOwnerByTin(String tinNumber) throws OwnerNotFoundException;
-
-    OwnerDto getOwnerByEmail(String email) throws OwnerNotFoundException;
-
-    OwnerDto getOwnerByFirstName(String firstName) throws OwnerNotFoundException;
-
-    OwnerDto getOwnerByLastName(String lastName) throws OwnerNotFoundException;
-
-    // GET ALL DATA
-    List<OwnerDto> getAllOwners() throws OwnerNotFoundException;
-
-    List<OwnerDto> getAllActiveOwners() throws OwnerNotFoundException;
+    OwnerDto getOwnerById(long id) throws EntityNotFoundException;
 
     //UPDATE
-    boolean updateAddress(String tinNumber, String address) throws OwnerNotFoundException;
-
-    boolean updateOwnerByPhone(String tinNumber, String phoneNumber) throws OwnerNotFoundException;
-
-    //DELETE
-    boolean deleteOwner(String tinNumber) throws OwnerNotFoundException;
+    OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException ;
 
     boolean updateOwnerPassword(String username, String newPw);
+    //DELETE
+    boolean deleteOwnerByTin(String tinNumber) throws EntityNotFoundException;
 
-    boolean updateOwnerEmail(Long id, String newEmail);
+    boolean deleteOwnerById(Long id) throws EntityNotFoundException;
+
+
 }
