@@ -8,15 +8,21 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Repository
 public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
+    @Query("select o from Owner o where o.isActive =:isActive")
+    List<Owner> findOwnersByIsActiveTrue(@Param("isActive") Boolean isActive);
 
-    @Query("select o from Owner o where o.isActive = true")
-    List<Owner> findOwnersByIsActiveTrue();
+    @Query("select o from Owner o where o.role =:role")
+    List<Owner> findOwnersByRole(@Param("role") String role);
+
+    @Query("SELECT o FROM Owner o WHERE o.registrationDate BETWEEN :startDate AND :endDate")
+    List<Owner>findOwnersByRegistrationDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     Optional<Owner> findByTinNumber(String tinNumber);
 
@@ -31,8 +37,12 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     Optional<Owner> findByUsername(String username);
 
-//    @Query("select o from Owner o where o.role = :role ")
-//    List<Optional<Owner>> findUsersByRole(@Param("role") String role);
+//    @Transactional
+//    @Modifying
+//    @Query("update Owner o set o = :entity where o.username = :username")
+//    int updateOwnerByUsername(@Param("username") String username, @Param("entity") Owner entity);
+
+ //   void updateOwnerById(@Param("id") Long id, @Param(""));
 
     @Transactional
     @Modifying

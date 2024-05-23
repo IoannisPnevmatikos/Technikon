@@ -4,11 +4,13 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.TemporalType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,8 +25,10 @@ public class Owner extends BaseModel {
     private String tinNumber;
     private String firstName;
     private String lastName;
+    @Column(unique = true)
     private String username;
     private String password;
+    @Column(unique = true)
     private String email;
     private String address;
     @Column(unique = true)
@@ -33,6 +37,7 @@ public class Owner extends BaseModel {
     @JsonIgnore
     @OneToMany(mappedBy = "owner")
     private List<Property> properties = new ArrayList<>();
-
     private String role;
+    LocalDate registrationDate = LocalDate.now();
+
 }

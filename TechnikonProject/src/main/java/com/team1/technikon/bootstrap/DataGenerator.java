@@ -3,6 +3,7 @@ package com.team1.technikon.bootstrap;
 import com.github.javafaker.Faker;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.*;
+import com.team1.technikon.service.AdminOwnerService;
 import com.team1.technikon.service.OwnerService;
 import com.team1.technikon.service.PropertyService;
 import com.team1.technikon.service.RepairService;
@@ -15,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class DataGenerator {
     private final OwnerService ownerService;
+    private final AdminOwnerService adminOwnerService;
     private final PropertyService propertyService;
     private final RepairService repairService;
 
@@ -26,7 +28,7 @@ public class DataGenerator {
     }
 
     private void run(String... args) throws OwnerFailToCreateException, OwnerNotFoundException, InvalidInputException, EntityFailToCreateException, EntityNotFoundException, UnauthorizedAccessException {
-        ownerService.addAdmin(
+        adminOwnerService.addAdmin(
                 new SignUpDto(
                         "andreas",
                         "1234",
@@ -34,7 +36,7 @@ public class DataGenerator {
                 )
         );
 
-        ownerService.addAdmin(
+        adminOwnerService.addAdmin(
 
                 new SignUpDto(
                         "Ioannis",
@@ -42,7 +44,7 @@ public class DataGenerator {
                         "ioannis.pnevmatikos@scytalys.com"
                 )
         );
-        ownerService.addAdmin(
+        adminOwnerService.addAdmin(
                 new SignUpDto(
                         "minkyeong",
                         "1234",

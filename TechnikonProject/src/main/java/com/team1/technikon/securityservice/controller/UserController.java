@@ -4,6 +4,7 @@ import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.securityservice.dto.AuthRequest;
 import com.team1.technikon.securityservice.service.JwtService;
+import com.team1.technikon.service.AdminOwnerService;
 import com.team1.technikon.service.OwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class UserController {
     private final OwnerService ownerService;
+    private final AdminOwnerService adminOwnerService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
@@ -34,7 +36,7 @@ public class UserController {
     @PostMapping("/signup/admin")
     public ResponseEntity<String> addAdmin(@RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
         try {
-            String response = ownerService.addAdmin(signUpDto);
+            String response = adminOwnerService.addAdmin(signUpDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(response);
         } catch (Exception e) {
             throw new EntityFailToCreateException(e.getMessage());
