@@ -1,22 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import { paths } from '../../constants/paths/paths';
+import { signUser } from '../../api/Signup/sign';
 
 function SignUpPage() {
 
+  const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (password !== confirmPassword) {
       alert('Passwords do not match');
       return;
     }
     // Implement sign-up logic here
-    console.log('Signing up with', email, password);
+
+    try {
+      const response = await signUser({ username, email, password });
+      console.log('Sign-up successful', response);
+      alert('Sign-up successful!');
+      navigate(paths.login);
+    } catch (error) {
+      console.error('Sign-up failed:', error);
+      alert('Sign-up failed. Please try again.');
+      // setError(error);
+    }
   };
 
   return (
@@ -67,7 +80,7 @@ function SignUpPage() {
           </Button>
         </form>
         <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-          Already have an account? <Link to="/">Login</Link>
+          Already have an account? <Link to={paths.login}>Login</Link>
         </Typography>
       </Box>
     </Container>

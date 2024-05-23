@@ -6,6 +6,7 @@ import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
+import com.team1.technikon.model.Repair;
 import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.repository.PropertyRepository;
 import com.team1.technikon.service.PropertyService;
@@ -17,6 +18,7 @@ import static com.team1.technikon.mapper.Mapper.*;
 import static com.team1.technikon.validation.PropertyValidator.isValidE9;
 import static com.team1.technikon.validation.PropertyValidator.isValidPropertyDto;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -51,8 +53,6 @@ public class PropertyServiceImpl implements PropertyService {
         return mapToPropertyDto(property);
     }
 
-
-
     @Override
     public List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException {
         log.info("Getting all properties from owner {}", tinNumber);
@@ -73,10 +73,18 @@ public class PropertyServiceImpl implements PropertyService {
         return propertyRepository.findAll();
     }
 
+    @Override
+    public List<Property> getPropertyByRangeOfDates(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException {
+        log.info("Fetching properties by registration date range: {} to {}", startDate, endDate);
+        List<Property> properties = propertyRepository.findByRegistrationDateBetween(startDate, endDate);
+        if (properties.isEmpty()) throw new EntityNotFoundException("No properties found for the requested date range.");
+        return properties;
+    }
+
     //UPDATE
     @Transactional
     @Override
-    public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException {
+    public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException {
         Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
         if (ownerId!=null && property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
         if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
@@ -86,7 +94,11 @@ public class PropertyServiceImpl implements PropertyService {
         if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
         if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
         isValidPropertyDto(mapToPropertyDto(property));
-        propertyRepository.save(property);
+        try {
+            propertyRepository.save(property);
+        } catch (Exception e) {
+            throw new EntityFailToCreateException("E9 number for the property conflicts with an already existing property.");
+        }
         return mapToPropertyDto(property);
     }
 

@@ -7,6 +7,7 @@ import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface PropertyService {
@@ -23,8 +24,10 @@ public interface PropertyService {
 
     List<Property> getAllData();
 
+    List<Property> getPropertyByRangeOfDates(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException;
+
     //UPDATE
-    PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException;
+    PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException;
 
     //DELETE
     boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException;

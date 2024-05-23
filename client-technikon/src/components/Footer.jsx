@@ -24,31 +24,6 @@ function Footer() {
               © {new Date().getFullYear()} My App. All rights reserved.
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={8}>
-            <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-              <Link href="/" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Home
-              </Link>
-              <Link href="/admin" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Admin
-              </Link>
-              <Link href="/owner" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Owner
-              </Link>
-              <Link href="/property" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Properties
-              </Link>
-              <Link href="/repair" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Repairs
-              </Link>
-              <Link href="/signup" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Sign Up
-              </Link>
-              <Link href="/login" variant="body2" color="textSecondary" sx={{ mx: 1 }}>
-                Login
-              </Link>
-            </Box>
-          </Grid>
         </Grid>
       </Container>
     </Box>

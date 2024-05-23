@@ -5,13 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/RepairController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/RepairController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/repository/RepairRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/repository/RepairRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/AdminRepairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/AdminRepairServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/RepairServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/App.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/App.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/components/Footer.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/components/Footer.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/components/Header.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/components/Header.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/hooks/useAxios.js" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Admin.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Home/Home.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Home/Home.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Owner.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/RepairActionsPage.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Sign/Sign.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Sign/Sign.jsx" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

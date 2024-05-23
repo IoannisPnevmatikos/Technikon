@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @AllArgsConstructor
@@ -42,8 +43,13 @@ public class AdminPropController {
         return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(null, tinNumber));
     }
 
+    @GetMapping("/property/rangeOfDates/{startDate}/{endDate}")
+    public ResponseEntity<List<Property>> getPropertyByRangeOfDates(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) throws EntityNotFoundException {
+        return ResponseEntity.ok(propertyService.getPropertyByRangeOfDates(startDate, endDate));
+    }
+
     @PutMapping("/property/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException {
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
         return ResponseEntity.ok(propertyService.updateProperty(null, id, propertyDto));
     }
 
