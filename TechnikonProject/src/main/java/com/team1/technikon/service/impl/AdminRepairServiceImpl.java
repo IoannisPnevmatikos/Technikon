@@ -40,7 +40,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     private final PropertyRepository propertyRepository;
 
     @Override
-//    @CachePut(value = "repairs", key = "#result.id")
     public RepairDto createRepair(RepairDto repairDto) throws EntityFailToCreateException, InvalidInputException {
         logger.info("Creating a repair: {}", repairDto);
 
@@ -68,7 +67,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
         }
     }
 
-    @Cacheable("repairs")
     @Override
     public List<RepairDto> getRepairByDate(LocalDate localDate) throws EntityNotFoundException, InvalidInputException {
         // Validate input date
@@ -86,7 +84,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     }
 
     @Override
-    @Cacheable("repairs")
     public List<RepairDto> getRepairByRangeOfDates(LocalDate startingDate, LocalDate endingDate) throws EntityNotFoundException, InvalidInputException {
         // Validate input dates
         RepairValidator.validateDateRange(startingDate, endingDate);
@@ -101,7 +98,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     }
 
     @Override
-    @Cacheable("repairs")
     public List<RepairDto> searchByOwnerTinNumber(String tinNumber) throws InvalidInputException, EntityNotFoundException {
         // Validate input
         RepairValidator.validateTinNumber(tinNumber);
@@ -116,7 +112,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     }
 
     @Override
-    @CachePut(value = "repairs", key = "#id")
     public RepairDto updateRepair(long id, RepairDto repairDto) throws EntityNotFoundException, InvalidInputException {
         logger.info("Updating repair for repair ID {}", id);
 
@@ -147,7 +142,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     }
 
     @Override
-    @CacheEvict(value = "repairs", key = "#id")
     public void deleteRepair(long id) throws IllegalStateException, EntityNotFoundException {
         logger.info("Deleting repair with ID: {}", id);
 
@@ -169,7 +163,6 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     }
 
     @Override
-    @Cacheable("repairs")
     public List<RepairDto> getAllData() throws EntityNotFoundException {
         logger.info("Fetching all repairs");
         List<Repair> allRepairs = repairRepository.findAll();
