@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Container, Typography, Box, Button } from '@mui/material';
+import { paths } from '../../constants/paths/paths';
 
 function Home() {
   return (
@@ -22,10 +23,10 @@ function Home() {
           Whether you're a small startup or a large enterprise, Technikon has the expertise and experience to take your business to the next level. Contact us today to learn more about how we can help you succeed.
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'center' }}>
-          <Button component={Link} to="/login" variant="contained" color="primary" sx={{ mr: 2 }}>
+          <Button component={Link} to={paths.login} variant="contained" color="primary" sx={{ mr: 2 }}>
             Login
           </Button>
-          <Button component={Link} to="/signup" variant="outlined" color="primary">
+          <Button component={Link} to={paths.signup} variant="outlined" color="primary">
             Sign Up
           </Button>
         </Box>

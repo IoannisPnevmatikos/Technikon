@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import { paths } from '../../constants/paths/paths';
+import useToken from '../../stores/useToken';
+
 
 function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
-  const handleSubmit = (e) => {
+  const navigate = useNavigate();
+  const [username, setUsername] = useState(''); // Changed from email to username
+  const [password, setPassword] = useState('');
+  const login = useToken((state) => state.login);
+  const token = useToken((state)=> state.token);
+
+  const handleSubmit = async (e) => {
+
     e.preventDefault();
     // Implement login logic here
-    console.log('Logging in with', email, password);
+    try {
+    console.log(token)
+    console.log('Logging in with', username, password);
+    await login({ username, password });
+    alert('You have successfully logged in!');
+    console.log(token)
+    navigate(paths.owner);
+    } catch (error) {
+      console.error('Login failed:', error);
+      alert('Login failed. Please try again.');
+      // setError(error);
+    }
+
   };
 
   return (
@@ -19,11 +39,12 @@ function LoginPage() {
           Login
         </Typography>
         <form onSubmit={handleSubmit}>
+          {/* Changed email field to username field */}
           <TextField
-            label="Email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            label="Username"
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
             required
             fullWidth
             margin="normal"
@@ -42,7 +63,7 @@ function LoginPage() {
           </Button>
         </form>
         <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
-          Don't have an account? <Link to="/signup">Sign up</Link>
+          Don't have an account? <Link to={paths.signup}>Sign up</Link>
         </Typography>
       </Box>
     </Container>

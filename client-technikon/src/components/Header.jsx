@@ -6,6 +6,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { paths } from "./../constants/paths/paths";
 
 const Header = () => {
   return (
@@ -22,25 +23,25 @@ const Header = () => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/">Home</Link>
+            <Link to={paths.home}>Home</Link>
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/admin">Admin</Link>
+            <Link to={paths.admin}>Admin</Link>
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/owner">Owner</Link>
+            <Link to={paths.owner}>Owner</Link>
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/property">Properties</Link>
+            <Link to={paths.property}>Properties</Link>
           </Typography>     
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/repairs">Repairs</Link>
+            <Link to={paths.repair}>Repairs</Link>
           </Typography>     
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/signup">Sign Up</Link>
+            <Link to={paths.signup}>Sign Up</Link>
           </Typography>
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to="/login">Login</Link>
+            <Link to={paths.login}>Login</Link>
           </Typography>
         </Toolbar>
       </AppBar>
