@@ -32,7 +32,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http, AuthenticationProvider authenticationProvider) throws Exception {
         return http
                 .csrf(AbstractHttpConfigurer::disable) //
-                .cors(AbstractHttpConfigurer::disable) // Disable cross origin request
+//                .cors(AbstractHttpConfigurer::disable) // Disable cross origin request
                 .authorizeHttpRequests((ant) -> ant
                         .requestMatchers(
                                 "/actuator/**",
