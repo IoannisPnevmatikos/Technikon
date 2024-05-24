@@ -40,10 +40,17 @@ public class OwnerController {
         return ResponseEntity.ok(ownerService.updateOwner(authId,ownerId,ownerDto));
     }
 
-    @DeleteMapping("")
-    public ResponseEntity<Boolean> deleteOwner(Authentication authentication) throws EntityNotFoundException {
+    @DeleteMapping("/{ownerId}")
+    public ResponseEntity<Boolean> deleteOwner(@PathVariable("ownerId") long ownerId, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(ownerService.deleteOwnerById(userInfoDetails.getId()));
+        Long authId = userInfoDetails.getId();
+        return ResponseEntity.ok(ownerService.deleteOwnerById(authId,ownerId));
     }
+
+//    @DeleteMapping("")
+//    public ResponseEntity<Boolean> deleteOwner(Authentication authentication) throws EntityNotFoundException {
+//        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+//        return ResponseEntity.ok(ownerService.deleteOwnerById(userInfoDetails.getId()));
+//    }
 
 }
