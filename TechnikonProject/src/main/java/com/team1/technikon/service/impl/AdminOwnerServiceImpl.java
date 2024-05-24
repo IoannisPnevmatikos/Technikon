@@ -128,7 +128,7 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     @Transactional
     @Override
     public OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
         if(ownerDto.tinNumber()!=null) owner.setTinNumber(ownerDto.tinNumber());
         if (ownerDto.username()!=null) owner.setUsername(ownerDto.username());
         if (ownerDto.address()!=null) owner.setAddress(ownerDto.address());

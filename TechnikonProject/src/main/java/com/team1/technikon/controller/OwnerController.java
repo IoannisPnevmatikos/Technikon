@@ -20,7 +20,7 @@ public class OwnerController {
     private final OwnerService ownerService;
 
 
-    @PostMapping
+    @PutMapping
     public ResponseEntity<OwnerDto> createOwner(@RequestBody OwnerDto ownerDto, Authentication authentication) throws EntityFailToCreateException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         return ResponseEntity.ok(ownerService.createOwner(ownerDto));

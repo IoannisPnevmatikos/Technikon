@@ -42,15 +42,26 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
 
     }
 
+    @Transactional
     @Override
     public OwnerDto createOwner(OwnerDto ownerDto) throws EntityFailToCreateException {
         try {
-            if (isValidOwner(ownerDto)) {
+            if ( isValidSignUpDto(new SignUpDto(ownerDto.username(),ownerDto.password(),ownerDto.email()))&&ownerRepository.findByUsername(ownerDto.username()).isPresent()) {
                 logger.info("Creating an owner {}", ownerDto);
-                Owner owner = mapToOwner(ownerDto);
-                owner.setPassword(encoder.encode(ownerDto.password()));
+                Long id = ownerRepository.findByUsername(ownerDto.username()).get().getId();
+                logger.info("id was found is : {}",id);
+               Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
+               owner.setPassword(encoder.encode(ownerDto.password()));
+               if (ownerDto.tinNumber()!=null) owner.setTinNumber(ownerDto.tinNumber());
+               if (ownerDto.username()!=null) owner.setUsername(ownerDto.username());
+               if (ownerDto.address()!=null) owner.setAddress(ownerDto.address());
+               if (ownerDto.firstName()!=null) owner.setFirstName(ownerDto.firstName());
+               if (ownerDto.lastName()!=null) owner.setLastName(ownerDto.lastName());
+               if (ownerDto.email()!=null) owner.setEmail(ownerDto.email());
+               if (ownerDto.phone()!=null) owner.setPhone(ownerDto.phone());
+
                 return mapToOwnerDto(ownerRepository.save(owner));
-            } else throw new EntityFailToCreateException("Validation failed! Check user input again. ");
+           } else throw new EntityFailToCreateException("User not present. ");
         } catch (Exception e) {
             throw new EntityFailToCreateException(e.getMessage());
         }
