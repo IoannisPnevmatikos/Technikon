@@ -1,10 +1,27 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Button, TextField, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import FindRepairByDateForm from './FindRepairByDateForm';
+import FindRepairByDateRangeForm from './FindRepairByDateRangeForm';
+import useToken from '../../stores/useToken';
+import MyRepairsForm from './MyRepairsForm';
+import UpdateRepairForm from './UpdateRepairForm';
+import CreateRepairForm from './CreateRepairForm';
+import DeleteRepairForm from './DeleteRepairForm';
+import useRepairActions from './useRepairActions';
 
 function RepairActionsPage() {
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
+  const { token } = useToken();
+  const {
+    handleSubmitCreate,
+    handleSubmitDelete,
+    handleSubmitUpdate,
+    handleSubmitFindByDate,
+    handleSubmitFindByDateRange,
+    handleSubmitMyRepairs
+  } = useRepairActions(token, navigate);
 
   const handleBackClick = () => {
     setActiveForm('');
@@ -14,218 +31,17 @@ function RepairActionsPage() {
   const renderForm = () => {
     switch (activeForm) {
       case 'createRepair':
-        return (
-          <Box component="form" sx={{ mt: 3, width: '100%' }}>
-            <TextField
-              label="Local Date"
-              type="date"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              required
-            />
-            <TextField
-              label="Short Description"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <TextField
-              label="Type of Repair"
-              select
-              fullWidth
-              margin="normal"
-              required
-            >
-              <MenuItem value="Type1">Type1</MenuItem>
-              <MenuItem value="Type2">Type2</MenuItem>
-              {/* Add more options as needed */}
-            </TextField>
-            <TextField
-              label="Status of Repair"
-              select
-              fullWidth
-              margin="normal"
-              required
-            >
-              <MenuItem value="Status1">Status1</MenuItem>
-              <MenuItem value="Status2">Status2</MenuItem>
-              {/* Add more options as needed */}
-            </TextField>
-            <TextField
-              label="Cost"
-              type="number"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <TextField
-              label="Description Text"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <TextField
-              label="Property"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-              Submit
-            </Button>
-            <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
-              Back
-            </Button>
-          </Box>
-        );
+        return <CreateRepairForm handleSubmit={handleSubmitCreate} handleBackClick={handleBackClick} />;
       case 'findRepairByDate':
-        return (
-          <Box component="form" sx={{ mt: 3, width: '100%' }}>
-            <TextField
-              label="Local Date"
-              type="date"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-              Submit
-            </Button>
-            <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
-              Back
-            </Button>
-          </Box>
-        );
+        return <FindRepairByDateForm handleSubmit={handleSubmitFindByDate} handleBackClick={handleBackClick} />;
       case 'findRepairByDateRange':
-        return (
-          <Box component="form" sx={{ mt: 3, width: '100%' }}>
-            <TextField
-              label="Starting Date"
-              type="date"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              required
-            />
-            <TextField
-              label="Ending Date"
-              type="date"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              required
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-              Submit
-            </Button>
-            <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
-              Back
-            </Button>
-          </Box>
-        );
+        return <FindRepairByDateRangeForm handleSubmit={handleSubmitFindByDateRange} handleBackClick={handleBackClick} />;
+      case 'myRepairs':
+        return <MyRepairsForm handleSubmit={handleSubmitMyRepairs} handleBackClick={handleBackClick} />;
       case 'updateRepair':
-        return (
-          <Box component="form" sx={{ mt: 3, width: '100%' }}>
-            <TextField
-              label="Local Date"
-              type="date"
-              fullWidth
-              margin="normal"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              required
-            />
-            <TextField
-              label="Short Description"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <TextField
-              label="Type of Repair"
-              select
-              fullWidth
-              margin="normal"
-              required
-            >
-              <MenuItem value="Type1">Type1</MenuItem>
-              <MenuItem value="Type2">Type2</MenuItem>
-              {/* Add more options as needed */}
-            </TextField>
-            <TextField
-              label="Status of Repair"
-              select
-              fullWidth
-              margin="normal"
-              required
-            >
-              <MenuItem value="Status1">Status1</MenuItem>
-              <MenuItem value="Status2">Status2</MenuItem>
-              {/* Add more options as needed */}
-            </TextField>
-            <TextField
-              label="Cost"
-              type="number"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <TextField
-              label="Description Text"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <TextField
-              label="Property"
-              fullWidth
-              margin="normal"
-              required
-            />
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-              Submit
-            </Button>
-            <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
-              Back
-            </Button>
-          </Box>
-        );
-        case 'deleteRepair':
-        return (
-          <Box component="form" sx={{ mt: 3, width: '100%' }}>
-            <TextField
-              select
-              label="Select Repair ID"
-              fullWidth
-              value=""
-              onChange={() => {}}
-              margin="normal"
-              required
-            >
-              <MenuItem value="ID1">ID1</MenuItem>
-              <MenuItem value="ID2">ID2</MenuItem>
-              <MenuItem value="ID3">ID3</MenuItem>
-              {/* Add more options as needed */}
-            </TextField>
-            <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-              Delete
-            </Button>
-            <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
-              Back
-            </Button>
-          </Box>
-        );
+        return <UpdateRepairForm handleSubmit={handleSubmitUpdate} handleBackClick={handleBackClick} />;
+      case 'deleteRepair':
+        return <DeleteRepairForm handleSubmit={handleSubmitDelete} handleBackClick={handleBackClick} />;
       default:
         return null;
     }
@@ -258,9 +74,6 @@ function RepairActionsPage() {
             </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('deleteRepair')}>
               Delete a Repair
-            </Button>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('getAllRepairs')}>
-              Get All my Repairs
             </Button>
           </Box>
         )}
