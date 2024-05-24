@@ -42,9 +42,11 @@ public class SecurityConfig {
                                 "/actuator/**",
                                 "/auth/signup/user",
                                 "/auth/login"
+
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**",
+                                "/api/admin/*",
                                 "/auth/signup/admin",
                                 "/auth/logout"
                         ).authenticated() // 8elei authentication
