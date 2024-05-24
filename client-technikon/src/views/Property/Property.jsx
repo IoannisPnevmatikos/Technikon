@@ -3,10 +3,10 @@ import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import { paths } from '../../constants/paths/paths';
 import useToken from '../../stores/useToken';
-import CreatePropertyForm from './CreatePropertyForm';
-import FindPropertyByE9Form from './FindPropertyByE9Form';
-import UpdatePropertyForm from './UpdatePropertyForm';
-import DeletePropertyForm from './DeletePropertyForm';
+import CreatePropertyForm from './PropertyForms/CreatePropertyForm';
+import FindPropertyByE9Form from './PropertyForms/FindPropertyByE9Form';
+import UpdatePropertyForm from './PropertyForms/UpdatePropertyForm';
+import DeletePropertyForm from './PropertyForms/DeletePropertyForm';
 import usePropertyActions from './usePropertyActions';
 
 function Property() {
@@ -18,6 +18,7 @@ function Property() {
     handleSubmitDelete,
     handleSubmitUpdate,
     handleSubmitFindByE9,
+    handleFindMyProperties, // New function for "Find My Properties" option
   } = usePropertyActions(token, navigate);
 
   const handleBackClick = () => {
@@ -52,6 +53,9 @@ function Property() {
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 4 }}>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('createProperty')}>
               Create a Property
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => handleFindMyProperties()}>
+              Find My Properties
             </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findPropertyByE9')}>
               Find a Property by E9

@@ -1,22 +1,17 @@
 import React from 'react';
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import { Box, Button, TextField } from '@mui/material';
 
 const DeletePropertyForm = ({ handleSubmit, handleBackClick }) => (
   <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
     <TextField
-      name="propertyE9"
-      select
-      label="Select Property E9"
+      name="id"
+      label="Property ID"
+      type="number"
       fullWidth
       margin="normal"
       required
-      inputProps={{ maxLength: 11, pattern: "[0-9]{11}" }}
-    >
-      <MenuItem value="E9-1">E9-1</MenuItem>
-      <MenuItem value="E9-2">E9-2</MenuItem>
-      <MenuItem value="E9-3">E9-3</MenuItem>
-      {/* Add more options as needed */}
-    </TextField>
+      inputProps={{ pattern: "\\d*", min: "0" }}
+    />
     <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
       Delete
     </Button>

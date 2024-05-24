@@ -6,6 +6,7 @@ import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
+import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.PropertyService;
 import lombok.AllArgsConstructor;
@@ -37,11 +38,11 @@ public class PropertyController {
         return ResponseEntity.ok(propertyService.getPropertyById(id, propertyId));
     }
 
-    @GetMapping("/tinNumber/{tinNumber}")
-    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@PathVariable String tinNumber, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+    @GetMapping("/tinNumber")
+    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(Authentication authentication) throws EntityNotFoundException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long id = userInfoDetails.getId();
-        return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(id, tinNumber));
+        return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(id, null));
     }
 
     @PutMapping("/{id}")
@@ -59,37 +60,4 @@ public class PropertyController {
     }
 
 }
-
-    //  deleteProperty
-    ////    @GetMapping("/area")
-    ////    public ResponseEntity<List<Property>> getPropertyByLocation(@RequestBody Long ownerId, @RequestBody String area, Authentication authentication) throws EntityNotFoundException {
-    ////        return ResponseEntity.ok(propertyService.getPropertyByLocation(ownerId));
-    ////    }
-
-
-//    @PutMapping("/propertyId/{propertyId}/{newPropertyId}")
-//    public ResponseApi<Property> updatePropertyId(@PathVariable long propertyId, @PathVariable long newPropertyId) {
-//        return propertyService.updatePropertyId(propertyId, newPropertyId);
-//    }
-//
-//    @PutMapping("/address/{propertyId}/{address}")
-//    public ResponseApi<Property> updateAddress(@PathVariable long propertyId, @PathVariable  String address) {
-//        return propertyService.updateAddress(propertyId, address);
-//    }
-//    @PutMapping("/yearOfConstruction/{propertyId}/{yearOfConstruction}")
-//    public ResponseApi<Property> updateYearOfConstruction(@PathVariable long propertyId, @PathVariable  String yearOfConstruction) {
-//        return propertyService.updateYearOfConstruction(propertyId, yearOfConstruction );
-//    }
-//    @PutMapping("/typeOfProperty/{propertyId}/{typeOfProperty}")
-//    public ResponseApi<Property> updatePropertyType(@PathVariable long propertyId, @PathVariable TypeOfProperty typeOfProperty) {
-//        return propertyService.updatePropertyType(propertyId, typeOfProperty);
-//    }
-//    @PutMapping("/photo/{propertyId}/{photo}")
-//    public ResponseApi<Property> updatePhoto(@PathVariable long propertyId, @PathVariable  String photo) {
-//        return propertyService.updatePhoto(propertyId, photo);
-//    }
-//    @PutMapping("/mapLocation/{propertyId}")
-//    public ResponseApi<Property> updateMapLocation(@PathVariable long propertyId, @RequestBody MapLocation mapLocation) {
-//        return propertyService.updateMapLocation(propertyId, mapLocation);
-//    }
 

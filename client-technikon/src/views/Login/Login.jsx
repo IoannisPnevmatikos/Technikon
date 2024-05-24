@@ -18,10 +18,16 @@ function LoginPage() {
     e.preventDefault();
     // Implement login logic here
     try {
-    console.log('Logging in with', username);
-    await login({ username, password });
-    alert('You have successfully logged in!');
-    navigate(paths.owner);
+      console.log('Logging in with', username);
+      await login({ username, password });
+      if (token.status === 200) {
+        alert('You have successfully logged in!');
+        navigate(paths.owner);
+      }
+      else {
+        console.error('Login failed:');
+        alert('Login failed. Please try again.');
+      }
 
     } catch (error) {
       console.error('Login failed:', error);
