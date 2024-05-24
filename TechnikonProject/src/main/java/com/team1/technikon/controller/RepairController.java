@@ -47,7 +47,7 @@ public class RepairController {
         return ResponseEntity.ok(repairs);
     }
 
-    @GetMapping("/tinNumber/{tinNumber}")
+    @GetMapping("/tinNumber")
     public ResponseEntity<List<RepairDto>> searchRepairsByOwnerId(Authentication authentication) throws InvalidInputException, EntityNotFoundException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
