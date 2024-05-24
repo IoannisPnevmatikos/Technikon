@@ -33,6 +33,7 @@ const Owner = () => {
   const [isLoading, setIsLoading] = useState(true);
 
   const {token} = useToken();
+  console.log(token)
 
   useEffect(() => {
     axios
@@ -49,7 +50,7 @@ const Owner = () => {
   return (
     <div>
       <h1>Admin page</h1>
-      <h1>{token?.data}</h1>
+      <h1>{token}</h1>
       <div>{isLoading ? <h3>Loading...</h3> : <h3>{joke}</h3>}</div>
     </div>
   );
