@@ -39,7 +39,7 @@ public class OwnerController {
         return ResponseEntity.ok(ownerService.updateOwner(authId,ownerId,ownerDto));
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("")
     public ResponseEntity<Boolean> deleteOwner(Authentication authentication) throws EntityNotFoundException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         return ResponseEntity.ok(ownerService.deleteOwnerById(userInfoDetails.getId()));

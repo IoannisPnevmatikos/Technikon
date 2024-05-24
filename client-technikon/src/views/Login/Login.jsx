@@ -22,6 +22,7 @@ function LoginPage() {
     await login({ username, password });
     alert('You have successfully logged in!');
     navigate(paths.owner);
+
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Please try again.');
