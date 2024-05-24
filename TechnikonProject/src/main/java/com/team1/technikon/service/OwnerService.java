@@ -16,7 +16,7 @@ public interface OwnerService extends UserDetailsService {
     OwnerDto createOwner(OwnerDto ownerdto) throws EntityFailToCreateException;
 
     //SEARCH
-    OwnerDto getOwnerById(long id) throws EntityNotFoundException;
+    OwnerDto getOwnerById(Long authId, long id) throws EntityNotFoundException,UnauthorizedAccessException;
 
     //UPDATE
     OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException ;

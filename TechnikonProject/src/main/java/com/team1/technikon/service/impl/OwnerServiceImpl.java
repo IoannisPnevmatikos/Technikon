@@ -89,8 +89,9 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     }
 
     @Override
-    public OwnerDto getOwnerById(long id) throws EntityNotFoundException {
+    public OwnerDto getOwnerById(Long authId,long id) throws EntityNotFoundException,UnauthorizedAccessException {
         Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        if (authId!=null && owner.getId()!=authId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
         return mapToOwnerDto(owner);
     }
 
@@ -98,7 +99,7 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     @Override
     public OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException {
 
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
+        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
         if (authId!=null && owner.getId()!=authId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
         if(ownerDto.tinNumber()!=null) owner.setTinNumber(ownerDto.tinNumber());
         if (ownerDto.username()!=null) owner.setUsername(ownerDto.username());

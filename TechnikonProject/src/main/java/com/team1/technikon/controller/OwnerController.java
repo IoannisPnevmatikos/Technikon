@@ -26,10 +26,11 @@ public class OwnerController {
         return ResponseEntity.ok(ownerService.createOwner(ownerDto));
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<OwnerDto> getOwnerById(Authentication authentication) throws EntityNotFoundException {
+    @GetMapping("/{ownerId}")
+    public ResponseEntity<OwnerDto> getOwnerById(@PathVariable("ownerId") long ownerId,Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-        return ResponseEntity.ok(ownerService.getOwnerById(userInfoDetails.getId()));
+        Long authId = userInfoDetails.getId();
+        return ResponseEntity.ok(ownerService.getOwnerById(authId,ownerId));
     }
 
     @PutMapping("/{ownerId}")
