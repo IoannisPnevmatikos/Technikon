@@ -5,12 +5,11 @@ const MyRepairs = async (formData, token) => {
     // Extract form data entries once
     const data = Object.fromEntries(formData.entries());
 
-    console.log(data.startDate);
-    console.log(data.endDate);
+    console.log(data);
 
     // Send GET request
     return axios.get(
-        `${base_url}${uri.api}${uri.repair}/tinNumber}`,
+        `${base_url}${uri.api}${uri.repair}/tinNumber`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,

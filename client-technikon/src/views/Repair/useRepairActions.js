@@ -5,6 +5,7 @@ import deleteRepair from '../../api/Repair/User/deleteRepair';
 import findRepairByDate from '../../api/Repair/User/findRepairByDate';
 import findRepairByDateRange from '../../api/Repair/User/findRepairByDateRange';
 import {paths} from '../../constants/paths/paths'
+import MyRepairs from '../../api/Repair/User/MyRepairs';
 
 const useRepairActions = (token, navigate) => {
 
@@ -88,7 +89,7 @@ const useRepairActions = (token, navigate) => {
         const formData = new FormData(event.target);
     
         try {
-            const response = await MyRepais(formData, token?.data); // Pass the token here
+            const response = await MyRepairs(formData, token?.data); // Pass the token here
             console.log('Loaded your repairs successfully', response);
             alert('Loaded repairs!');
             navigate(paths.repair);
