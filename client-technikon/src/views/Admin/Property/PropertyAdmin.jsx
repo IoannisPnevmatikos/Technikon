@@ -1,30 +1,33 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { paths } from '../../constants/paths/paths';
-import useToken from '../../stores/useToken';
+import { paths } from '../../../constants/paths/paths';
+import useToken from '../../../stores/useToken'
 import CreatePropertyForm from './PropertyForms/CreatePropertyForm';
 import FindPropertyByE9Form from './PropertyForms/FindPropertyByE9Form';
 import UpdatePropertyForm from './PropertyForms/UpdatePropertyForm';
 import DeletePropertyForm from './PropertyForms/DeletePropertyForm';
-import usePropertyActions from './usePropertyActions';
+import FindOwnerPropertiesForm from './PropertyForms/FindOwnerPropertiesForm'; // New form component
+import FindPropertiesBetweenForm from './PropertyForms/FindPropertiesBetweenForm'; // New form component
+import usePropertyActions from './usePropertyAdminActions';
 
-function Property() {
+function PropertyAdmin() {
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
-
+  console.log(token?.data)
   const {
     handleSubmitCreate,
     handleSubmitDelete,
     handleSubmitUpdate,
     handleSubmitFindByE9,
-    handleFindMyProperties, // New function for "Find My Properties" option
+    handleSubmitFindByTin, // New function for "Find Owner Properties by TIN Number" option
+    handleSubmitFindBetweenDates, // New function for "Find Properties Registered Between" option
   } = usePropertyActions(token, navigate);
 
   const handleBackClick = () => {
     setActiveForm('');
-    navigate(paths.property);
+    navigate(paths.adminProperty);
   };
 
   const renderForm = () => {
@@ -37,6 +40,10 @@ function Property() {
         return <UpdatePropertyForm handleSubmit={handleSubmitUpdate} handleBackClick={handleBackClick} />;
       case 'deleteProperty':
         return <DeletePropertyForm handleSubmit={handleSubmitDelete} handleBackClick={handleBackClick} />;
+      case 'findOwnerProperties':
+        return <FindOwnerPropertiesForm handleSubmit={handleSubmitFindByTin} handleBackClick={handleBackClick} />; // New form
+      case 'findPropertiesBetween':
+        return <FindPropertiesBetweenForm handleSubmit={handleSubmitFindBetweenDates} handleBackClick={handleBackClick} />; // New form
       default:
         return null;
     }
@@ -55,8 +62,11 @@ function Property() {
             <Button variant="contained" color="primary" onClick={() => setActiveForm('createProperty')}>
               Create a Property
             </Button>
-            <Button variant="contained" color="primary" onClick={() => handleFindMyProperties()}>
-              Find My Properties
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerProperties')}>
+              Find Owner Properties by TIN Number
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('findPropertiesBetween')}>
+              Find Properties Registered Between
             </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findPropertyByE9')}>
               Find a Property by E9
@@ -74,4 +84,4 @@ function Property() {
   );
 }
 
-export default Property;
+export default PropertyAdmin;
