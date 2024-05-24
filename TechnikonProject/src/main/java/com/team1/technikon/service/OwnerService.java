@@ -25,7 +25,7 @@ public interface OwnerService extends UserDetailsService {
     //DELETE
     boolean deleteOwnerByTin(String tinNumber) throws EntityNotFoundException;
 
-    boolean deleteOwnerById(Long id) throws EntityNotFoundException;
+    boolean deleteOwnerById(Long authId,Long id) throws EntityNotFoundException, UnauthorizedAccessException;
 
 
 }
