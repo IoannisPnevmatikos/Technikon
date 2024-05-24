@@ -58,7 +58,6 @@ public class AdminPropertyController {
         return ResponseEntity.ok(propertyService.deleteProperty(null, id));
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
     @GetMapping("/property")
     public ResponseEntity<List<Property>> getAllData() {
         return ResponseEntity.ok(propertyService.getAllData());
