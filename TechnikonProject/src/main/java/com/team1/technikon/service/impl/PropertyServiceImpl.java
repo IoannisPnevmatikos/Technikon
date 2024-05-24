@@ -54,15 +54,15 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException {
-        log.info("Getting all properties from owner {}", tinNumber);
         String ownerTin;
         if (tinNumber!=null) {
-            ownerTin = ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
+            ownerTin = tinNumber;
         }
         else {
             ownerTin = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
         }
-        List<Property> properties = propertyRepository.findByOwnerTinNumber(tinNumber);
+        log.info("Getting all properties from owner {}", ownerTin);
+        List<Property> properties = propertyRepository.findByOwnerTinNumber(ownerTin);
         if (properties.isEmpty()) throw new EntityNotFoundException("No properties found for the requested user.");
         return properties;
     }
