@@ -13,10 +13,9 @@ import logout from "../api/Logout/logout";
 const Header = () => {
   
   const {token} = useToken();
- logout();
   function handleLogout() {
     logout();
-    navigate('/');
+    navigate(paths.owner);
   }
 
   return (
@@ -47,18 +46,8 @@ const Header = () => {
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to={paths.repair}>Repairs</Link>
           </Typography>     
-          {
-            token!="" && (<>
-             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.owner}>Profile</Link>
-          </Typography>  
-          <Button type="submit" id="logOutBtn" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleLogout}>
-            LogOut
-          </Button>
-            </>)
-            
-          }
-           {!token && (
+      
+           {token ==null ? (
             <>
              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             <Link to={paths.signup}>Sign Up</Link>
@@ -67,7 +56,14 @@ const Header = () => {
             <Link to={paths.login}>Login</Link>
           </Typography>
             </>
-           )}
+           ):(<>
+                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+            <Link to={paths.owner}>Profile</Link>
+          </Typography>  
+          <Button type="submit" id="logOutBtn" variant="contained" color="primary" size="small" sx={{ mt: 2 }} onClick={handleLogout}>
+            LogOut
+          </Button></>)
+          }
 
           {/* 
            {user && (

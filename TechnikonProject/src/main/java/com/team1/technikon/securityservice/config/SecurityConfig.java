@@ -45,7 +45,8 @@ public class SecurityConfig {
                         ).permitAll() // Den 8elei authentication
                         .requestMatchers(
                                 "/api/**",
-                                "/auth/signup/admin"
+                                "/auth/signup/admin",
+                                "/auth/logout"
                         ).authenticated() // 8elei authentication
                 )
                 .authenticationProvider(authenticationProvider)
