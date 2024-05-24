@@ -22,14 +22,23 @@ function SignUpPage() {
 
     try {
       const response = await signUser({ username, email, password });
-      console.log('Sign-up successful', response);
-      alert('Sign-up successful!');
-      navigate(paths.login);
+      console.log(response)
+      if (response.status === 201) {
+        console.log('Sign-up successful');
+        alert('Sign-up successful!');
+        navigate(paths.login);
+      }
+      else {
+        console.error('Sign-up failed:');
+        alert('Sign-up failed. Please try again.');
+      }
     } catch (error) {
-      console.error('Sign-up failed:', error);
+      // console.error('Sign-up failed:', error);
       alert('Sign-up failed. Please try again.');
       // setError(error);
     }
+
+
   };
 
   return (

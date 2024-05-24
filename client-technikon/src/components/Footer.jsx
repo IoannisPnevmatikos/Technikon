@@ -13,7 +13,7 @@ function Footer() {
         bottom: 0,
         left: 0,
         right: 0,
-        height: '48px', // Set a fixed height for the footer
+        height: '48px', // Fixed height for the footer
         zIndex: 1000,
       }}
     >

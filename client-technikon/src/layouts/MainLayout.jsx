@@ -6,7 +6,7 @@ const MainLayout = () => {
   return (
     <div id="scytalis-app">
       <Header />
-      <main>
+      <main style={{ marginBottom: "150px" }}>
         <Outlet />
       </main>
       <Footer />
