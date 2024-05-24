@@ -6,7 +6,6 @@ import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
-import com.team1.technikon.model.Repair;
 import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.repository.PropertyRepository;
 import com.team1.technikon.service.PropertyService;
@@ -54,10 +53,15 @@ public class PropertyServiceImpl implements PropertyService {
     }
 
     @Override
-    public List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException {
+    public List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException {
         log.info("Getting all properties from owner {}", tinNumber);
-        String ownerTin = ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
-        if (ownerId != null && !tinNumber.matches(ownerTin)) throw new UnauthorizedAccessException("You are unable to retrieve this data.");
+        String ownerTin;
+        if (tinNumber!=null) {
+            ownerTin = ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
+        }
+        else {
+            ownerTin = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
+        }
         List<Property> properties = propertyRepository.findByOwnerTinNumber(tinNumber);
         if (properties.isEmpty()) throw new EntityNotFoundException("No properties found for the requested user.");
         return properties;

@@ -22,7 +22,7 @@ import java.util.List;
 @RestController
 @PreAuthorize("hasAuthority('ADMIN')")
 @RequestMapping("/api/admin")
-public class AdminPropController {
+public class AdminPropertyController {
 
     private final OwnerService ownerService;
     private PropertyService propertyService;

@@ -18,7 +18,7 @@ public interface PropertyService {
     //SEARCH
     PropertyDto getPropertyById(Long ownerId, String propertyId) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException;
 
-    List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException, UnauthorizedAccessException;
+    List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException;
 
     List<Property> getPropertyByLocation(Long ownerId); // mallon (x,y)
 

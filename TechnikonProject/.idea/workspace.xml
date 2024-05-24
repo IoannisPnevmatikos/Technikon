@@ -6,7 +6,17 @@
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Owner/Owner.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Owner/Owner.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminPropController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminPropController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/PropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/PropertyController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/PropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/PropertyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Login/Login.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Login/Login.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/CreatePropertyForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/DeletePropertyForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/FindPropertyByE9Form.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/Property.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/Property.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/UpdatePropertyForm.jsx" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/usePropertyActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/usePropertyActions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -161,7 +171,23 @@
       <option name="project" value="LOCAL" />
       <updated>1716533593168</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716534709523</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1716534709523</updated>
+    </task>
+    <task id="LOCAL-00006" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716534798668</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1716534798668</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
