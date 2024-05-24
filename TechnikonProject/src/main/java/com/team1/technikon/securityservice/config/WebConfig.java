@@ -12,6 +12,10 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://localhost:5173") // Allow requests from this origin
                 .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow these HTTP methods
                 .allowedHeaders("*"); // Allow all headers
+        registry.addMapping("/auth/**") // Define the path pattern for which CORS should be enabled
+                .allowedOrigins("http://localhost:5173") // Allow requests from this origin
+                .allowedMethods("GET", "POST", "PUT", "DELETE") // Allow these HTTP methods
+                .allowedHeaders("*"); // Allow all headers
     }
 }
 
