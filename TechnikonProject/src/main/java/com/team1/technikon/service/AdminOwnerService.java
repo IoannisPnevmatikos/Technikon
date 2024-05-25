@@ -25,9 +25,9 @@ public interface AdminOwnerService extends OwnerService {
     OwnerDto getOwnerByEmail(String email) throws EntityNotFoundException;
     OwnerDto getOwnerByFirstName(String firstName) throws EntityNotFoundException;
     OwnerDto getOwnerByLastName(String lastName) throws EntityNotFoundException;
-    OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException ;
+    OwnerDto updateOwner( Long ownerId, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException ;
 
-//    void deactivateOwnerById(Long id) throws EntityNotFoundException;
+      void deactivateOwnerById(Long id) throws EntityNotFoundException;
     //Delete
     boolean deleteOwnerById(Long id) throws EntityNotFoundException;
 

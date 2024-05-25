@@ -47,7 +47,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     @Transactional
     @Modifying
     @Query("update Owner o set o.password = :password where o.username = :username")
-    int updateOwnerPassword(@Param("username") String username, @Param("password") String password);
+    int updateOwnerPassword(@Param("password") String password, @Param("username") String username);
 
     @Transactional
     @Modifying

@@ -48,7 +48,8 @@ public class SecurityConfig {
                                 "/api/**",
                                 "/api/admin/*",
                                 "/auth/signup/admin",
-                                "/auth/logout"
+                                "/auth/logout",
+                                "/auth/changePassword"
                         ).authenticated() // 8elei authentication
                 )
                 .authenticationProvider(authenticationProvider)

@@ -4,7 +4,6 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
-import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
@@ -63,10 +62,11 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
 
     public List<OwnerDto> getAllByRole(String role) throws EntityNotFoundException {
 
-            if(role.equalsIgnoreCase("ADMIN"))
+        if (role.equalsIgnoreCase("ADMIN"))
             return ownerRepository.findOwnersByRole("ADMIN").stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
-            else if(role.equalsIgnoreCase("USER")) return ownerRepository.findOwnersByRole("USER").stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
-            else throw new EntityNotFoundException("Entities with such role not found: "+role);
+        else if (role.equalsIgnoreCase("USER"))
+            return ownerRepository.findOwnersByRole("USER").stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
+        else throw new EntityNotFoundException("Entities with such role not found: " + role);
     }
 
     @Override
@@ -96,9 +96,8 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     public OwnerDto getOwnerByTinNumber(String tinNumber) throws EntityNotFoundException {
         try {
             if (isValidTinNumber(tinNumber)) {
-            return mapToOwnerDto(ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Entity not found")));
-              }
-         else throw new EntityNotFoundException("Invalid tin Number. Check tinNumber again.");
+                return mapToOwnerDto(ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Entity not found")));
+            } else throw new EntityNotFoundException("Invalid tin Number. Check tinNumber again.");
         } catch (Exception e) {
             throw new EntityNotFoundException(e.getMessage());
         }
@@ -106,7 +105,6 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
 
     @Override
     public OwnerDto getOwnerByUsername(String username) throws EntityNotFoundException {
-
         return mapToOwnerDto(ownerRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Entity not found")));
     }
 
@@ -127,15 +125,16 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
 
     @Transactional
     @Override
-    public OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException {
+    public OwnerDto updateOwner(Long ownerId, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
-        if(ownerDto.tinNumber()!=null) owner.setTinNumber(ownerDto.tinNumber());
-        if (ownerDto.username()!=null) owner.setUsername(ownerDto.username());
-        if (ownerDto.address()!=null) owner.setAddress(ownerDto.address());
-        if (ownerDto.firstName()!=null) owner.setFirstName(ownerDto.firstName());
-        if (ownerDto.lastName()!=null) owner.setLastName(ownerDto.lastName());
-        if (ownerDto.email()!=null) owner.setEmail(ownerDto.email());
-        if (ownerDto.phone()!=null) owner.setPhone(ownerDto.phone());
+        if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
+        if (ownerDto.username() != null) owner.setUsername(ownerDto.username());
+        if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
+        if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
+        if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
+//
+        if (ownerDto.email() != null && !ownerDto.email().equals(owner.getEmail())) owner.setEmail(ownerDto.email());
+        if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
         isValidOwner(mapToOwnerDto(owner));
         try {
             ownerRepository.save(owner);
@@ -146,13 +145,13 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
 
     }
 
-//
-//    @Override
-//    public void deactivateOwnerById(Long id) throws EntityNotFoundException {
-//        Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
-//        owner.setActive(false);
-//        ownerRepository.save(owner);
-//    }
+
+    @Override
+    public void deactivateOwnerById(Long id) throws EntityNotFoundException {
+        Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+        owner.setActive(false);
+        ownerRepository.save(owner);
+    }
 
     @Override
     public boolean deleteOwnerById(Long id) throws EntityNotFoundException {

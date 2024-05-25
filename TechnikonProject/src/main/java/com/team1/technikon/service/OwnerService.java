@@ -4,7 +4,9 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
+import com.team1.technikon.securityservice.dto.ChangePwRequestDto;
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 public interface OwnerService extends UserDetailsService {
@@ -19,9 +21,9 @@ public interface OwnerService extends UserDetailsService {
     OwnerDto getOwnerById(Long authId, long id) throws EntityNotFoundException,UnauthorizedAccessException;
 
     //UPDATE
-    OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException ;
+    OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, InvalidInputException, EntityNotFoundException ;
 
-    boolean updateOwnerPassword(String username, String newPw);
+    String updateOwnerPassword(ChangePwRequestDto changePwRequestDto)  throws EntityNotFoundException,InvalidInputException;
     //DELETE
     boolean deleteOwnerByTin(String tinNumber) throws EntityNotFoundException;
 

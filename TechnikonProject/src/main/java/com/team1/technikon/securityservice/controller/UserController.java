@@ -2,11 +2,16 @@ package com.team1.technikon.securityservice.controller;
 
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
+import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.securityservice.dto.AuthRequest;
+import com.team1.technikon.securityservice.dto.ChangePwRequestDto;
 import com.team1.technikon.securityservice.service.JwtService;
 import com.team1.technikon.service.AdminOwnerService;
 import com.team1.technikon.service.OwnerService;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -25,6 +30,7 @@ public class UserController {
     private final AdminOwnerService adminOwnerService;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
     @PostMapping("/signup/user")
     public ResponseEntity<String> addUser(@RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
@@ -63,20 +69,14 @@ public class UserController {
     //change user info updates
     //  @PreAuthorize("hasAuthority('USER')")
     @PutMapping("/changePassword")
-    public ResponseEntity<Boolean> changePassword(@RequestBody AuthRequest authRequest, String newPw) {
-        //ISWS NA TSEKAREI MONO TO TOKEN AN EINAI VALIDATED XWRIS NA KSANAKANEI AUTHENTICATION
-        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
+    public ResponseEntity<String> changePassword(@RequestBody ChangePwRequestDto changePwRequestDto) throws EntityNotFoundException, InvalidInputException {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(changePwRequestDto.getUsername(), changePwRequestDto.getPassword()));
+        logger.info("********************changePassword********************* {}", authentication);
         if (authentication.isAuthenticated()) {
-            return ResponseEntity.ok(ownerService.updateOwnerPassword(authRequest.getUsername(), newPw));
-        } else return new ResponseEntity<>(false, HttpStatus.UNAUTHORIZED);
+            return ResponseEntity.ok(ownerService.updateOwnerPassword(changePwRequestDto));
+        } else return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("UNAUTHORIZED! CHECK INPUTS AGAIN");
     }
 
-
-//    @PreAuthorize("hasAuthority('ADMIN')")
-//    @GetMapping("/{userId}/addOwner")
-//    public ResponseEntity<Boolean> saveOwner(@PathVariable(name = "userId") Long userId, @RequestBody OwnerDto ownerDto ) throws OwnerNotFoundException {
-//        return ResponseEntity.ok(service.saveUserOwner(userId,ownerDto));
-//    }
 
 }
 
