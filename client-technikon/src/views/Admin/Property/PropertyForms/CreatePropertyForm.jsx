@@ -1,9 +1,14 @@
-import React from 'react';
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, TextField, MenuItem, CircularProgress } from '@mui/material';
 
-const CreatePropertyForm = ({ handleSubmit, handleBackClick }) => (
+const CreatePropertyForm = ({ handleSubmit, handleBackClick }) => {
+  
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = (event) => handleSubmit(event, setIsLoading);
+
+  return (
   <Box sx={{ mt: 3, width: '100%', maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-    <Box component="form" sx={{ width: '100%' }} onSubmit={handleSubmit}>
+    <Box component="form" sx={{ width: '100%' }} onSubmit={onSubmit}>
       <TextField
         name="tinNumber"
         label="TIN Number"
@@ -74,14 +79,36 @@ const CreatePropertyForm = ({ handleSubmit, handleBackClick }) => (
         required
         inputProps={{ step: "any" }}
       />
-      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-        Submit
-      </Button>
-      <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
+    <Box sx={{ position: 'relative' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Submitting...' : 'Submit'}
+          </Button>
+          {isLoading && (
+            <CircularProgress
+              size={24}
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
+            />
+          )}
+        </Box>
+      <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick} disabled={isLoading}>
         Back
       </Button>
     </Box>
   </Box>
 );
+};
 
 export default CreatePropertyForm;

@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField, MenuItem, CircularProgress } from '@mui/material';
 
 const FindPropertiesBetweenForm = ({ handleSubmit, handleBackClick }) => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleFormSubmit = (event) => {
     event.preventDefault();
@@ -15,7 +16,7 @@ const FindPropertiesBetweenForm = ({ handleSubmit, handleBackClick }) => {
       alert('Ending date should not exceed the current date.');
       return;
     }
-    handleSubmit(event);
+    handleSubmit(event, setIsLoading);
   };
 
   return (
@@ -46,10 +47,38 @@ const FindPropertiesBetweenForm = ({ handleSubmit, handleBackClick }) => {
         value={endDate}
         onChange={(e) => setEndDate(e.target.value)}
       />
-      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-        Submit
-      </Button>
-      <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
+    <Box sx={{ position: 'relative' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Submitting...' : 'Submit'}
+          </Button>
+          {isLoading && (
+            <CircularProgress
+              size={24}
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
+            />
+          )}
+        </Box>
+      <Button
+        variant="outlined"
+        color="secondary"
+        fullWidth
+        sx={{ mt: 2 }}
+        onClick={handleBackClick}
+        disabled={isLoading} // Disable the button while loading
+      >
         Back
       </Button>
     </Box>
