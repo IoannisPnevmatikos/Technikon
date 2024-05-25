@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography, Box, Button, TextField, MenuItem } from '@mui/material';
+import { Container, Typography, Box, Button,CircularProgress, TextField, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import useToken from '../../../stores/useToken';
 import FindRepairByDateForm from './RepairForms/FindRepairByDateForm';
@@ -10,12 +10,14 @@ import CreateRepairForm from './RepairForms/CreateRepairForm';
 import DeleteRepairForm from './RepairForms/DeleteRepairForm';
 import GetRepairReportForm from './RepairForms/GetRepairReportForm';
 import useRepairAdminActions from './useRepairAdminActions';
+import { paths } from '../../../constants/paths/paths';
 
 
 function RepairAdminActionsPage() {
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmitCreate,
     handleSubmitDelete,
@@ -28,6 +30,7 @@ function RepairAdminActionsPage() {
 
   } = useRepairAdminActions(token, navigate);
 
+  const onSubmithandleSubmitGetAllRepairs = () => handleSubmitGetAllRepairs(setIsLoading);
 
   const handleBackClick = () => {
     setActiveForm('');
@@ -77,8 +80,11 @@ function RepairAdminActionsPage() {
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDateRange')}>
               Find Repair by Date Range
             </Button>
-            <Button variant="contained" color="primary" onClick={() => handleSubmitGetAllRepairs()}>
-              All Repairs
+            <Button variant="contained" color="primary" onClick={() => onSubmithandleSubmitGetAllRepairs()}>
+            {isLoading ? 'Finding All Repairs...' : 'Find All Repairs'}
+              {isLoading && (
+                <CircularProgress size={24} sx={{ position: 'absolute', top: '50%', left: '50%', marginTop: '-12px', marginLeft: '-12px' }} />
+              )}
             </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByOwnerTinNumber')}>
               Find Repair By Owner Tin Number

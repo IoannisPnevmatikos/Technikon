@@ -1,4 +1,4 @@
-import { useCallback } from 'react';
+import { useCallback,useState } from 'react';
 import updateRepair from '../../../api/Repair/Admin/updateRepair';
 import deleteRepair from '../../../api/Repair/Admin/deleteRepair';
 import findRepairByDate from '../../../api/Repair/Admin/findRepairByDate';
@@ -10,6 +10,7 @@ import findAllRepairs from '../../../api/Repair/Admin/findAllRepairs';
 import createRepair from '../../../api/Repair/Admin/createRepair';
 
 const useRepairActions = (token, navigate) => {
+    const [isLoading, setIsLoading] = useState(false);
 
     const handleSubmitCreate = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
@@ -102,7 +103,7 @@ const useRepairActions = (token, navigate) => {
     }, [token, navigate]);
 
     //////////////////////////////////////////LOADING/////////////////////////////////////////////////////////////////////////////////////////////
-    const handleSubmitGetAllRepairs = useCallback(async (setIsLoading) => {
+    const handleSubmitGetAllRepairs = useCallback(async () => {
         setIsLoading(true);
         try {
             const response = await findAllRepairs(token?.data); // Pass the token here

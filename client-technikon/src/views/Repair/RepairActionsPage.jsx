@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Container, Typography, Box, Button, TextField, MenuItem } from '@mui/material';
+import { Container, Typography, Box, Button, CircularProgress,TextField, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 import FindRepairByDateForm from './RepairForms/FindRepairByDateForm';
 import FindRepairByDateRangeForm from './RepairForms/FindRepairByDateRangeForm';
@@ -8,11 +8,13 @@ import UpdateRepairForm from './RepairForms/UpdateRepairForm';
 import CreateRepairForm from './RepairForms/CreateRepairForm';
 import DeleteRepairForm from './RepairForms/DeleteRepairForm';
 import useRepairActions from './useRepairActions';
+import { paths } from '../../constants/paths/paths';
 
 function RepairActionsPage() {
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
+  const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmitCreate,
     handleSubmitDelete,
@@ -22,6 +24,10 @@ function RepairActionsPage() {
     handleSubmitMyRepairs
   } = useRepairActions(token, navigate);
 
+
+  const onSubmithandleSubmitMyRepairs = () => handleSubmitMyRepairs(setIsLoading);
+  
+  
   const handleBackClick = () => {
     setActiveForm('');
     navigate(paths.repair); // This will update the URL to /repairs
@@ -54,22 +60,25 @@ function RepairActionsPage() {
           renderForm()
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 4 }}>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('createRepair')}>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('createRepair')} disabled={isLoading}>
               Create Repair
             </Button>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDate')}>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDate')} disabled={isLoading}>
               Find Repair by Date
             </Button>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDateRange')}>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDateRange')} disabled={isLoading}>
               Find Repair by Date Range
             </Button>
-            <Button variant="contained" color="primary" onClick={() => handleSubmitMyRepairs()}>
-              My Repairs
+            <Button variant="contained" color="primary" onClick={() => onSubmithandleSubmitMyRepairs()}>
+              {isLoading ? 'Finding My Repairs...' : 'Find My Repairs'}
+              {isLoading && (
+                <CircularProgress size={24} sx={{ position: 'absolute', top: '50%', left: '50%', marginTop: '-12px', marginLeft: '-12px' }} />
+              )}
             </Button>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('updateRepair')}>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('updateRepair')} disabled={isLoading}>
               Update Repair
             </Button>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('deleteRepair')}>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('deleteRepair')} disabled={isLoading}>
               Delete Repair
             </Button>
           </Box>

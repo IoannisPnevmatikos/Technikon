@@ -100,7 +100,6 @@ const useRepairActions = (token, navigate) => {
     }
   }, [token, navigate]);
 
-  ///////////////////////////////////////////////////LOADING///////////////////////////////////////////////////////////////
   const handleSubmitMyRepairs = useCallback(async () => {
     setIsLoading(true);
     try {
