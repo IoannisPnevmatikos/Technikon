@@ -46,11 +46,7 @@ const Header = () => {
             Repairs
           </Button>
           {token ? (
-            <Button
-              color="inherit"
-              onClick={handleLogout}
-              sx={{ flexGrow: 1}}  // Larger font size for Logout button
-            >
+            <Button color="inherit" onClick={handleLogout} sx={{ flexGrow: 1}}>
               Logout
             </Button>
           ) : (
