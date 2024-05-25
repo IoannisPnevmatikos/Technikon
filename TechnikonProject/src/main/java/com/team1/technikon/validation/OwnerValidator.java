@@ -6,7 +6,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.Locale;
 import java.util.regex.Pattern;
 
 @Slf4j
@@ -20,8 +19,8 @@ public class OwnerValidator {
         return (isValidEmail(ownerDto.email()) &&
                 isValidUsername(ownerDto.username()) &&
                 isValidName(ownerDto.firstName(), ownerDto.lastName()) &&
-                isValidTinNumber(ownerDto.tinNumber())&&
-            isValidPhone(ownerDto.phone()));
+                isValidTinNumber(ownerDto.tinNumber()) &&
+                isValidPhone(ownerDto.phone()));
 
     }
 

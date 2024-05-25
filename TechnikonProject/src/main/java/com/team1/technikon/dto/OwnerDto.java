@@ -8,5 +8,5 @@ public record OwnerDto(String tinNumber,
                        String email,
                        String address,
                        String phone
-                       ) {
+) {
 }

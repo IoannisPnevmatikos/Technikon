@@ -22,7 +22,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
     List<Owner> findOwnersByRole(@Param("role") String role);
 
     @Query("SELECT o FROM Owner o WHERE o.registrationDate BETWEEN :startDate AND :endDate")
-    List<Owner>findOwnersByRegistrationDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
+    List<Owner> findOwnersByRegistrationDate(@Param("startDate") LocalDate startDate, @Param("endDate") LocalDate endDate);
 
     Optional<Owner> findByTinNumber(String tinNumber);
 
@@ -42,7 +42,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 //    @Query("update Owner o set o = :entity where o.username = :username")
 //    int updateOwnerByUsername(@Param("username") String username, @Param("entity") Owner entity);
 
- //   void updateOwnerById(@Param("id") Long id, @Param(""));
+    //   void updateOwnerById(@Param("id") Long id, @Param(""));
 
     @Transactional
     @Modifying
