@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Button, TextField, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
+import useToken from '../../stores/useToken';
 import FindRepairByDateForm from './RepairForms/FindRepairByDateForm';
 import FindRepairByDateRangeForm from './RepairForms/FindRepairByDateRangeForm';
-import useToken from '../../stores/useToken';
 import UpdateRepairForm from './RepairForms/UpdateRepairForm';
 import CreateRepairForm from './RepairForms/CreateRepairForm';
 import DeleteRepairForm from './RepairForms/DeleteRepairForm';
-import useRepairActions from './useRepairActions';
+import GetRepairReportForm from './RepairForms/GetRepairReportForm';
+import useRepairAdminActions from './useRepairAdminActions';
 
-function RepairActionsPage() {
+
+function RepairAdminActionsPage() {
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
@@ -19,9 +21,14 @@ function RepairActionsPage() {
     handleSubmitUpdate,
     handleSubmitFindByDate,
     handleSubmitFindByDateRange,
-    handleSubmitMyRepairs
-  } = useRepairActions(token, navigate);
+    handleSubmitGetAllRepairs,
+    handleSubmitFindRepairByOwnerTinNumber,
+    handleSubmitGetRepairReport
 
+  } = useRepairAdminActions(token, navigate);
+
+
+  //allghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwww WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
   const handleBackClick = () => {
     setActiveForm('');
     navigate('/repairs'); // This will update the URL to /repairs
@@ -35,10 +42,14 @@ function RepairActionsPage() {
         return <FindRepairByDateForm handleSubmit={handleSubmitFindByDate} handleBackClick={handleBackClick} />;
       case 'findRepairByDateRange':
         return <FindRepairByDateRangeForm handleSubmit={handleSubmitFindByDateRange} handleBackClick={handleBackClick} />;
-      case 'updateRepair':
+     case 'updateRepair':
         return <UpdateRepairForm handleSubmit={handleSubmitUpdate} handleBackClick={handleBackClick} />;
       case 'deleteRepair':
         return <DeleteRepairForm handleSubmit={handleSubmitDelete} handleBackClick={handleBackClick} />;
+      case 'findRepairByOwnerTinNumber':
+        return <FindRepairByOwnerTinNumber handleSubmit={handleSubmitFindRepairByOwnerTinNumber} handleBackClick={handleBackClick} />;
+      case 'getRepairReport':
+        return <GetRepairReportForm handleSubmit={handleSubmitGetRepairReport} handleBackClick={handleBackClick} />;
       default:
         return null;
     }
@@ -57,20 +68,26 @@ function RepairActionsPage() {
             <Button variant="contained" color="primary" onClick={() => setActiveForm('createRepair')}>
               Create Repair
             </Button>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('updateRepair')}>
+              Update Repair
+            </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDate')}>
               Find Repair by Date
             </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByDateRange')}>
               Find Repair by Date Range
             </Button>
-            <Button variant="contained" color="primary" onClick={() => handleSubmitMyRepairs()}>
-              My Repairs
+            <Button variant="contained" color="primary" onClick={() => handleSubmitGetAllRepairs()}>
+              All Repairs
             </Button>
-            <Button variant="contained" color="primary" onClick={() => setActiveForm('updateRepair')}>
-              Update Repair
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('findRepairByOwnerTinNumber')}>
+              Find Repair By Owner Tin Number
             </Button>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('deleteRepair')}>
               Delete Repair
+            </Button>
+            <Button variant="contained" color="primary" onClick={() => setActiveForm('getRepairReport')}>
+              Get Repair Report
             </Button>
           </Box>
         )}
@@ -79,4 +96,4 @@ function RepairActionsPage() {
   );
 }
 
-export default RepairActionsPage;
+export default RepairAdminActionsPage;
