@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminPropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminPropertyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Admin/Admin.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Admin/Admin.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/Property.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/Property.jsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/repository/PropertyRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/repository/PropertyRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/PropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/PropertyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

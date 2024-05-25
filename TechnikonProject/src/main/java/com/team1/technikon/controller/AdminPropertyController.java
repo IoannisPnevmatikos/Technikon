@@ -24,9 +24,7 @@ import java.util.List;
 @RequestMapping("/api/admin")
 public class AdminPropertyController {
 
-    private final OwnerService ownerService;
     private PropertyService propertyService;
-    private final RepairService repairService;
 
     @PostMapping("/property/{id}")
     public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto, @PathVariable long id) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
