@@ -6,11 +6,7 @@
   <component name="ChangeListManager">
     <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/Property.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/Property.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/PropertyForms/CreatePropertyForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/PropertyForms/CreatePropertyForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/PropertyForms/DeletePropertyForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/PropertyForms/DeletePropertyForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/PropertyForms/UpdatePropertyForm.jsx" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/PropertyForms/UpdatePropertyForm.jsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Property/usePropertyActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Property/usePropertyActions.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../client-technikon/src/views/Admin/Property/usePropertyAdminActions.js" beforeDir="false" afterPath="$PROJECT_DIR$/../client-technikon/src/views/Admin/Property/usePropertyAdminActions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
