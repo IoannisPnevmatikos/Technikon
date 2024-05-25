@@ -5,6 +5,7 @@ import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
+import com.team1.technikon.model.MapLocation;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.repository.PropertyRepository;
@@ -95,7 +96,14 @@ public class PropertyServiceImpl implements PropertyService {
         if (propertyDto.yearOfConstruction()!=null) property.setYearOfConstruction(propertyDto.yearOfConstruction());
         if (propertyDto.typeOfProperty()!=null) property.setTypeOfProperty(propertyDto.typeOfProperty());
         if (propertyDto.photo()!=null) property.setPhoto(propertyDto.photo());
-        if (propertyDto.mapLocation()!=null) property.setMapLocation(propertyDto.mapLocation());
+        if (propertyDto.mapLocation()!=null) {
+            MapLocation mapLocation = new MapLocation();
+            if (propertyDto.mapLocation().getLatitude()!=null) mapLocation.setLatitude(propertyDto.mapLocation().getLatitude());
+            else mapLocation.setLatitude(property.getMapLocation().getLatitude());
+            if (propertyDto.mapLocation().getLongitude()!=null) mapLocation.setLongitude(propertyDto.mapLocation().getLongitude());
+            else mapLocation.setLongitude(property.getMapLocation().getLongitude());
+            property.setMapLocation(mapLocation);
+        }
         isValidPropertyDto(mapToPropertyDto(property));
         try {
             propertyRepository.save(property);
