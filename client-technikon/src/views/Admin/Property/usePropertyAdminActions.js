@@ -4,6 +4,7 @@ import deleteProperty from '../../../api/Property/Admin/deleteProperty';
 import updateProperty from '../../../api/Property/Admin/updatePoperty';
 import findPropertiesByTin from '../../../api/Property/Admin/findPropertiesByTin'
 import findPropertyByE9 from '../../../api/Property/Admin/findPropertyByE9';
+import findBetweenDates from '../../../api/Property/Admin/findBetweenDates';
 import {paths} from '../../../constants/paths/paths'
 
 const usePropertyActions = (token, navigate) => {
@@ -67,10 +68,12 @@ const usePropertyActions = (token, navigate) => {
     }
   }, [token, navigate]);
 
-  const handleSubmitFindByTin = useCallback(async () => {
+  const handleSubmitFindByTin = useCallback(async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
     try {
-      const response = await findPropertiesByTin(token?.data); // Pass the token here
+      const response = await findPropertiesByTin(formData, token?.data); // Pass the token here
       console.log('Properties found successfully', response);
       alert('Properties found!');
       navigate(paths.adminProperty);
@@ -80,10 +83,12 @@ const usePropertyActions = (token, navigate) => {
     }
   }, [token, navigate]);
 
-  const handleSubmitFindBetweenDates = useCallback(async () => {
+  const handleSubmitFindBetweenDates = useCallback(async (event) => {
+    event.preventDefault();
+    const formData = new FormData(event.target);
 
     try {
-      const response = await handleSubmitFindBetweenDates(token?.data); // Pass the token here
+      const response = await findBetweenDates(formData, token?.data); // Pass the token here
       console.log('Properties found successfully', response);
       alert('Properties found!');
       navigate(paths.adminProperty);
