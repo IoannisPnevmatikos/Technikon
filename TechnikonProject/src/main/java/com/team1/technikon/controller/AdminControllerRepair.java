@@ -2,6 +2,7 @@ package com.team1.technikon.controller;
 
 
 import com.team1.technikon.dto.RepairDto;
+import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
@@ -63,6 +64,13 @@ public class AdminControllerRepair {
     @GetMapping("/repair")
     public ResponseEntity<List<RepairDto>> getAllData() throws EntityNotFoundException {
         List<RepairDto> repairs = adminRepairService.getAllData();
+        return ResponseEntity.ok(repairs);
+    }
+
+    @GetMapping("/repair/report/dateRange/{startDate}/{endDate}")
+    public ResponseEntity<List<RepairReportDto>> getRepairReport(@PathVariable("startDate") LocalDate startDate,
+                                                           @PathVariable("endDate") LocalDate endDate) throws EntityNotFoundException, InvalidInputException {
+        List<RepairReportDto> repairs = adminRepairService.getRepairReport(startDate,endDate);
         return ResponseEntity.ok(repairs);
     }
 }
