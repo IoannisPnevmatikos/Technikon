@@ -28,9 +28,9 @@ public interface PropertyService {
     List<Property> getPropertyByRangeOfDates(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException;
 
     //UPDATE
-    PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException;
+    PropertyDto updateProperty(Long ownerId, String propertyId, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException;
 
     //DELETE
-    boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException;
+    boolean deleteProperty(Long ownerId, String propertyId) throws EntityNotFoundException, UnauthorizedAccessException;
 
 }
