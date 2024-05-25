@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import { Button, TextField, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { paths } from '../../constants/paths/paths';
 import { signUser } from '../../api/Signup/sign';
 
 function SignUpPage() {
-
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,27 +18,24 @@ function SignUpPage() {
       alert('Passwords do not match');
       return;
     }
-    // Implement sign-up logic here
 
+    setIsLoading(true);
     try {
       const response = await signUser({ username, email, password });
-      console.log(response)
       if (response.status === 201) {
         console.log('Sign-up successful');
         alert('Sign-up successful!');
         navigate(paths.login);
-      }
-      else {
+      } else {
         console.error('Sign-up failed:');
         alert('Sign-up failed. Please try again.');
       }
     } catch (error) {
-      // console.error('Sign-up failed:', error);
+      console.error('Sign-up failed:', error);
       alert('Sign-up failed. Please try again.');
-      // setError(error);
+    } finally {
+      setIsLoading(false);
     }
-
-
   };
 
   return (
@@ -48,7 +45,7 @@ function SignUpPage() {
           Sign Up
         </Typography>
         <form onSubmit={handleSubmit}>
-            <TextField
+          <TextField
             label="Username"
             type="username"
             value={username}
@@ -84,9 +81,30 @@ function SignUpPage() {
             fullWidth
             margin="normal"
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            Sign Up
-          </Button>
+          <Box sx={{ position: 'relative' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Signing Up...' : 'Sign Up'}
+            </Button>
+            {isLoading && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
+                }}
+              />
+            )}
+          </Box>
         </form>
         <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
           Already have an account? <Link to={paths.login}>Login</Link>

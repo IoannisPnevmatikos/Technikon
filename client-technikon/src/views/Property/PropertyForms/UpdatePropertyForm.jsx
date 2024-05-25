@@ -5,16 +5,15 @@ const UpdatePropertyForm = ({ handleSubmit, handleBackClick }) => (
   <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
     <TextField
       name="id"
-      label="Property ID"
-      type="number"
+      label="Current property E9"
       fullWidth
       margin="normal"
       required
-      inputProps={{ pattern: "\\d*", min: "0" }}
+      inputProps={{ maxLength: 11, pattern: "[0-9]{11}" }}
     />
     <TextField
       name="propertyE9"
-      label="Property E9"
+      label="New property E9"
       fullWidth
       margin="normal"
       inputProps={{ maxLength: 11, pattern: "[0-9]{11}" }}

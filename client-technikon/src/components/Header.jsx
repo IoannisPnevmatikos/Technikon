@@ -8,15 +8,14 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { paths } from "./../constants/paths/paths";
 import useToken from "../stores/useToken";
-import logout from "../api/Logout/logout";
 
 const Header = () => {
-  
-  const {token} = useToken();
-  function handleLogout() {
-    logout();
-    navigate('/');
-  }
+  const { token, logout } = useToken();
+
+  const handleLogout = async () => {
+    await logout();
+    alert('You have successfully logged out.');
+  };
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -31,73 +30,39 @@ const Header = () => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.home}>Home</Link>
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.admin}>Admin</Link>
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.owner}>Owner</Link>
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.property}>Properties</Link>
-          </Typography>     
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.repair}>Repairs</Link>
-          </Typography>     
-          {/* {
-            token!="" && (<>
-             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.owner}>Profile</Link>
-          </Typography>  
-          <Button type="submit" id="logOutBtn" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} onClick={handleLogout}>
-            LogOut
+          <Button color="inherit" component={Link} to={paths.home} sx={{ flexGrow: 1 }}>
+            Home
           </Button>
-            </>)
-            
-          }
-           {!token && (
-            <> */}
-             <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.signup}>Sign Up</Link>
-          </Typography>
-          <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-            <Link to={paths.login}>Login</Link>
-          </Typography>
-            {/* </>
-           )} */}
-
-          {/* 
-           {user && (
+          <Button color="inherit" component={Link} to={paths.admin} sx={{ flexGrow: 1 }}>
+            Admin
+          </Button>
+          <Button color="inherit" component={Link} to={paths.owner} sx={{ flexGrow: 1 }}>
+            Owner
+          </Button>
+          <Button color="inherit" component={Link} to={paths.property} sx={{ flexGrow: 1 }}>
+            Properties
+          </Button>
+          <Button color="inherit" component={Link} to={paths.repair} sx={{ flexGrow: 1 }}>
+            Repairs
+          </Button>
+          {token ? (
+            <Button
+              color="inherit"
+              onClick={handleLogout}
+              sx={{ flexGrow: 1}}  // Larger font size for Logout button
+            >
+              Logout
+            </Button>
+          ) : (
             <>
-              <Link to="/profile" id="profileIcon">
-                <FontAwesomeIcon icon={faUser} />
-              </Link>
-              <Link
-                to="/"
-                className="button"
-                id="logOutBtn"
-                onClick={handleLogout}
-              >
-                <strong>logOut</strong>
-              </Link>{' '}
+              <Button color="inherit" component={Link} to={paths.signup} sx={{ flexGrow: 1 }}>
+                Sign Up
+              </Button>
+              <Button color="inherit" component={Link} to={paths.login} sx={{ flexGrow: 1 }}>
+                Login
+              </Button>
             </>
           )}
-          {!user && (
-            <div className="buttons">
-              <Link to="/login" className="button" id="loginBtn">
-                <strong>Log in</strong>
-              </Link>
-
-              <Link to="/signUp" className="button" id="signUpBtn">
-                <strong>Sign up</strong>
-              </Link>
-            </div>
-          )}
-          
-          */}
-         
         </Toolbar>
       </AppBar>
     </Box>

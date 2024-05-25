@@ -1,40 +1,35 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Button, TextField, Container, Typography, Box } from '@mui/material';
+import { Button, TextField, Container, Typography, Box, CircularProgress } from '@mui/material';
 import { paths } from '../../constants/paths/paths';
 import useToken from '../../stores/useToken';
 
-
 function LoginPage() {
-
   const navigate = useNavigate();
-  const [username, setUsername] = useState(''); 
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const login = useToken((state) => state.login);
-  const {token} = useToken();
 
   const handleSubmit = async (e) => {
-
     e.preventDefault();
-    // Implement login logic here
+    setIsLoading(true);
     try {
       console.log('Logging in with', username);
-      await login({ username, password });
-      if (token.status === 200) {
+      const response = await login({ username, password }); // Correctly handling response
+      if (response.status === 200) {
         alert('You have successfully logged in!');
         navigate(paths.owner);
+      } else {
+        console.error('Login failed:', response.error);
+        alert('Login failed, your Username or Password are incorrect. Please try again.');
       }
-      else {
-        console.error('Login failed:');
-        alert('Login failed. Please try again.');
-      }
-
     } catch (error) {
       console.error('Login failed:', error);
       alert('Login failed. Please try again.');
-      // setError(error);
+    } finally {
+      setIsLoading(false);
     }
-
   };
 
   return (
@@ -62,9 +57,30 @@ function LoginPage() {
             fullWidth
             margin="normal"
           />
-          <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            Login
-          </Button>
+          <Box sx={{ position: 'relative' }}>
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              fullWidth
+              sx={{ mt: 2 }}
+              disabled={isLoading}
+            >
+              {isLoading ? 'Logging in...' : 'Login'}
+            </Button>
+            {isLoading && (
+              <CircularProgress
+                size={24}
+                sx={{
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  marginTop: '-12px',
+                  marginLeft: '-12px',
+                }}
+              />
+            )}
+          </Box>
         </form>
         <Typography variant="body2" sx={{ mt: 2, textAlign: 'center' }}>
           Don't have an account? <Link to={paths.signup}>Sign up</Link>
