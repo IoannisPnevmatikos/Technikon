@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MapLocation {
-    private double latitude;
-    private double longitude;
+    private Double latitude;
+    private Double longitude;
 }

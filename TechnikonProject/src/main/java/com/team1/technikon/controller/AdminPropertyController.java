@@ -40,7 +40,7 @@ public class AdminPropertyController {
     }
 
     @GetMapping("/tinNumber/{tinNumber}")
-    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@RequestBody String tinNumber) throws EntityNotFoundException {
+    public ResponseEntity<List<Property>> getPropertyByOwnerTinNumber(@PathVariable String tinNumber) throws EntityNotFoundException {
         return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(null, tinNumber));
     }
 
