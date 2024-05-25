@@ -4,13 +4,14 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
+import com.team1.technikon.securityservice.dto.ChangePwRequestDto;
 import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.OwnerService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,12 +19,13 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
-import static com.team1.technikon.mapper.Mapper.mapToOwner;
+
 import static com.team1.technikon.mapper.Mapper.mapToOwnerDto;
 import static com.team1.technikon.validation.OwnerValidator.isValidOwner;
 import static com.team1.technikon.validation.OwnerValidator.isValidSignUpDto;
@@ -46,22 +48,22 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     @Override
     public OwnerDto createOwner(OwnerDto ownerDto) throws EntityFailToCreateException {
         try {
-            if ( isValidSignUpDto(new SignUpDto(ownerDto.username(),ownerDto.password(),ownerDto.email()))&&ownerRepository.findByUsername(ownerDto.username()).isPresent()) {
+            if (isValidOwner(ownerDto) && ownerRepository.findByUsername(ownerDto.username()).isPresent()) {
                 logger.info("Creating an owner {}", ownerDto);
                 Long id = ownerRepository.findByUsername(ownerDto.username()).get().getId();
-                logger.info("id was found is : {}",id);
-               Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
-               owner.setPassword(encoder.encode(ownerDto.password()));
-               if (ownerDto.tinNumber()!=null) owner.setTinNumber(ownerDto.tinNumber());
-               if (ownerDto.username()!=null) owner.setUsername(ownerDto.username());
-               if (ownerDto.address()!=null) owner.setAddress(ownerDto.address());
-               if (ownerDto.firstName()!=null) owner.setFirstName(ownerDto.firstName());
-               if (ownerDto.lastName()!=null) owner.setLastName(ownerDto.lastName());
-               if (ownerDto.email()!=null) owner.setEmail(ownerDto.email());
-               if (ownerDto.phone()!=null) owner.setPhone(ownerDto.phone());
+                logger.info("id was found is : {}", id);
+                Owner owner = ownerRepository.findById(id).get();
+                owner.setUsername(owner.getUsername());
+                owner.setPassword(owner.getPassword());
+                if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
+                owner.setAddress(ownerDto.address());
+                owner.setFirstName(ownerDto.firstName());
+                owner.setLastName(ownerDto.lastName());
+                owner.setEmail(owner.getEmail());
+                owner.setPhone(ownerDto.phone());
 
                 return mapToOwnerDto(ownerRepository.save(owner));
-           } else throw new EntityFailToCreateException("User not present. ");
+            } else throw new EntityFailToCreateException("User Fields not valid. OR Not present " + ownerDto);
         } catch (Exception e) {
             throw new EntityFailToCreateException(e.getMessage());
         }
@@ -89,91 +91,104 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
     }
 
     @Override
-    public OwnerDto getOwnerById(Long authId,long id) throws EntityNotFoundException,UnauthorizedAccessException {
+    public OwnerDto getOwnerById(Long authId, long id) throws EntityNotFoundException, UnauthorizedAccessException {
         Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
-        if (authId!=null && owner.getId()!=authId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
+        if (authId != null && owner.getId() != authId)
+            throw new UnauthorizedAccessException("You are unable to modify this entity.");
         return mapToOwnerDto(owner);
     }
 
     @Transactional
     @Override
-    public OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, EntityFailToCreateException, EntityNotFoundException {
+    public OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, InvalidInputException, EntityNotFoundException {
 
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
-        if (authId!=null && owner.getId()!=authId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
-        if(ownerDto.tinNumber()!=null) owner.setTinNumber(ownerDto.tinNumber());
-        if (ownerDto.username()!=null) owner.setUsername(ownerDto.username());
-        if (ownerDto.address()!=null) owner.setAddress(ownerDto.address());
-        if (ownerDto.firstName()!=null) owner.setFirstName(ownerDto.firstName());
-        if (ownerDto.lastName()!=null) owner.setLastName(ownerDto.lastName());
-        if (ownerDto.email()!=null) owner.setEmail(ownerDto.email());
-        if (ownerDto.phone()!=null) owner.setPhone(ownerDto.phone());
-        isValidOwner(mapToOwnerDto(owner));
+        if (isValidOwner(ownerDto)) {
+            if (authId != null && owner.getId() != authId)
+                throw new UnauthorizedAccessException("You are unable to modify this entity.");
+            if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
+            if (ownerDto.username() != null) owner.setUsername(ownerDto.username());
+            if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
+            if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
+            if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
+            if (ownerDto.email() != null) owner.setEmail(ownerDto.email());
+            if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
+        } else throw new InvalidInputException("User not valid. Check firstname,lastname, email and tin Num");
         try {
             ownerRepository.save(owner);
         } catch (Exception e) {
-            throw new EntityFailToCreateException("update failed to execute. Check again");
+            throw new InvalidInputException("update failed to execute. Check inputs again");
         }
         return mapToOwnerDto(owner);
 
     }
 
 
-
     @Override
-    public boolean updateOwnerPassword(String username, String newPw) {
-        return ownerRepository.updateOwnerPassword(username, encoder.encode(newPw)) == 1;
-    }
-
-    @Transactional
-    @Override
-    public boolean deleteOwnerByTin(String tinNumber) throws EntityNotFoundException {
-        try {
-            logger.info("Deleting an owner by tin number {}", tinNumber);
-            Optional<Owner> owner = ownerRepository.findByTinNumber(tinNumber);
-            // long result = 0;
-
-            if (owner.isPresent() && owner.get().getProperties().isEmpty()) {
-                owner.get().setActive(false);
-                ownerRepository.save(owner.get());
-                return true;
-            } else {
-                logger.info("With Tin found completely Empty Owner deleting");
-                ownerRepository.deleteByTinNumber(tinNumber);
-            }
-
-            return false;
-
-        } catch (Exception e) {
-            throw new EntityNotFoundException(e.getMessage());
+    public String updateOwnerPassword(ChangePwRequestDto changePwRequestDto) throws EntityNotFoundException,InvalidInputException {
+    logger.info("Trying to change password");
+        Owner owner = ownerRepository.findByUsername(changePwRequestDto.getUsername()).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        if(!encoder.matches(changePwRequestDto.getNewPassword(), changePwRequestDto.getPassword())){
+            logger.info("Password does not match. Can change");
+            owner.setPassword(encoder.encode(changePwRequestDto.getNewPassword()));
+            ownerRepository.updateOwnerPassword(changePwRequestDto.getNewPassword(),changePwRequestDto.getUsername());
+            return "Password changed";
         }
-    }
+        else
+            throw new InvalidInputException("SAME PASSWORD");
 
-    @Transactional
-    @Override
-    public boolean deleteOwnerById(Long authId, Long id) throws EntityNotFoundException, UnauthorizedAccessException {
+}
 
-        Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
-        if (authId!=null && owner.getId()!=authId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
+@Transactional
+@Override
+public boolean deleteOwnerByTin(String tinNumber) throws EntityNotFoundException {
+    try {
+        logger.info("Deleting an owner by tin number {}", tinNumber);
+        Optional<Owner> owner = ownerRepository.findByTinNumber(tinNumber);
+        // long result = 0;
 
-        try {
-            logger.info("With id, deleting an owner by id {}", id);
-
-            if (!owner.getProperties().isEmpty()) {
-                owner.setActive(false);
-                ownerRepository.save(owner);
-                return true;
-            } else {
-                logger.info("Completely Empty Owner deleting");
-                ownerRepository.deleteById(id);
-            }
-
-            return false;
-
-        } catch (Exception e) {
-            throw new EntityNotFoundException(e.getMessage());
+        if (owner.isPresent() && owner.get().getProperties().isEmpty()) {
+            owner.get().setActive(false);
+            ownerRepository.save(owner.get());
+            return true;
+        } else {
+            logger.info("With Tin found completely Empty Owner deleting");
+            ownerRepository.deleteByTinNumber(tinNumber);
         }
+
+        return false;
+
+    } catch (Exception e) {
+        throw new EntityNotFoundException(e.getMessage());
     }
+}
+
+@Transactional
+@Override
+public boolean deleteOwnerById(Long authId, Long id) throws EntityNotFoundException, UnauthorizedAccessException {
+
+    Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
+    if (authId != null && owner.getId() != authId)
+        throw new UnauthorizedAccessException("You are unable to modify this entity.");
+
+    try {
+        logger.info("With id, deleting an owner by id {}", id);
+
+        if (!owner.getProperties().isEmpty()) {
+            owner.setActive(false);
+            ownerRepository.save(owner);
+            return true;
+        } else {
+            logger.info("Completely Empty Owner deleting");
+            ownerRepository.deleteById(id);
+        }
+
+        return false;
+
+    } catch (Exception e) {
+        throw new EntityNotFoundException(e.getMessage());
+    }
+}
 
 
 }

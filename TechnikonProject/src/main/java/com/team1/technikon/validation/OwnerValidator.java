@@ -2,15 +2,24 @@ package com.team1.technikon.validation;
 
 import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.regex.Pattern;
 
+@Slf4j
 public class OwnerValidator {
 
+
+    private static final Logger logger = LoggerFactory.getLogger(OwnerValidator.class);
+
     public static boolean isValidOwner(OwnerDto ownerDto) {
+        logger.info("isValidOwner");
         return (isValidEmail(ownerDto.email()) &&
                 isValidUsername(ownerDto.username()) &&
-                isValidName(ownerDto.firstName(), ownerDto.lastName()) && isValidTinNumber(ownerDto.tinNumber()) &&
+                isValidName(ownerDto.firstName(), ownerDto.lastName()) &&
+                isValidTinNumber(ownerDto.tinNumber()) &&
                 isValidPhone(ownerDto.phone()));
 
     }
@@ -41,6 +50,7 @@ public class OwnerValidator {
     }
 
     public static boolean isValidSignUpDto(SignUpDto signUpDto) {
+        logger.info("isValidSignUpDto: {}", signUpDto);
         return isValidUsername(signUpDto.username()) && isValidEmail(signUpDto.email());
     }
 }

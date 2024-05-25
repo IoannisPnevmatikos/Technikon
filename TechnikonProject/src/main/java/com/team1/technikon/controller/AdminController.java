@@ -5,12 +5,12 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
-import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.service.AdminOwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -83,8 +83,8 @@ public class AdminController {
     }
 
     @PutMapping("/owner/{userId}")
-    public ResponseEntity<OwnerDto> updateOwner( @PathVariable("userId")Long userId, @RequestBody OwnerDto ownerDto) throws EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
-        return ResponseEntity.ok(adminOwnerService.updateOwner(null, userId, ownerDto));
+    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("userId") Long userId, @RequestBody OwnerDto ownerDto) throws EntityNotFoundException, EntityFailToCreateException {
+        return ResponseEntity.ok(adminOwnerService.updateOwner(userId, ownerDto));
 
     }
 
@@ -95,11 +95,10 @@ public class AdminController {
     }
 
 
-
-//    @PutMapping("/owner/{id}")
-//    public ResponseEntity<String> deactivateOwnerById (@PathVariable long id) throws EntityNotFoundException {
-//        adminOwnerService.deactivateOwnerById(id);
-//        return ResponseEntity.ok("DeActivated owner with id " + id);
-//    }
+    @PutMapping("/owner/deactivate/{id}")
+    public ResponseEntity<String> deactivateOwnerById (@PathVariable long id) throws EntityNotFoundException {
+        adminOwnerService.deactivateOwnerById(id);
+        return ResponseEntity.ok("DeActivated owner with id " + id);
+    }
 
 }

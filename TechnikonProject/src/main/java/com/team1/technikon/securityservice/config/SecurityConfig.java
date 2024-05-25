@@ -48,7 +48,8 @@ public class SecurityConfig {
                                 "/api/**",
                                 "/api/admin/*",
                                 "/auth/signup/admin",
-                                "/auth/logout"
+                                "/auth/logout",
+                                "/auth/changePassword"
                         ).authenticated() // 8elei authentication
                 )
                 .authenticationProvider(authenticationProvider)
@@ -75,6 +76,7 @@ public class SecurityConfig {
             response.getWriter().flush();
         };
     }
+
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
         DaoAuthenticationProvider authenticationProvider = new DaoAuthenticationProvider();
