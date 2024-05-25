@@ -42,7 +42,10 @@ public class Mapper {
                 property.getYearOfConstruction(),
                 property.getTypeOfProperty(),
                 property.getPhoto(),
-                property.getMapLocation()
+                property.getMapLocation(),
+                property.getRegistrationDate(),
+                property.isActive(),
+                property.getOwner().getTinNumber()
         );
     }
 
