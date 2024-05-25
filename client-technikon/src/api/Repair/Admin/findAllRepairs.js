@@ -1,11 +1,11 @@
 import axios from "axios";
 import { base_url, uri } from "../../../constants/endpoints/endpoints";
 
-const MyRepairs = async (token) => {
+const findAllRepairs = async (token) => {
 
     // Send GET request
     return axios.get(
-        `${base_url}${uri.api}${uri.repair}/tinNumber`,
+        `${base_url}${uri.api}${uri.admin}${uri.repair}`,
         {
           headers: {
             'Authorization': `Bearer ${token}`,
@@ -15,4 +15,4 @@ const MyRepairs = async (token) => {
       );
 }
 
-    export default MyRepairs;
+    export default findAllRepairs;
