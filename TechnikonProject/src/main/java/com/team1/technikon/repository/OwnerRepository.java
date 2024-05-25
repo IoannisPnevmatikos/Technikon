@@ -51,7 +51,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     @Transactional
     @Modifying
-    @Query("delete Owner o where o.tinNumber = :tinNumber")
-    void deleteByTinNumber(@Param("tinNumber") String tinNumber);
+    @Query("delete Owner o where o.username = :username")
+    void deleteByUsername(@Param("username") String username);
 
 }

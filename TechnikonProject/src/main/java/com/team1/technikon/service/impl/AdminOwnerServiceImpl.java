@@ -128,10 +128,7 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     public OwnerDto updateOwner(Long ownerId, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException {
         Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
         if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
-        if (ownerDto.username() != null) owner.setUsername(ownerDto.username());
-        if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
-        if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
-        if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
+        OwnerServiceImpl.setUpdateFields(ownerDto, owner);
 //
         if (ownerDto.email() != null && !ownerDto.email().equals(owner.getEmail())) owner.setEmail(ownerDto.email());
         if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
