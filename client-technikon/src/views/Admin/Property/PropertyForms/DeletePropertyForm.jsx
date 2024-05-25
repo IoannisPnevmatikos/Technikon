@@ -1,24 +1,48 @@
-import React from 'react';
-import { Box, Button, TextField } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, TextField, MenuItem, CircularProgress } from '@mui/material';
 
-const DeletePropertyForm = ({ handleSubmit, handleBackClick }) => (
-  <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
+const DeletePropertyForm = ({ handleSubmit, handleBackClick }) => {
+
+  const [isLoading, setIsLoading] = useState(false);
+  const onSubmit = (event) => handleSubmit(event, setIsLoading);
+
+  return (  <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={onSubmit}>
     <TextField
       name="id"
       label="Property ID"
-      type="number"
       fullWidth
       margin="normal"
       required
-      inputProps={{ pattern: "\\d*", min: "0" }}
+      inputProps={{ maxLength: 11, pattern: "[0-9]{11}" }}
     />
-    <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-      Delete
-    </Button>
-    <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
+  <Box sx={{ position: 'relative' }}>
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ mt: 2 }}
+            disabled={isLoading}
+          >
+            {isLoading ? 'Deleting...' : 'Delete'}
+          </Button>
+          {isLoading && (
+            <CircularProgress
+              size={24}
+              sx={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                marginTop: '-12px',
+                marginLeft: '-12px',
+              }}
+            />
+          )}
+        </Box>
+    <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick} disabled={isLoading}>
       Back
     </Button>
-  </Box>
-);
+  </Box>);
+};
 
 export default DeletePropertyForm;

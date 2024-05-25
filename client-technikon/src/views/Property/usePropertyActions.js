@@ -5,7 +5,6 @@ import updateProperty from '../../api/Property/User/updatePoperty';
 import findMyProperties from '../../api/Property/User/findMyProperties';
 import findPropertyByE9 from '../../api/Property/User/findPropertyByE9';
 import { paths } from '../../constants/paths/paths';
-import React, { useState } from 'react';
 
 const usePropertyActions = (token, navigate) => {
   const handleSubmitCreate = useCallback(async (event, setIsLoading) => {
@@ -80,7 +79,8 @@ const usePropertyActions = (token, navigate) => {
     }
   }, [token, navigate]);
 
-  const handleFindMyProperties = useCallback(async () => {
+  const handleFindMyProperties = useCallback(async (setIsLoading) => {
+    setIsLoading(true);
 
     try {
       const response = await findMyProperties(token?.data); // Pass the token here
@@ -90,6 +90,8 @@ const usePropertyActions = (token, navigate) => {
     } catch (error) {
       console.error('Properties search failed:', error);
       alert('Properties search failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
   }, [token, navigate]);
 
