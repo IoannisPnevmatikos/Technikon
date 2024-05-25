@@ -1,7 +1,9 @@
-import React from 'react';
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, TextField, CircularProgress } from '@mui/material';
 
 const FindRepairByDateForm = ({ handleSubmit, handleBackClick }) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const handleChange = (event) => {
     // Convert the date value to the desired format
     const selectedDate = event.target.value;
@@ -11,8 +13,14 @@ const FindRepairByDateForm = ({ handleSubmit, handleBackClick }) => {
     event.target.value = formattedDate;
   };
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+    setIsLoading(true);
+    handleSubmit(event, setIsLoading);
+  };
+
   return (
-    <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
+    <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={onSubmit}>
       <TextField
         name="localDate"
         label="Local Date"
@@ -25,10 +33,24 @@ const FindRepairByDateForm = ({ handleSubmit, handleBackClick }) => {
         required
         onChange={handleChange} // Changed to the defined function
       />
-      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-        Submit
-      </Button>
-      <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
+      <Box sx={{ position: 'relative' }}>
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} disabled={isLoading}>
+          {isLoading ? 'Submitting...' : 'Submit'}
+        </Button>
+        {isLoading && (
+          <CircularProgress
+            size={24}
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+            }}
+          />
+        )}
+      </Box>
+      <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick} disabled={isLoading}>
         Back
       </Button>
     </Box>

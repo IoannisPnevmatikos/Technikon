@@ -4,7 +4,7 @@ export const paths = {
     owner: "/owner",
     property: "/property",
     adminProperty: "/admin/property",
-    adminRepair: "admin/repair",
+    adminRepair: "/admin/repair",
     repair: "/repairs",
     login: "/login",
     signup: "/signup"

@@ -1,7 +1,9 @@
-import React from 'react';
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, TextField } from '@mui/material';
 
 const FindRepairByDateForm = ({ handleSubmit, handleBackClick }) => {
+  const [isLoading, setIsLoading] = useState(false); // Add loading state
+
   const handleChange = (event) => {
     // Convert the date value to the desired format
     const selectedDate = event.target.value;
@@ -11,8 +13,22 @@ const FindRepairByDateForm = ({ handleSubmit, handleBackClick }) => {
     event.target.value = formattedDate;
   };
 
+  const handleFormSubmit = async (event) => {
+    event.preventDefault();
+    setIsLoading(true); // Set loading state to true
+
+    try {
+      await handleSubmit(event);
+      setIsLoading(false); // Reset loading state when submission is complete
+    } catch (error) {
+      setIsLoading(false); // Reset loading state if submission fails
+      console.error('Error occurred:', error);
+      alert('Error occurred. Please try again.');
+    }
+  };
+
   return (
-    <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
+    <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleFormSubmit}>
       <TextField
         name="localDate"
         label="Local Date"
@@ -24,9 +40,10 @@ const FindRepairByDateForm = ({ handleSubmit, handleBackClick }) => {
         }}
         required
         onChange={handleChange} // Changed to the defined function
+        disabled={isLoading} // Disable input field while loading
       />
-      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-        Submit
+      <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }} disabled={isLoading}>
+        {isLoading ? 'Loading...' : 'Submit'} {/* Change button text based on loading state */}
       </Button>
       <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
         Back

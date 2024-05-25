@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Button, TextField, MenuItem } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import useToken from '../../stores/useToken';
+import useToken from '../../../stores/useToken';
 import FindRepairByDateForm from './RepairForms/FindRepairByDateForm';
 import FindRepairByDateRangeForm from './RepairForms/FindRepairByDateRangeForm';
+import FindRepairByOwnerTinNumberForm from './RepairForms/FindRepairByOwnerTinNumberForm';
 import UpdateRepairForm from './RepairForms/UpdateRepairForm';
 import CreateRepairForm from './RepairForms/CreateRepairForm';
 import DeleteRepairForm from './RepairForms/DeleteRepairForm';
@@ -28,10 +29,9 @@ function RepairAdminActionsPage() {
   } = useRepairAdminActions(token, navigate);
 
 
-  //allghhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhwwwwwwwwwwwwwwwwwwwwww WWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWWW
   const handleBackClick = () => {
     setActiveForm('');
-    navigate('/repairs'); // This will update the URL to /repairs
+    navigate(paths.adminRepair); // This will update the URL to /repairs
   };
 
   const renderForm = () => {
@@ -47,7 +47,7 @@ function RepairAdminActionsPage() {
       case 'deleteRepair':
         return <DeleteRepairForm handleSubmit={handleSubmitDelete} handleBackClick={handleBackClick} />;
       case 'findRepairByOwnerTinNumber':
-        return <FindRepairByOwnerTinNumber handleSubmit={handleSubmitFindRepairByOwnerTinNumber} handleBackClick={handleBackClick} />;
+        return <FindRepairByOwnerTinNumberForm handleSubmit={handleSubmitFindRepairByOwnerTinNumber} handleBackClick={handleBackClick} />;
       case 'getRepairReport':
         return <GetRepairReportForm handleSubmit={handleSubmitGetRepairReport} handleBackClick={handleBackClick} />;
       default:

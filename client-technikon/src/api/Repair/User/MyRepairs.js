@@ -1,7 +1,7 @@
 import axios from "axios";
 import { base_url, uri } from "../../../constants/endpoints/endpoints";
 
-const MyRepairs = async (formData, token) => {
+const MyRepairs = async (token) => {
 
     // Send GET request
     return axios.get(

@@ -19,7 +19,7 @@ function Admin() {
           <Button variant="contained" color="primary" onClick={() => navigate(paths.adminProperty)}>
             Manage Properties
           </Button>
-          <Button variant="contained" color="primary" onClick={() => navigate(paths.adminProperty)}>
+          <Button variant="contained" color="primary" onClick={() => navigate('/admin/repair')}>
             Manage Repairs
           </Button>
         </Box>

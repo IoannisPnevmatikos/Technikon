@@ -24,7 +24,7 @@ function RepairActionsPage() {
 
   const handleBackClick = () => {
     setActiveForm('');
-    navigate('/repairs'); // This will update the URL to /repairs
+    navigate(paths.repair); // This will update the URL to /repairs
   };
 
   const renderForm = () => {

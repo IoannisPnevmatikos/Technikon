@@ -1,5 +1,6 @@
-import React from 'react';
-import { Box, Button, TextField, MenuItem } from '@mui/material';
+import React, { useState } from 'react';
+import { Box, Button, TextField, MenuItem, CircularProgress } from '@mui/material';
+import { createRepair } from '../api/Repair/User/createRepair'; // Import the createRepair function
 
 const handleKeyDown = (event) => {
     // Prevent input of period (".")
@@ -8,89 +9,50 @@ const handleKeyDown = (event) => {
     }
 };
 
-const CreateRepairForm = ({ handleSubmit, handleBackClick }) => (
-    <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
-        <TextField
-            name="localDate"
-            label="Local Date"
-            type="date"
-            fullWidth
-            margin="normal"
-            InputLabelProps={{
-                shrink: true,
-            }}
-            required
-        />
-        <TextField
-        name="shortDescription"
-            label="Short Description"
-            fullWidth
-            margin="normal"
-            required
-        />
-        <TextField
-        name="typeOfRepair"
-            label="Type of Repair"
-            select
-            fullWidth
-            margin="normal"
-            required
-        >
-            <MenuItem value="PAINTING">Painting</MenuItem>
-              <MenuItem value="INSULATION">Insulation</MenuItem>
-              <MenuItem value="FRAMES">Frames</MenuItem>
-              <MenuItem value="PLUMING">Pluming</MenuItem>
-              <MenuItem value="ELECTRICAL_WORK">Electrical Work</MenuItem>
-            {/* Add more options as needed */}
-        </TextField>
-        <TextField
-        name="statusOfRepair"
-            label="Status of Repair"
-            select
-            fullWidth
-            margin="normal"
-            required
-        >
-            <MenuItem value="SCHDULED">Scheduled</MenuItem>
-              <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
-              <MenuItem value="COMPLETE">Complete</MenuItem>
-              <MenuItem value="PENDING">Pending</MenuItem>
-            {/* Add more options as needed */}
-        </TextField>
-        <TextField
-        name="cost"
-            label="Cost"
-            type="number"
-            fullWidth
-            margin="normal"
-            required
-        />
-        <TextField
-        name="descriptionText"
-            label="Description Text"
-            fullWidth
-            margin="normal"
-            required
-        />
-        <TextField
-        name="propertyId"
-            label="PropertyId"
-            fullWidth
-            margin="normal"
-            required
-            inputProps={{
-                inputMode: 'numeric',
-                pattern: '^[0-9]+$',
-                onKeyDown: handleKeyDown // Call handleKeyDown event handler
-            }}
-        />
-        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
-            Submit
-        </Button>
-        <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
-            Back
-        </Button>
-    </Box>
-);
+const CreateRepairForm = ({ handleSubmit, handleBackClick }) => {
+    const [isLoading, setIsLoading] = useState(false); // State to track loading status
+
+    const onSubmit = async (event) => {
+        event.preventDefault();
+        setIsLoading(true); // Set loading to true when form is submitted
+        try {
+            await handleSubmit(event); // Call the handleSubmit function passed as prop
+            alert('Repair created!');
+            // Handle navigation or any other success action
+        } catch (error) {
+            console.error('Repair creation failed:', error);
+            alert('Repair creation failed. Please try again.');
+            // Handle error state or display error message
+        } finally {
+            setIsLoading(false); // Reset loading state
+        }
+    };
+
+    return (
+        <Box sx={{ mt: 3, width: '100%' }}>
+            <form onSubmit={onSubmit}>
+                {/* Your form fields */}
+                <TextField
+                    name="localDate"
+                    label="Local Date"
+                    type="date"
+                    fullWidth
+                    margin="normal"
+                    InputLabelProps={{
+                        shrink: true,
+                    }}
+                    required
+                />
+                {/* Other text fields */}
+                <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
+                    {isLoading ? <CircularProgress size={24} /> : 'Submit'}
+                </Button>
+                <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick} disabled={isLoading}>
+                    Back
+                </Button>
+            </form>
+        </Box>
+    );
+};
 
 export default CreateRepairForm;

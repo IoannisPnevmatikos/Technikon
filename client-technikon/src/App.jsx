@@ -9,6 +9,8 @@ import RepairActionsPage from "./views/Repair/RepairActionsPage";
 import Property from "./views/Property/Property"
 import PropertyAdmin from "./views/Admin/Property/PropertyAdmin";
 import { paths } from "./constants/paths/paths";
+import CreatePropertyForm from "./views/Property/PropertyForms/CreatePropertyForm";
+import RepairAdminActionsPage from "./views/Admin/Repair/RepairAdminActionPage";
 import PropertyDetails from "./views/Property/PropertyDetails/PropertyDetails";
 
 function App() {
@@ -24,6 +26,7 @@ function App() {
           <Route path={paths.repair} element={<RepairActionsPage />} />
           <Route path={paths.property} element={<Property />} />
           <Route path={paths.adminProperty} element={<PropertyAdmin />} />
+          <Route path={paths.adminRepair} element={<RepairAdminActionsPage />} />
           <Route path="property/:id" element={<PropertyDetails />} />
         </Route>
       </Routes>
