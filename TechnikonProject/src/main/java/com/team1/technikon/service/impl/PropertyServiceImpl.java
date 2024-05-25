@@ -54,15 +54,14 @@ public class PropertyServiceImpl implements PropertyService {
 
     @Override
     public List<Property> getPropertyByOwnerTinNumber(Long ownerId, String tinNumber) throws EntityNotFoundException {
-        String ownerTin;
+        log.info("Getting all properties from requested owner");
+        List<Property> properties;
         if (tinNumber!=null) {
-            ownerTin = tinNumber;
+            properties = ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getProperties();
         }
         else {
-            ownerTin = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getTinNumber();
+            properties = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getProperties();
         }
-        log.info("Getting all properties from owner {}", ownerTin);
-        List<Property> properties = propertyRepository.findByOwnerTinNumber(ownerTin);
         if (properties.isEmpty()) throw new EntityNotFoundException("No properties found for the requested user.");
         return properties;
     }
@@ -88,8 +87,8 @@ public class PropertyServiceImpl implements PropertyService {
     //UPDATE
     @Transactional
     @Override
-    public PropertyDto updateProperty(Long ownerId, long id, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException {
-        Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
+    public PropertyDto updateProperty(Long ownerId, String propertyId, PropertyDto propertyDto) throws EntityNotFoundException, InvalidInputException, UnauthorizedAccessException, EntityFailToCreateException {
+        Property property = propertyRepository.findByPropertyId(propertyId).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
         if (ownerId!=null && property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to modify this entity.");
         if (propertyDto.propertyId()!=null) property.setPropertyId(propertyDto.propertyId());
         if (propertyDto.address()!=null) property.setAddress(propertyDto.address());
@@ -109,13 +108,13 @@ public class PropertyServiceImpl implements PropertyService {
     //DELETE
     @Transactional
     @Override
-    public boolean deleteProperty(Long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException {
+    public boolean deleteProperty(Long ownerId, String propertyId) throws EntityNotFoundException, UnauthorizedAccessException {
 
-        Property property = propertyRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
+        Property property = propertyRepository.findByPropertyId(propertyId).orElseThrow(() -> new EntityNotFoundException("Requested property not found."));
         if (ownerId!=null && property.getOwner().getId()!=ownerId) throw new UnauthorizedAccessException("You are unable to delete this entity.");
         if (property.getRepairs().isEmpty())
         {
-            propertyRepository.deleteById(id);
+            propertyRepository.deleteById(property.getId());
         } else {
             property.setActive(false);
             propertyRepository.save(property);

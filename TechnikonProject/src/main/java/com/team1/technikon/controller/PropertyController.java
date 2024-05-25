@@ -45,18 +45,18 @@ public class PropertyController {
         return ResponseEntity.ok(propertyService.getPropertyByOwnerTinNumber(id, null));
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable long id, @RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
+    @PutMapping("/{propertyId}")
+    public ResponseEntity<PropertyDto> updatePropertyId(@PathVariable String propertyId, @RequestBody PropertyDto propertyDto, Authentication authentication) throws InvalidInputException, EntityNotFoundException, UnauthorizedAccessException, EntityFailToCreateException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
-        return ResponseEntity.ok(propertyService.updateProperty(ownerId, id, propertyDto));
+        return ResponseEntity.ok(propertyService.updateProperty(ownerId, propertyId, propertyDto));
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Boolean> deleteProperty(@PathVariable long id, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+    @DeleteMapping("/{propertyId}")
+    public ResponseEntity<Boolean> deleteProperty(@PathVariable String propertyId, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
-        return ResponseEntity.ok(propertyService.deleteProperty(ownerId, id));
+        return ResponseEntity.ok(propertyService.deleteProperty(ownerId, propertyId));
     }
 
 }
