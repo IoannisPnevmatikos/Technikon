@@ -7,11 +7,11 @@ const deleteOwner = async (formData, token) => {
 
   // Send POST request
   return axios.delete(
-    `${base_url}${uri.api}${uri.owner}/${data.id}`,
+    `${base_url}${uri.api}${uri.owner}/${data.username}`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,
-        'Content-Type': 'application/json' // Optional but recommended
+        'Content-Type': 'application/json'
       }
     }
   );

@@ -4,7 +4,7 @@ import { base_url, uri } from "../../../constants/endpoints/endpoints";
 const createOwner = async (formData, token) => {
 
   const data = Object.fromEntries(formData.entries());
-
+  
 
   const payload = {
     tinNumber: data.tinNumber,
@@ -16,8 +16,8 @@ const createOwner = async (formData, token) => {
     address: data.address,
     phone: data.phone
     }
- ;
-
+    
+    console.log(payload)
   // Send POST request
   return axios.put(
     `${base_url}${uri.api}${uri.owner}`,

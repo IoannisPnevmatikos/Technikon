@@ -20,7 +20,7 @@ const updateOwner = async (formData, token) => {
 
   // Send POST request
   return axios.put(
-    `${base_url}${uri.api}${uri.owner}/${data.id}`,
+    `${base_url}${uri.api}${uri.owner}/${data.username}`,
     payload,
     {
       headers: {
