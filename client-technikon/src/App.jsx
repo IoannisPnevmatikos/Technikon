@@ -18,6 +18,7 @@ import ReportDetailsAdmin from "./views/Admin/Property/PropertyDetails/ReportDet
 import RepairFetchedData from "./views/Repair/RepairFetchedData";
 import RepairFetchedDataAdmin from "./views/Admin/Repair/RepairFetchedDataAdmin";
 import RepairFetchedDataReportAdmin from "./views/Admin/Repair/RepairFetchedDataReportAdmin";
+import OwnerProfile from "./views/Owner/OwnerProfile";
 
 function App() {
   return (
@@ -29,6 +30,8 @@ function App() {
           <Route path={paths.signup} element={<Sign />} />
           <Route path={paths.admin} element={<Admin />} />
           <Route path={paths.owner} element={<Owner />} />
+          <Route path={paths.ownerProfile} element={<OwnerProfile />} />
+
           <Route path={paths.repair} element={<RepairActionsPage />} />
           <Route path={paths.property} element={<Property />} />
           <Route path={paths.adminProperty} element={<PropertyAdmin />} />
