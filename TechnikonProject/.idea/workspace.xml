@@ -4,13 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminPropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminPropertyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/PropertyController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/PropertyController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/PropertyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/PropertyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/service/impl/PropertyServiceImpl.java" afterDir="false" />
-    </list>
+    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
