@@ -9,6 +9,7 @@ import RepairActionsPage from "./views/Repair/RepairActionsPage";
 import Property from "./views/Property/Property"
 import PropertyAdmin from "./views/Admin/Property/PropertyAdmin";
 import { paths } from "./constants/paths/paths";
+import CreatePropertyForm from "./views/Property/PropertyForms/CreatePropertyForm";
 
 function App() {
   return (

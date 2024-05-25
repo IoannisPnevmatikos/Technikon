@@ -5,13 +5,13 @@ const DeletePropertyForm = ({ handleSubmit, handleBackClick }) => (
   <Box component="form" sx={{ mt: 3, width: '100%' }} onSubmit={handleSubmit}>
     <TextField
       name="id"
-      label="Property ID"
+      label="Property E9"
       type="number"
       fullWidth
       margin="normal"
       required
-      inputProps={{ pattern: "\\d*", min: "0" }}
-    />
+      inputProps={{ maxLength: 11, pattern: "[0-9]{11}" }}
+      />
     <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}>
       Delete
     </Button>
