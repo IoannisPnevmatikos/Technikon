@@ -7,6 +7,7 @@ import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.model.Property;
+import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.service.OwnerService;
 import com.team1.technikon.service.PropertyService;
 import com.team1.technikon.service.RepairService;
@@ -25,9 +26,11 @@ import java.util.List;
 public class AdminPropertyController {
 
     private PropertyService propertyService;
+    private OwnerRepository ownerRepository;
 
-    @PostMapping("/{id}")
-    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto, @PathVariable long id) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
+    @PostMapping("/{tinNumber}")
+    public ResponseEntity<PropertyDto> addProperty(@RequestBody PropertyDto propertyDto, @PathVariable String tinNumber) throws InvalidInputException, EntityFailToCreateException, EntityNotFoundException {
+        long id = ownerRepository.findByTinNumber(tinNumber).orElseThrow(() -> new EntityNotFoundException("Requested tinNumber does not exist.")).getId();
         return ResponseEntity.ok(propertyService.createProperty(id, propertyDto));
     }
 
