@@ -15,7 +15,7 @@ function PropertyAdmin() {
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
-  console.log(token?.data)
+  
   const {
     handleSubmitCreate,
     handleSubmitDelete,
