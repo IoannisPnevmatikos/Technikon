@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import login from "../api/Login/login";
+import logout from "../api/Logout/logout";
 
 const useToken = create((set) => ({
   token: null,
@@ -14,7 +15,12 @@ const useToken = create((set) => ({
       return { status: 401, error }; // Return status and error on failure
     }
   },
-  logout: () => set({ token: null }),
+  logout: async () => {
+    await logout();
+    set({ token: null })
+    localStorage.setItem('token', null);
+
+  },
 }));
 
 export default useToken;

@@ -12,8 +12,8 @@ import useToken from "../stores/useToken";
 const Header = () => {
   const { token, logout } = useToken();
 
-  const handleLogout = async () => {
-    await logout();
+  const handleLogout =  () => {
+    logout();
     alert('You have successfully logged out.');
   };
 

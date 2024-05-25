@@ -10,6 +10,7 @@ import DeleteOwnerForm from './Forms/DeleteOwnerForm';
 import useOwnerActions from './useOwnerActions';
 
 function Owner() {
+  
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
@@ -18,7 +19,6 @@ function Owner() {
     handleSubmitDelete,
     handleSubmitUpdate,
     handleSubmitFindOwnerByTin,
-    handleSubmitFindById
   } = useOwnerActions(token, navigate);
 
   const handleBackClick = () => {
@@ -28,8 +28,15 @@ function Owner() {
 
   const renderForm = () => {
     switch (activeForm) {
-      case 'createOwnerForm':
+      case 'createOwner':
         return <CreateOwnerForm handleSubmit={handleSubmitCreate} handleBackClick={handleBackClick} />;
+        case 'findOwnerByTin':
+        return <FindOwnerByTinForm handleSubmit={handleSubmitFindOwnerByTin} handleBackClick={handleBackClick} />;
+    
+      case 'updateOwner':
+        return <UpdateOwnerForm handleSubmit={handleSubmitUpdate} handleBackClick={handleBackClick} />;
+      case 'deleteOwner':
+        return <DeleteOwnerForm handleSubmit={handleSubmitDelete} handleBackClick={handleBackClick} />;
       default:
         return null;
     }
@@ -46,11 +53,8 @@ function Owner() {
         ) : (
           <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 4 }}>
             <Button variant="contained" color="primary" onClick={() => setActiveForm('createOwner')}>
-              Form Owner
-            </Button>
-            <Button variant="contained" color="primary" onClick={() => handleOwnerForm()}>
-              Submit Owner
-            </Button>
+              Create Owner
+            </Button>  
             <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByTin')}>
               Find Owner
             </Button>

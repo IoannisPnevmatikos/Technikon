@@ -1,91 +1,108 @@
-import { useCallback } from 'react';
+import { useCallback,useState } from 'react';
 import createOwner from '../../api/Owner/User/createOwner';
 import deleteOwner from '../../api/Owner/User/deleteOwner';
 import updateOwner from '../../api/Owner/User/updateOwner';
 import findById from '../../api/Owner/User/findById';
 import findOwnerByTin from '../../api/Owner/User/findOwnerByTin';
 import {paths} from '../../constants/paths/paths'
+import { redirect  } from 'react-router-dom';
 
 const useOwnerActions = (token, navigate) => {
-  const handleSubmitCreate = useCallback(async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
 
+
+  const handleSubmitCreate = useCallback(async (event,setIsLoading) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const formData = new FormData(event.target);
     try {
-      const response = await createOwner(formData, token?.data); // Pass the token here
+      const response = await createOwner(formData, token?.data); 
       console.log('Owner created successfully', response);
       alert('Owner created!');
+      event.target.reset();
       navigate(paths.owner);
+  
     } catch (error) {
       console.error('Owner creation failed:', error);
       alert('Owner creation failed. Please try again.');
     }
-  }, [token, navigate]);
-
-  const handleSubmitDelete = useCallback(async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-
-    try {
-      const response = await deleteOwner(formData, token?.data); // Pass the token here
-      console.log('Owner deleted successfully', response);
-      alert('Owner deleted!');
-      navigate(paths.owner);
-    } catch (error) {
-      console.error('Owner deletion failed:', error);
-      alert('Owner deletion failed. Please try again.');
+    finally {
+      setIsLoading(false);
     }
   }, [token, navigate]);
 
-  const handleSubmitUpdate = useCallback(async (event) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+  
+  const [ownerData, setOwnerData] = useState(null);
 
-    try {
-      const response = await updateOwner(formData, token?.data); // Pass the token here
-      console.log('Owner updated successfully', response);
-      alert('Owner updated!');
-      navigate(paths.owner);
-    } catch (error) {
-      console.error('Owner update failed:', error);
-      alert('Owner update failed. Please try again.');
-    }
-  }, [token, navigate]);
-
-  const handleSubmitFindOwnerByTin = useCallback(async (event) => {
+  const handleSubmitFindOwnerByTin = useCallback(async (event,setIsLoading) => {
     event.preventDefault();
     const formData = new FormData(event.target);
 
     try {
       const response = await findOwnerByTin(formData, token?.data); // Pass the token here
       console.log('Owner found successfully', response);
+      
       alert('Owner found!');
-      navigate(paths.owner);
+    
+      setOwnerData(response.data);
+      redirect(paths.ownerProfile);
     } catch (error) {
       console.error('Owner search failed:', error);
       alert('Owner search failed. Please try again.');
+    } finally {
+      setIsLoading(false);
     }
+
   }, [token, navigate]);
 
-  const handleSubmitFindById = useCallback(async () => {
+
+  const handleSubmitUpdate = useCallback(async (event,setIsLoading) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const formData = new FormData(event.target);
 
     try {
-      const response = await findById(token?.data); // Pass the token here
-      console.log('Owner found successfully', response);
-      alert('Owner found!');
+      const response = await updateOwner(formData, token?.data); 
+      console.log('Owner updated successfully', response);
+      alert('Owner updated!')
+      event.target.reset();
+     
       navigate(paths.owner);
     } catch (error) {
-      console.error('Owner search failed:', error);
-      alert('Owner search failed. Please try again.');
+      console.error('Owner update failed:', error);
+      alert('Owner update failed. Please try again.');
+    }
+    finally {
+      setIsLoading(false);
     }
   }, [token, navigate]);
+
+
+  const handleSubmitDelete = useCallback(async (event,setIsLoading) => {
+    event.preventDefault();
+    setIsLoading(true);
+    const formData = new FormData(event.target);
+
+    try {
+      const response = await deleteOwner(formData, token?.data); // Pass the token here
+      console.log('Owner deleted successfully', response);
+      alert('Owner deleted!');
+      event.target.reset();
+      navigate(paths.owner);
+    } catch (error) {
+      console.error('Owner deletion failed:', error);
+      alert('Owner deletion failed. Please try again.');
+    }
+    finally {
+      setIsLoading(false);
+    }
+  }, [token, navigate]);
+
 
   return {
     handleSubmitCreate,
-    handleSubmitDelete,
-    handleSubmitUpdate,
     handleSubmitFindOwnerByTin,
-    handleSubmitFindById
+    handleSubmitUpdate,
+    handleSubmitDelete
   };
 };
 

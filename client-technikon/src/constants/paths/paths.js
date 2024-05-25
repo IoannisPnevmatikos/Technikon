@@ -2,6 +2,7 @@ export const paths = {
     home: "/",
     admin: "/admin",
     owner: "/owner",
+    ownerProfile: "/owner/profile" ,
     property: "/property",
     adminProperty: "/admin/property",
     adminRepair: "/admin/repair",
