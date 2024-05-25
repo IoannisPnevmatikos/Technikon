@@ -6,7 +6,6 @@ const UpdatePropertyForm = ({ handleSubmit, handleBackClick }) => (
     <TextField
       name="id"
       label="Current property E9"
-      type="number"
       fullWidth
       margin="normal"
       required

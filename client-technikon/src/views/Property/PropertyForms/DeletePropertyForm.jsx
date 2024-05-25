@@ -6,7 +6,6 @@ const DeletePropertyForm = ({ handleSubmit, handleBackClick }) => (
     <TextField
       name="id"
       label="Property E9"
-      type="number"
       fullWidth
       margin="normal"
       required
