@@ -36,18 +36,26 @@ public class OwnerController {
         return ResponseEntity.ok(ownerService.getOwnerById(authId, ownerId));
     }
 
-    @PutMapping("/{ownerId}")
-    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("ownerId") long ownerId, @RequestBody OwnerDto ownerDto, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException, InvalidInputException {
+    @GetMapping("/tin/{tinNumber}")
+    public ResponseEntity<OwnerDto> getOwnerByTinNumber(@PathVariable("tinNumber") String tin, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         Long authId = userInfoDetails.getId();
-        return ResponseEntity.ok(ownerService.updateOwner(authId, ownerId, ownerDto));
+        return ResponseEntity.ok(ownerService.getOwnerByTin(authId, tin));
     }
 
-    @DeleteMapping("/{ownerId}")
-    public ResponseEntity<Boolean> deleteOwner(@PathVariable("ownerId") long ownerId, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+
+    @PutMapping("/{username}")
+    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("username") String username, @RequestBody OwnerDto ownerDto, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException, InvalidInputException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         Long authId = userInfoDetails.getId();
-        return ResponseEntity.ok(ownerService.deleteOwnerById(authId, ownerId));
+        return ResponseEntity.ok(ownerService.updateOwner(authId, username, ownerDto));
+    }
+
+    @DeleteMapping("/{username}")
+    public ResponseEntity<Boolean> deleteOwner(@PathVariable("username") String username, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
+        UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+        Long authId = userInfoDetails.getId();
+        return ResponseEntity.ok(ownerService.deleteOwnerByUsername(authId, username));
     }
 
 //    @DeleteMapping("")

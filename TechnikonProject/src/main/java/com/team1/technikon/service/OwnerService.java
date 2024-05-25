@@ -21,13 +21,14 @@ public interface OwnerService extends UserDetailsService {
     OwnerDto getOwnerById(Long authId, long id) throws EntityNotFoundException,UnauthorizedAccessException;
 
     //UPDATE
-    OwnerDto updateOwner(Long authId, Long ownerId, OwnerDto ownerDto) throws UnauthorizedAccessException, InvalidInputException, EntityNotFoundException ;
+    OwnerDto updateOwner(Long authId, String username, OwnerDto ownerDto) throws UnauthorizedAccessException, InvalidInputException, EntityNotFoundException ;
 
     String updateOwnerPassword(ChangePwRequestDto changePwRequestDto)  throws EntityNotFoundException,InvalidInputException;
     //DELETE
-    boolean deleteOwnerByTin(String tinNumber) throws EntityNotFoundException;
+    boolean deleteOwnerByUsername(Long id,String username) throws EntityNotFoundException;
 
     boolean deleteOwnerById(Long authId,Long id) throws EntityNotFoundException, UnauthorizedAccessException;
 
 
+    OwnerDto getOwnerByTin(Long authId, String tin) throws UnauthorizedAccessException, EntityNotFoundException, UnauthorizedAccessException;
 }
