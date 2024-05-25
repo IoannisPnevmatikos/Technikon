@@ -16,7 +16,7 @@ const usePropertyActions = (token, navigate) => {
       const response = await createProperty(formData, token?.data); // Pass the token here
       console.log('Property created successfully', response);
       alert('Property created!');
-      navigate(paths.property);
+      navigate(`${paths.property}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property creation failed:', error);
       alert('Property creation failed. Please try again.');
