@@ -62,6 +62,7 @@ public class Mapper {
 
     public static RepairDto mapToRepairDto(Repair repair) {
         return new RepairDto(
+                repair.getId(),
                 repair.getLocalDate(),
                 repair.getShortDescription(),
                 repair.getTypeOfRepair(),
@@ -74,6 +75,7 @@ public class Mapper {
 
     public static Repair mapToRepair(RepairDto repairDto) {
         Repair repair = new Repair();
+        repair.setId(repairDto.repairId());
         repair.setLocalDate(repairDto.localDate());
         repair.setShortDescription(repairDto.shortDescription());
         repair.setTypeOfRepair(repairDto.typeOfRepair());
