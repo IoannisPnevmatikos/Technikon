@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Container, Typography, Box, Button } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import { paths } from '../../constants/paths/paths';
-import useToken from '../../stores/useToken';
+import { paths } from '../../../constants/paths/paths';
+import useToken from '../../../stores/useToken'
 import CreateOwnerForm from './OwnerForms/CreateOwnerForm';
 import FindAllOwners from './OwnerForms/FindAllOwners';
 import FindOwnerByDateForm from './OwnerForms/FindOwnerByDateForm';
@@ -16,6 +16,8 @@ import FindOwnerByUsernameForm from './OwnerForms/FindOwnerByUsernameForm';
 import UpdateOwnerForm from './OwnerForms/UpdateOwnerForm';
 import DeleteOwnerForm from './OwnerForms/DeleteOwnerForm';
 import DeactivateOwnerForm from './OwnerForms/DeactivateOwnerForm';
+import OwnerProfile from '../../Owner/OwnerProfile';
+import OwnerList from '../../Owner/OwnerList'
 
 import useOwnerActions from './useOwnerAdminActions';
 
@@ -24,25 +26,27 @@ function OwnerAdmin() {
     const [activeForm, setActiveForm] = useState('');
     const navigate = useNavigate();
     const { token } = useToken();
+    const [ownerData, setOwnerData] = useState(null);
     const {
         handleSubmitCreate,
         handleFindAllOwners,
-        handleSubmitFindOwnerByDate,
-        handleSubmitFindOwnerByEmail,
-        handleSubmitFindOwnerByIsActive,
-        handleSubmitFindOwnerByFirstname,
-        handleSubmitFindOwnerByLastname,
-        handleSubmitFindOwnerByRole,
-        handleSubmitFindOwnerByTin,
-        handleSubmitFindOwnerByUsername,
         handleDeactivateOwner,
         handleSubmitDelete,
         handleSubmitUpdate,
     } = useOwnerActions(token, navigate);
 
-    const handleBackClick = () => {
+    const { handleSubmitFindOwnerByTin,
+        handleSubmitFindOwnerByEmail,
+        handleSubmitFindOwnerByIsActive,
+        handleSubmitFindOwnerByDate,
+        handleSubmitFindOwnerByFirstname,
+        handleSubmitFindOwnerByLastname,
+        handleSubmitFindOwnerByRole,
+        handleSubmitFindOwnerByUsername, } = useOwnerActions(token, navigate, setOwnerData);
+    
+        const handleBackClick = () => {
         setActiveForm('');
-        navigate(paths.owner);
+        navigate(paths.adminOwner);
     };
 
     const renderForm = () => {
@@ -52,27 +56,35 @@ function OwnerAdmin() {
             case 'findAllOwners':
                 return <FindAllOwners handleSubmit={handleFindAllOwners} handleBackClick={handleBackClick} />;
             case 'findOwnerByDate':
-                return <FindOwnerByDateForm handleSubmit={handleSubmitFindOwnerByDate} handleBackClick={handleBackClick} />;
+                return (<><FindOwnerByDateForm handleSubmit={handleSubmitFindOwnerByDate} handleBackClick={handleBackClick} />
+                   {ownerData && (<OwnerList data={ownerData} />)}  </>);
             case 'findOwnerByEmail':
-                return <FindOwnerByEmailForm handleSubmit={handleSubmitFindOwnerByEmail} handleBackClick={handleBackClick} />;
+                return (<><FindOwnerByEmailForm handleSubmit={handleSubmitFindOwnerByEmail} handleBackClick={handleBackClick} />
+                    {ownerData && (<OwnerProfile data={ownerData} />)}  </>);
             case 'findOwnerByIsActive':
-                return <FindOwnerByIsActiveForm handleSubmit={handleSubmitFindOwnerByIsActive} handleBackClick={handleBackClick} />;
+                return (<><FindOwnerByIsActiveForm handleSubmit={handleSubmitFindOwnerByIsActive} handleBackClick={handleBackClick} />
+                    {ownerData && (<OwnerList data={ownerData} />)}  </>);
             case 'findOwnerByTin':
-                return <FindOwnerByTinForm handleSubmit={handleSubmitFindOwnerByTin} handleBackClick={handleBackClick} />;
+                return (<><FindOwnerByTinForm handleSubmit={handleSubmitFindOwnerByTin} handleBackClick={handleBackClick} />
+                    {ownerData && (<OwnerProfile data={ownerData} />)}    </>);
             case 'findOwnerByFirstname':
-                return <FindOwnerByFirstnameForm handleSubmit={handleSubmitFindOwnerByFirstname} handleBackClick={handleBackClick} />;
+                return (<><FindOwnerByFirstnameForm handleSubmit={handleSubmitFindOwnerByFirstname} handleBackClick={handleBackClick} />
+                  {ownerData && (<OwnerProfile data={ownerData} />)}    </>);
             case 'findOwnerByLastname':
-                return <FindOwnerByLastnameForm handleSubmit={handleSubmitFindOwnerByLastname} handleBackClick={handleBackClick} />;
+                return(<> <FindOwnerByLastnameForm handleSubmit={handleSubmitFindOwnerByLastname} handleBackClick={handleBackClick} />
+                      {ownerData && (<OwnerProfile data={ownerData} />)}  </>);
             case 'findOwnerByRole':
-                return <FindOwnerByRoleForm handleSubmit={handleSubmitFindOwnerByRole} handleBackClick={handleBackClick} />;
+                return( <><FindOwnerByRoleForm handleSubmit={handleSubmitFindOwnerByRole} handleBackClick={handleBackClick} />
+                {ownerData && (<OwnerList data={ownerData} />)}  </>);
             case 'findOwnerByUsername':
-                return <FindOwnerByUsernameForm handleSubmit={handleSubmitFindOwnerByUsername} handleBackClick={handleBackClick} />;
+                return (<><FindOwnerByUsernameForm handleSubmit={handleSubmitFindOwnerByUsername} handleBackClick={handleBackClick} />
+                {ownerData && (<OwnerProfile data={ownerData} />)}  </>);
             case 'updateOwner':
                 return <UpdateOwnerForm handleSubmit={handleSubmitUpdate} handleBackClick={handleBackClick} />;
             case 'deleteOwner':
                 return <DeleteOwnerForm handleSubmit={handleSubmitDelete} handleBackClick={handleBackClick} />;
-            case 'deactivateOwner' :
-                return <DeactivateOwnerForm handleSubmit={handleDeactivateOwner} handleBackClick={handleBackClick}/>;
+            case 'deactivateOwner':
+                return <DeactivateOwnerForm handleSubmit={handleDeactivateOwner} handleBackClick={handleBackClick} />;
             default:
                 return null;
         }
@@ -91,14 +103,45 @@ function OwnerAdmin() {
                         <Button variant="contained" color="primary" onClick={() => setActiveForm('createOwner')}>
                             Create Owner
                         </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findAllOwners')}>
+                            Find All Owners
+                        </Button>
                         <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByTin')}>
-                            Find Owner
+                            Find Owner by TIN
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByFirstname')}>
+                            Find Owner by Firstname
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByLastname')}>
+                            Find Owner by Lastname
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByDate')}>
+                            Find Owner by Date
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByEmail')}>
+                            Find Owner by Email
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByIsActive')}>
+                            Find Owner by IsActive
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByRole')}>
+                            Find Owner by Role
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByActive')}>
+                            Find Owner by Active
+                        </Button>
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('findOwnerByUsername')}>
+                            Find Owner by Username
                         </Button>
                         <Button variant="contained" color="primary" onClick={() => setActiveForm('updateOwner')}>
-                            Update  Owner
+                            Update Owner
+                        </Button>
+
+                        <Button variant="contained" color="primary" onClick={() => setActiveForm('deactivateOwner')}>
+                            Deactivate Owner
                         </Button>
                         <Button variant="contained" color="primary" onClick={() => setActiveForm('deleteOwner')}>
-                            Delete a Owner
+                            Delete Owner
                         </Button>
                     </Box>
                 )}

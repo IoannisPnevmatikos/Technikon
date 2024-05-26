@@ -4,6 +4,7 @@ export const paths = {
     owner: "/owner",
     ownerProfile: "/owner/profile" ,
     property: "/property",
+    adminOwner: "/admin/owner",
     adminProperty: "/admin/property",
     adminRepair: "/admin/repair",
     repair: "/repairs",

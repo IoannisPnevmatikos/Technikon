@@ -3,9 +3,9 @@ import { base_url, uri } from "../../../constants/endpoints/endpoints";
 
 const findOwnerByTin = async (formData,token) => {
 const data = Object.fromEntries(formData.entries())
-  // Send POST request
-  return axios.get(
-    `${base_url}${uri.admin}${uri.owner}/tinNum/${data.tin}`,
+const tin = data.tin
+return axios.get(
+    `${base_url}${uri.api}${uri.admin}${uri.owner}/tinNum/${tin}`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,
