@@ -2,7 +2,8 @@ import React from 'react';
 import { Container, Typography, Grid, Paper } from '@mui/material';
 
 const OwnerProfile = (owner) =>{
-    console.log(owner)
+  const obj = owner.data  
+  console.log(obj)
   return (
     <Container maxWidth="lg" >
       <Grid container spacing={3}>
@@ -10,22 +11,22 @@ const OwnerProfile = (owner) =>{
           <Paper >
             <Typography variant="h4">Profile Information</Typography>
             <Typography variant="subtitle1">
-              <strong>First Name:</strong> {owner.firstName}
+              <strong>First Name:</strong> {obj.firstName}
             </Typography>
             <Typography variant="subtitle1">
-              <strong>Last Name:</strong> {owner.lastName}
+              <strong>Last Name:</strong> {obj.lastName}
             </Typography>
             <Typography variant="subtitle1">
-              <strong>Username:</strong> {owner.username}
+              <strong>Username:</strong> {obj.username}
             </Typography>
             <Typography variant="subtitle1">
-              <strong>Email:</strong> {owner.email}
+              <strong>Email:</strong> {obj.email}
             </Typography>
             <Typography variant="subtitle1">
-              <strong>Address:</strong> {owner.address}
+              <strong>Address:</strong> {obj.address}
             </Typography>
             <Typography variant="subtitle1">
-              <strong>Phone:</strong> {owner.phone}
+              <strong>Phone:</strong> {obj.phone}
             </Typography>
           </Paper>
         </Grid>

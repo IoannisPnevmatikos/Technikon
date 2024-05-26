@@ -5,7 +5,7 @@ const findOwnerByRole = async (formData,token) => {
 const data = Object.fromEntries(formData.entries())
   // Send POST request
   return axios.get(
-    `${base_url}${uri.admin}${uri.owner}/role/${data.role}`,
+    `${base_url}${uri.api}${uri.admin}${uri.owner}/role/${data.role}`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,
