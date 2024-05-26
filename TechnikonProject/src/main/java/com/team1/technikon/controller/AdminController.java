@@ -46,7 +46,7 @@ public class AdminController {
     }
 
     @GetMapping("/owner/role/{role}")
-    public ResponseEntity<List<OwnerDto>> getActiveOwners(@PathVariable("role") String role) throws EntityNotFoundException {
+    public ResponseEntity<List<OwnerDto>> getOwnersByRole(@PathVariable("role") String role) throws EntityNotFoundException {
         return ResponseEntity.ok(adminOwnerService.getAllByRole(role));
     }
 
@@ -82,23 +82,23 @@ public class AdminController {
         return ResponseEntity.ok(adminOwnerService.getOwnerByUsername(username));
     }
 
-    @PutMapping("/owner/{userId}")
-    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("userId") Long userId, @RequestBody OwnerDto ownerDto) throws EntityNotFoundException, EntityFailToCreateException {
-        return ResponseEntity.ok(adminOwnerService.updateOwner(userId, ownerDto));
+    @PutMapping("/owner/{username}")
+    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("username") String username, @RequestBody OwnerDto ownerDto) throws EntityNotFoundException, EntityFailToCreateException {
+        return ResponseEntity.ok(adminOwnerService.updateOwner(username, ownerDto));
 
     }
 
-    @DeleteMapping("/owner/{id}")
-    public ResponseEntity<String> deleteOwner(@PathVariable long id) throws EntityNotFoundException {
-        adminOwnerService.deleteOwnerById(id);
-        return ResponseEntity.ok("Deleted owner with id " + id);
+    @DeleteMapping("/owner/{username}")
+    public ResponseEntity<String> deleteOwner(@PathVariable String username) throws EntityNotFoundException {
+        adminOwnerService.deleteOwnerByUsername(username);
+        return ResponseEntity.ok("Deleted owner with username " + username);
     }
 
 
-    @PutMapping("/owner/deactivate/{id}")
-    public ResponseEntity<String> deactivateOwnerById (@PathVariable long id) throws EntityNotFoundException {
-        adminOwnerService.deactivateOwnerById(id);
-        return ResponseEntity.ok("DeActivated owner with id " + id);
+    @PutMapping("/owner/deactivate/{username}")
+    public ResponseEntity<String> deactivateOwnerByUsername (@PathVariable String username) throws EntityNotFoundException {
+        adminOwnerService.deactivateOwnerByUsername(username);
+        return ResponseEntity.ok("DeActivated owner with username " + username);
     }
 
 }
