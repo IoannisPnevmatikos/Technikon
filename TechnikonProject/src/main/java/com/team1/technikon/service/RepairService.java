@@ -5,6 +5,7 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -21,7 +22,7 @@ public interface RepairService {
 
     RepairDto updateRepair(long ownerId, long id, RepairDto repairDto) throws EntityNotFoundException, InvalidInputException;
 
-    void deleteRepair(long ownerId, long id) throws EntityNotFoundException;
+    void deleteRepair(long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException;
 
     //List<RepairDto> getAllData() throws EntityNotFoundException;
 

@@ -6,6 +6,7 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.service.AdminRepairService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -56,7 +57,7 @@ public class AdminControllerRepair {
     }
 
     @DeleteMapping("/repair/{id}")
-    public ResponseEntity<Void> deleteRepair(@PathVariable long id) throws EntityNotFoundException {
+    public ResponseEntity<Void> deleteRepair(@PathVariable long id) throws EntityNotFoundException, UnauthorizedAccessException {
         adminRepairService.deleteRepair(id);
         return ResponseEntity.ok().build();
     }

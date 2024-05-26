@@ -4,6 +4,7 @@ import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.model.Property;
@@ -194,7 +195,7 @@ public class RepairServiceImpl implements RepairService {
     }
 
     @Override
-    public void deleteRepair(long ownerId, long id) throws IllegalStateException, EntityNotFoundException {
+    public void deleteRepair(long ownerId, long id) throws EntityNotFoundException, UnauthorizedAccessException {
         logger.info("Deleting repair with ID: {} for owner ID: {}", id, ownerId);
 
         // Fetch the repair entity by ID
@@ -205,14 +206,14 @@ public class RepairServiceImpl implements RepairService {
 
         // Ensure that the repair belongs to the specified owner
         if (repair.getProperty().getOwner().getId() != ownerId) {
-            throw new IllegalStateException("Cannot delete repair with ID: " + id + ". It does not belong to the specified owner.");
+            throw new UnauthorizedAccessException("Cannot delete repair with ID: " + id + ". It does not belong to the specified owner.");
         }
 
 
         // Check if the repair is in PENDING status
         if (!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) {
             logger.error("Cannot delete repair with ID: {}. It is not in PENDING status", id);
-            throw new IllegalStateException("Cannot delete repair with ID: " + id + ". It is not in PENDING status");
+            throw new UnauthorizedAccessException("Cannot delete repair with ID: " + id + ". It is not in PENDING status");
         }
 
         // Delete the repair

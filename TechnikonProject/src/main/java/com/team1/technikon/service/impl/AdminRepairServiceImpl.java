@@ -5,6 +5,7 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Property;
 import com.team1.technikon.model.Repair;
@@ -142,7 +143,7 @@ public class AdminRepairServiceImpl implements AdminRepairService {
     }
 
     @Override
-    public void deleteRepair(long id) throws IllegalStateException, EntityNotFoundException {
+    public void deleteRepair(long id) throws EntityNotFoundException, UnauthorizedAccessException {
         logger.info("Deleting repair with ID: {}", id);
 
         // Check if the repair exists
@@ -155,7 +156,7 @@ public class AdminRepairServiceImpl implements AdminRepairService {
         // Check if the repair is in PENDING status
         if (!repair.getStatusOfRepair().equals(StatusOfRepair.PENDING)) {
             logger.error("Cannot delete repair with ID: {}. It is not in PENDING status", id);
-            throw new IllegalStateException("Cannot delete repair with ID: " + id + ". It is not in PENDING status");
+            throw new UnauthorizedAccessException("Cannot delete repair with ID: " + id + ". It is not in PENDING status");
         }
 
         // Delete the repair
@@ -180,15 +181,19 @@ public class AdminRepairServiceImpl implements AdminRepairService {
         // Validate input dates
         RepairValidator.validateDateRange(startingDate, endingDate);
 
+        // Fetch repairs within the specified date range
         List<Repair> repairs = repairRepository.findByLocalDateBetween(startingDate, endingDate);
 
-        // Check if repairs are found
+        // Check if any repairs are found
         if (repairs.isEmpty()) {
             throw new EntityNotFoundException("No repairs found for the specified date range.");
         }
 
+        // Initialize the report list and counters
         List<RepairReportDto> reportList = new ArrayList<>();
 
+        BigDecimal scheduledTotalCost = BigDecimal.ZERO;
+        int scheduledCount = 0;
         BigDecimal pendingTotalCost = BigDecimal.ZERO;
         int pendingCount = 0;
         BigDecimal inProgressTotalCost = BigDecimal.ZERO;
@@ -196,11 +201,16 @@ public class AdminRepairServiceImpl implements AdminRepairService {
         BigDecimal completedTotalCost = BigDecimal.ZERO;
         int completedCount = 0;
 
+        // Aggregate costs and counts based on repair status
         for (Repair repair : repairs) {
             StatusOfRepair status = repair.getStatusOfRepair();
             BigDecimal cost = repair.getCost();
 
             switch (status) {
+                case SCHEDULED:
+                    scheduledTotalCost = scheduledTotalCost.add(cost);
+                    scheduledCount++;
+                    break;
                 case PENDING:
                     pendingTotalCost = pendingTotalCost.add(cost);
                     pendingCount++;
@@ -213,15 +223,16 @@ public class AdminRepairServiceImpl implements AdminRepairService {
                     completedTotalCost = completedTotalCost.add(cost);
                     completedCount++;
                     break;
-                default:
-                    break;
             }
         }
 
+        // Create report entries
+        reportList.add(new RepairReportDto(StatusOfRepair.SCHEDULED, scheduledTotalCost, scheduledCount));
         reportList.add(new RepairReportDto(StatusOfRepair.PENDING, pendingTotalCost, pendingCount));
         reportList.add(new RepairReportDto(StatusOfRepair.IN_PROGRESS, inProgressTotalCost, inProgressCount));
         reportList.add(new RepairReportDto(StatusOfRepair.COMPLETE, completedTotalCost, completedCount));
 
+        // Log the report details
         logger.info("Repair report for the period {} to {} : {}", startingDate, endingDate, reportList);
 
         return reportList;
