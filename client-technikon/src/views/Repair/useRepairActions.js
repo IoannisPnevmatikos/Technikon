@@ -6,6 +6,29 @@ import findRepairByDate from '../../api/Repair/User/findRepairByDate';
 import findRepairByDateRange from '../../api/Repair/User/findRepairByDateRange';
 import MyRepairs from '../../api/Repair/User/MyRepairs';
 import { paths } from '../../constants/paths/paths';
+//import { encryptData } from './encryptionUtils'; // Import the encryption function
+
+// // Encryption function
+// const encryptData = async (data) => {
+//   const encoder = new TextEncoder();
+//   const dataBuffer = encoder.encode(JSON.stringify(data));
+//   const hash = await window.crypto.subtle.digest('SHA-256', dataBuffer);
+//   const hashArray = Array.from(new Uint8Array(hash));
+//   return hashArray.map(byte => String.fromCharCode(byte)).join('');
+// };
+
+// // Decryption function
+// const decryptData = async (encryptedData) => {
+//   const decoder = new TextDecoder();
+//   const encryptedBytes = new Uint8Array(encryptedData.length);
+//   for (let i = 0; i < encryptedData.length; i++) {
+//     encryptedBytes[i] = encryptedData.charCodeAt(i);
+//   }
+//   const hash = await window.crypto.subtle.digest('SHA-256', encryptedBytes);
+//   const hashArray = Array.from(new Uint8Array(hash));
+//   return decoder.decode(Uint8Array.from(hashArray));
+// };
+
 
 const useRepairActions = (token, navigate) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -171,8 +194,9 @@ const useRepairActions = (token, navigate) => {
     try {
       const response = await findRepairByDate(formData, token?.data); // Pass the token here
       console.log('Repair(s) found successfully', response);
-      alert('Repair(s) found!');
-      navigate(paths.repair);
+      navigate(`${paths.repairFetchedData}?data=${JSON.stringify(response.data)}`);
+      //navigate(paths.repairFetchedData, { data: response.data }); // Navigate to the new page with fetched data
+      alert("Repair(s) found! Check Them!");
     } catch (error) {
       if (error.response) {
         const statusCode = error.response.status;
@@ -222,8 +246,9 @@ const useRepairActions = (token, navigate) => {
     try {
       const response = await findRepairByDateRange(formData, token?.data); // Pass the token here
       console.log('Repair(s) found successfully', response);
-      alert('Repair(s) found!');
-      navigate(paths.repair);
+      navigate(`${paths.repairFetchedData}?data=${JSON.stringify(response.data)}`);
+      //navigate(paths.repairFetchedData, { data: response.data }); // Navigate to the new page with fetched data
+      alert("Repair(s) found! Check Them!");
     } catch (error) {
       if (error.response) {
         const statusCode = error.response.status;
@@ -270,8 +295,12 @@ const useRepairActions = (token, navigate) => {
     try {
       const response = await MyRepairs(token?.data); // Pass the token here
       console.log('Loaded your repairs successfully', response);
-      alert('Loaded repairs!');
-      navigate(paths.repair);
+      console.log('Response:', response);
+
+      navigate(`${paths.repairFetchedData}?data=${JSON.stringify(response.data)}`);
+      //navigate(paths.repairFetchedData, { data: response.data }); // Navigate to the new page with fetched data
+      alert("Repair(s) found! Check Them!");
+      // navigate(paths.repair);
     } catch (error) {
       if (error.response) {
         const statusCode = error.response.status;

@@ -15,6 +15,9 @@ import ListPropertyDetails from "./views/Property/PropertyDetails/ListPropertyDe
 import PropertyResDetailsAdmin from "./views/Admin/Property/PropertyDetails/PropertyResDetailsAdmin";
 import ListPropertyDetailsAdmin from "./views/Admin/Property/PropertyDetails/ListPropertyDetailsAdmin";
 import ReportDetailsAdmin from "./views/Admin/Property/PropertyDetails/ReportDetailsAdmin";
+import RepairFetchedData from "./views/Repair/RepairFetchedData";
+import RepairFetchedDataAdmin from "./views/Admin/Repair/RepairFetchedDataAdmin";
+import RepairFetchedDataReportAdmin from "./views/Admin/Repair/RepairFetchedDataReportAdmin";
 
 function App() {
   return (
@@ -35,6 +38,9 @@ function App() {
           <Route path={paths.propertyResultAdmin} element={<PropertyResDetailsAdmin />} />
           <Route path={paths.listPropertyResultAdmin} element={<ListPropertyDetailsAdmin />} />
           <Route path={paths.reportPropertytAdmin} element={<ReportDetailsAdmin />} />
+          <Route path={paths.repairFetchedData} element={<RepairFetchedData />} /> {/* Add route for displaying fetched repair data */}
+          <Route path={paths.repairFetchedDataAdmin} element={<RepairFetchedDataAdmin />} />
+          <Route path={paths.repairFetchedDataReportAdmin} element={<RepairFetchedDataReportAdmin />} />
         </Route>
       </Routes>
     </Router>

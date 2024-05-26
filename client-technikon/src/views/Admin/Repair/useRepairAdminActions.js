@@ -173,8 +173,8 @@ const useRepairActions = (token, navigate) => {
         try {
           const response = await findRepairByDate(formData, token?.data); // Pass the token here
           console.log('Repair(s) found successfully', response);
+          navigate(`${paths.repairFetchedDataAdmin}?data=${JSON.stringify(response.data)}`);
           alert('Repair(s) found!');
-          navigate(paths.adminRepair);
         } catch (error) {
           if (error.response) {
             const statusCode = error.response.status;
@@ -224,8 +224,8 @@ const useRepairActions = (token, navigate) => {
         try {
           const response = await findRepairByDateRange(formData, token?.data); // Pass the token here
           console.log('Repair(s) found successfully', response);
+          navigate(`${paths.repairFetchedDataAdmin}?data=${JSON.stringify(response.data)}`);
           alert('Repair(s) found!');
-          navigate(paths.adminRepair);
         } catch (error) {
           if (error.response) {
             const statusCode = error.response.status;
@@ -272,8 +272,8 @@ const useRepairActions = (token, navigate) => {
         try {
           const response = await findAllRepairs(token?.data); // Pass the token here
           console.log('Loaded repairs successfully', response);
+          navigate(`${paths.repairFetchedDataAdmin}?data=${JSON.stringify(response.data)}`);
           alert('Loaded repairs!');
-          navigate(paths.adminRepair);
         } catch (error) {
           if (error.response) {
             const statusCode = error.response.status;
@@ -323,8 +323,8 @@ const useRepairActions = (token, navigate) => {
         try {
           const response = await findRepairByOwnerTinNumber(formData, token?.data); // Pass the token here
           console.log('Loaded repairs by owner successfully', response);
+          navigate(`${paths.repairFetchedDataAdmin}?data=${JSON.stringify(response.data)}`);
           alert('Loaded repairs by owner!');
-          navigate(paths.adminRepair);
         } catch (error) {
           if (error.response) {
             const statusCode = error.response.status;
@@ -373,9 +373,9 @@ const useRepairActions = (token, navigate) => {
       
         try {
           const response = await getRepairReport(formData, token?.data); // Pass the token here
-          console.log('Loaded repairs successfully', response);
+          console.log('Loaded repairs successfully', response.data);
+          navigate(`${paths.repairFetchedDataReportAdmin}?data=${JSON.stringify(response.data)}`);
           alert('Loaded repairs!');
-          navigate(paths.adminRepair);
         } catch (error) {
           if (error.response) {
             const statusCode = error.response.status;

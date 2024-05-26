@@ -12,5 +12,8 @@ export const paths = {
     listPropertyResult: "/property/list",
     propertyResultAdmin: "/admin/property/:id",
     listPropertyResultAdmin: "/admin/property/list/:id",
-    reportPropertytAdmin: "/admin/property/:startDate/:endDate"
+    reportPropertytAdmin: "/admin/property/:startDate/:endDate",
+    repairFetchedData: "/repair-fetched-data",
+    repairFetchedDataAdmin:"/admin/repair-fetched-data",
+    repairFetchedDataReportAdmin:"/admin/report/gitrepair-fetched-data"
   };
