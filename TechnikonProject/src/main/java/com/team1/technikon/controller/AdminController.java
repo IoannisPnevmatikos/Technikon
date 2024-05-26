@@ -22,7 +22,7 @@ public class AdminController {
 
     private final AdminOwnerService adminOwnerService;
 
-    @PutMapping("/owner/create/{account}")
+    @PostMapping("/owner/create/{account}")
     public ResponseEntity<String> createOwner(@PathVariable String account, @RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
         if (account.equals("admin"))
             return ResponseEntity.ok(adminOwnerService.addAdmin(signUpDto));
