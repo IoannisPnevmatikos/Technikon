@@ -72,7 +72,7 @@ const CreateRepairForm = ({ handleSubmit, handleBackClick }) => {
                 required
                 disabled={isLoading} // Disable input field while loading
             >
-                <MenuItem value="SCHDULED">Scheduled</MenuItem>
+                <MenuItem value="SCHEDULED">Scheduled</MenuItem>
                 <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
                 <MenuItem value="COMPLETE">Complete</MenuItem>
                 <MenuItem value="PENDING">Pending</MenuItem>
