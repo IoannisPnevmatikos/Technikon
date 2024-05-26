@@ -1,117 +1,256 @@
-import { useCallback,useState } from 'react';
-import createOwner from '../../api/Owner/Admin/createOwner';
-import deactivateOwner from '../../../api/Owner/Admin/deactivateOwner';
+import { useCallback, useState } from 'react';
+import createOwner from '../../../api/Owner/Admin/createOwner';
+import deactivateOwner from '../../../api/Owner/Admin/deactivateOwner'
 import deleteOwner from '../../../api/Owner/Admin/deleteOwner';
-
 import findAllOwners from '../../../api/Owner/Admin/findAllOwners';
 import findOwnerByDate from '../../../api/Owner/Admin/findOwnerByDate';
 import findOwnerByEmail from '../../../api/Owner/Admin/findOwnerByEmail';
 import findOwnerByIsActive from '../../../api/Owner/Admin/findOwnerByIsActive';
-import {findOwnerByFirstname, findOwnerByLastname} from '../../../api/Owner/Admin/findOwnerByName';
+import { findOwnerByFirstname, findOwnerByLastname } from '../../../api/Owner/Admin/findOwnerByName';
 import findOwnerByRole from '../../../api/Owner/Admin/findOwnerByRole'
 import findOwnerByTin from '../../../api/Owner/Admin/findOwnerByTin';
+import updateOwnerByUsername from '../../../api/Owner/Admin/updateOwnerByUsername';
+import { paths } from '../../../constants/paths/paths'
+import {useNavigate, redirect } from 'react-router-dom';
 import findOwnerByUsername from '../../../api/Owner/Admin/findOwnerByUsername';
-import updateOwner from '../../../api/Owner/Admin/updateOwner';
+
+const useOwnerActions = (token, navigate , setOwnerData) => {
+   // const navigate = useNavigate();
+    const handleSubmitCreate = useCallback(async (event, setIsLoading) => {
+        event.preventDefault();
+        setIsLoading(true);
+        const formData = new FormData(event.target);
+        try {
+            const response = await createOwner(formData, token?.data);
+            console.log('Owner created successfully', response);
+            alert('Owner created!');
+            event.target.reset();
+            navigate(paths.owner);
+
+        } catch (error) {
+            console.error('Owner creation failed:', error);
+            alert('Owner creation failed. Please try again.');
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }, [token, navigate]);
 
 
-import {paths} from '../../constants/paths/paths'
-import { redirect  } from 'react-router-dom';
+    const handleFindAllOwners = useCallback(async (event, setIsLoading) => {
+        event.preventDefault();
+        setIsLoading(true)
+           try {
+            const response = await findAllOwners(token?.data);
+            // Pass the token here
+            console.log('Owners found successfully', response);
+            alert('Owners found!');
+         
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
 
-const useOwnerActions = (token, navigate) => {
+    }, [token]);
 
-  const handleSubmitCreate = useCallback(async (event,setIsLoading) => {
-    event.preventDefault();
-    setIsLoading(true);
-    const formData = new FormData(event.target);
-    try {
-      const response = await createOwner(formData, token?.data); 
-      console.log('Owner created successfully', response);
-      alert('Owner created!');
-      event.target.reset();
-      navigate(paths.owner);
-  
-    } catch (error) {
-      console.error('Owner creation failed:', error);
-      alert('Owner creation failed. Please try again.');
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }, [token, navigate]);
+    const handleSubmitFindOwnerByDate = useCallback(async (formData) => {
+      //  event.preventDefault();
+    //    setIsLoading(true);
+        try {
+            const response = await findOwnerByDate(formData, token?.data); // Pass the token here
+            console.log('Owners found successfully', response);
+            alert('Owners found!');
+            setOwnerData(response.data);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } finally {
+        //   setIsLoading(false);
+        }
 
-  
-  const [ownerData, setOwnerData] = useState(null);
+    }, [token, setOwnerData]);
 
-  const handleSubmitFindOwnerByTin = useCallback(async (event,setIsLoading) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
+    const handleSubmitFindOwnerByEmail = useCallback(async (formData) => {
+        try {
+            const response = await findOwnerByEmail(formData, token?.data); // Pass the token here
+           console.log('Owner found successfully', response.data);
+            alert('Owner found!');
+            setOwnerData(response.data);
+    
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        }
+ 
+    }, [token, navigate, setOwnerData]);
 
-    try {
-      const response = await findOwnerByTin(formData, token?.data); // Pass the token here
-      console.log('Owner found successfully', response);
+
+    const handleSubmitFindOwnerByIsActive= useCallback(async (formData) => {
+        try {
+            const response = await findOwnerByIsActive(formData, token?.data); // Pass the token here
+            console.log('Owner found successfully', response);
+            alert('Owner found!');
+            setOwnerData(response.data);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        }
+
+    }, [token, navigate,setOwnerData]);
+
+
+    const handleSubmitFindOwnerByFirstname = useCallback(async (formData) => {
+        try {
+            const response = await findOwnerByFirstname(formData, token?.data); 
+            console.log('Owner found successfully', response);
+            alert('Owner found!');
+            setOwnerData(response.data);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } 
+
+    }, [token, navigate, setOwnerData]);
+
+    const handleSubmitFindOwnerByLastname = useCallback(async (formData) => {
+        try {
+            const response = await findOwnerByLastname(formData, token?.data); 
+            console.log('Owner found successfully', response);
+            alert('Owner found!');
+            setOwnerData(response.data);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } 
+
+    }, [token, navigate, setOwnerData]);
+
+    const handleSubmitFindOwnerByRole = useCallback(async (formData) => {
+        try {
+            const response = await findOwnerByRole(formData, token?.data); 
+            console.log('Owner found successfully', response);
+
+            alert('Owner found!');
+            setOwnerData(response.data);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } 
+
+    }, [token, navigate, setOwnerData]);
+
+    const handleSubmitFindOwnerByTin = useCallback(async (formData) => {
+        try {
+            const response = await findOwnerByTin(formData, token?.data);
+           console.log('Owner found successfully', response.data);
+            alert('Owner found!');
+            setOwnerData(response.data);
+    
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        }
+ 
+    }, [token, navigate, setOwnerData]);
+
+    
+
+    const handleSubmitFindOwnerByUsername = useCallback(async (formData) => {
+    
+        try {
+            const response = await findOwnerByUsername(formData, token?.data); 
+            console.log('Owner found successfully', response);
+            alert('Owner found!');
+            setOwnerData(response.data);
+          //  redirect(paths.ownerProfile);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } 
+
+    }, [token, navigate, setOwnerData]);
+
+    const handleDeactivateOwner = useCallback(async (event, setIsLoading) => {
+        event.preventDefault();
+        setIsLoading(true);
+        const formData = new FormData(event.target);
       
-      alert('Owner found!');
-      setOwnerData(response.data);
-      redirect(paths.ownerProfile);
-    } catch (error) {
-      console.error('Owner search failed:', error);
-      alert('Owner search failed. Please try again.');
-    } finally {
-      setIsLoading(false);
-    }
+        try {
+            const response = await deactivateOwner(formData, token?.data); 
+            console.log('Owner deacivated successfully', response);
+            alert('Owner deacivated!');
+           // setOwnerData(response.data);
+           navigate(paths.owner);
+        } catch (error) {
+            console.error('Owner search failed:', error);
+            alert('Owner search failed. Please try again.');
+        } finally {
+            setIsLoading(false);
+        }
 
-  }, [token, navigate]);
-
-
-  const handleSubmitUpdate = useCallback(async (event,setIsLoading) => {
-    event.preventDefault();
-    setIsLoading(true);
-    const formData = new FormData(event.target);
-
-    try {
-      const response = await updateOwner(formData, token?.data); 
-      console.log('Owner updated successfully', response);
-      alert('Owner updated!')
-      event.target.reset();
-     
-      navigate(paths.owner);
-    } catch (error) {
-      console.error('Owner update failed:', error);
-      alert('Owner update failed. Please try again.');
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }, [token, navigate]);
+    }, [token, navigate]);
 
 
-  const handleSubmitDelete = useCallback(async (event,setIsLoading) => {
-    event.preventDefault();
-    setIsLoading(true);
-    const formData = new FormData(event.target);
+    const handleSubmitUpdate = useCallback(async (event, setIsLoading) => {
+        event.preventDefault();
+        setIsLoading(true);
+        const formData = new FormData(event.target);
+        try {
+            const response = await updateOwnerByUsername(formData, token?.data);
+            console.log('Owner UPDATED successfully', response);
+            alert('Owner UPDATED!');
+            event.target.reset();
+            navigate(paths.owner);
 
-    try {
-      const response = await deleteOwner(formData, token?.data); // Pass the token here
-      console.log('Owner deleted successfully', response);
-      alert('Owner deleted!');
-      event.target.reset();
-      navigate(paths.owner);
-    } catch (error) {
-      console.error('Owner deletion failed:', error);
-      alert('Owner deletion failed. Please try again.');
-    }
-    finally {
-      setIsLoading(false);
-    }
-  }, [token, navigate]);
+        } catch (error) {
+            console.error('Owner creation failed:', error);
+            alert('Owner creation failed. Please try again.');
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }, [token, navigate]);
 
 
-  return {
-    handleSubmitCreate,
-    handleSubmitFindOwnerByTin,
-    handleSubmitUpdate,
-    handleSubmitDelete
-  };
+
+    const handleSubmitDelete = useCallback(async (event, setIsLoading) => {
+        event.preventDefault();
+        setIsLoading(true);
+        const formData = new FormData(event.target);
+
+        try {
+            const response = await deleteOwner(formData, token?.data); // Pass the token here
+            console.log('Owner deleted successfully', response);
+            alert('Owner deleted!');
+            event.target.reset();
+            navigate(paths.owner);
+        } catch (error) {
+            console.error('Owner deletion failed:', error);
+            alert('Owner deletion failed. Please try again.');
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }, [token, navigate]);
+
+
+    return {
+        handleSubmitCreate,
+        handleFindAllOwners,
+        handleSubmitFindOwnerByDate,
+        handleSubmitFindOwnerByEmail,
+        handleSubmitFindOwnerByIsActive,
+        handleSubmitFindOwnerByFirstname,
+        handleSubmitFindOwnerByLastname,
+        handleSubmitFindOwnerByRole,
+        handleSubmitFindOwnerByTin,
+        handleSubmitFindOwnerByUsername,
+        handleDeactivateOwner,
+        handleSubmitDelete,
+        handleSubmitUpdate,
+    };
 };
 
 export default useOwnerActions;

@@ -1,37 +1,12 @@
-import React, { useState, useEffect }  from 'react';
-import { Box, Button, TextField, CircularProgress } from '@mui/material';
-import useToken from '../../../../stores/useToken';
-import { jwtDecode } from "jwt-decode";
-
+import React, { useState }  from 'react';
+import { Box, Button, TextField, CircularProgress, MenuItem } from '@mui/material';
 
 const CreateOwnerForm = ({ handleSubmit, handleBackClick }) => {
-
-  const token = useToken.getState().token?.data;
   const [isLoading, setIsLoading] = useState(false);
-  const [userInfo, setUserInfo] = useState({ username: '' });
-  const onSubmit = (event) => handleSubmit(event, setIsLoading);
-
-  useEffect(() => {
-    if (token) {
-      try {
-        console.log("Token is ", token)
-        const { sub: username } = jwtDecode(token);
-        console.log('Decoded values:', { username });
-        setUserInfo({ username });
-        console.log(userInfo.username)
-      }
-      catch (error) {
-        console.log("Failed to decode token", error)
-      }
-
-    }
-
-  }, [token]);
-
 
   return (
     <Box sx={{ mt: 1, width: '100%', maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-      <Box component="form" sx={{ width: '100%' }} onSubmit={onsubmit}>
+      <Box component="form" sx={{ width: '100%' }} onSubmit={(event) => handleSubmit(event, setIsLoading)}>
 
       <TextField
         name="role"
@@ -41,8 +16,8 @@ const CreateOwnerForm = ({ handleSubmit, handleBackClick }) => {
         margin="normal"
         required
       >
-        <MenuItem value="ADMIN">ADMIN</MenuItem>
-        <MenuItem value="USER">USER</MenuItem>
+        <MenuItem value="admin">ADMIN</MenuItem>
+        <MenuItem value="user">USER</MenuItem>
       </TextField>
       
         <TextField
@@ -50,7 +25,7 @@ const CreateOwnerForm = ({ handleSubmit, handleBackClick }) => {
           type="text"
           name="username"
           fullWidth
-          value={userInfo.username}
+          required
         />
         <TextField
           margin="normal"
@@ -71,78 +46,22 @@ const CreateOwnerForm = ({ handleSubmit, handleBackClick }) => {
 
         />
 
-        <TextField
-          name="tinNumber"
-          label="Tin Number"
-          fullWidth
-          margin="normal"
-          required
-          inputProps={{ pattern: '^[0-9]{9}$', maxLength: 9, }}
-        />
-
-
-        <  Box sx={{ display: 'flex', width: '100%', gap: 2 }}>
-          <TextField
-            name="firstName"
-            label="FirstName"
-            type="text"
-            required
-            fullWidth
-            margin="normal"
-            inputProps={{
-              pattern: "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$",
-              maxLength: 30,
-            }}
-          />
-
-          <TextField
-            name="lastName"
-            label="LastName"
-            type="text"
-            required
-            margin="normal"
-            fullWidth
-            inputProps={{
-              pattern: "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$",
-              maxLength: 30,
-            }}
-          />
-        </Box>
-        
-        <TextField
-          name="phone"
-          label="Phone"
-          type="phone"
-          required
-          fullWidth
-          margin="normal"
-        />
-
-        <TextField
-          name="address"
-          label="address"
-          type="text"
-          fullWidth
-          margin="normal"
-          required
-        />
-        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}  disabled={isLoading}>
+        <Button type="submit" variant="contained" color="primary" fullWidth sx={{ mt: 2 }}     disabled={isLoading}>
         {isLoading ? 'Submitting...' : 'Submit'}
-
-        </Button>
-        {isLoading && (
-            <CircularProgress
-              size={24}
-              sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                marginTop: '-12px',
-                marginLeft: '-12px',
-              }}
-            />
-          )}
-        <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick} disabled={isLoading}>
+      </Button>
+      {isLoading && (
+          <CircularProgress
+            size={24}
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              marginTop: '-12px',
+              marginLeft: '-12px',
+            }}
+          />
+        )}
+        <Button variant="outlined" color="secondary" fullWidth sx={{ mt: 2 }} onClick={handleBackClick}>
           Back
         </Button>
       </Box>
