@@ -1,21 +1,27 @@
 // PropertyDetails.js
 
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import { Box, Typography, CircularProgress, Container, Grid } from '@mui/material';
-import getPropertyDetails from '../../../api/Property/getPropertyDetails';
-import useToken from '../../../stores/useToken';
+import { useNavigate, useParams } from 'react-router-dom';
+import { Box, Typography, CircularProgress, Container, Grid, Button } from '@mui/material';
+import getPropertyDetailsAdmin from '../../../../api/Property/Admin/getPropertyDetailsAdmin';
+import useToken from '../../../../stores/useToken'
+import {paths} from '../../../../constants/paths/paths'
 
-const PropertyDetails = () => {
+const PropertyResDetailsAdmin = () => {
   const { id } = useParams();
   const [property, setProperty] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const { token } = useToken();
+  const navigate = useNavigate();
+
+  const handleOnClick = () => {
+    navigate(paths.adminProperty)
+  };
 
   useEffect(() => {
     const fetchPropertyDetails = async () => {
       try {
-        const propertyDetails = await getPropertyDetails(id, token?.data);
+        const propertyDetails = await getPropertyDetailsAdmin(id, token?.data);
         setProperty(propertyDetails);
       } catch (error) {
         console.error('Error fetching property details:', error);
@@ -57,6 +63,8 @@ const PropertyDetails = () => {
     );
   }
 
+  const isActive = property.data.isActive; // Assuming the boolean indicating active status is stored in property.data.isActive
+
   return (
     <Container
       sx={{
@@ -65,7 +73,7 @@ const PropertyDetails = () => {
         justifyContent: 'center',
         alignItems: 'center',
         minHeight: '100vh',
-        mt: 2, // Reduced margin-top to bring it closer to the top of the page
+        mt: 2,
         maxWidth: 'lg',
       }}
     >
@@ -80,11 +88,12 @@ const PropertyDetails = () => {
           justifyContent: 'center',
           border: 1,
           borderRadius: 4,
-          p: 5, // Moderate padding
+          p: 5,
           boxShadow: 3,
-          width: '100%', // Make the box take the full width of the container
+          width: '100%',
           bgcolor: 'background.paper',
-          maxWidth: 800, // Reduced maxWidth
+          maxWidth: 800,
+          opacity: property.data.isActive ? 1 : 0.5,
         }}
       >
         <Grid container spacing={3}>
@@ -107,8 +116,9 @@ const PropertyDetails = () => {
           </Grid>
         </Grid>
       </Box>
+      <Button onClick={handleOnClick} variant="outlined" sx={{ mt: 4 }}>Back to Property Menu</Button>
     </Container>
   );
 };
 
-export default PropertyDetails;
+export default PropertyResDetailsAdmin;

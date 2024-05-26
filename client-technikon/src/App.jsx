@@ -9,7 +9,12 @@ import RepairActionsPage from "./views/Repair/RepairActionsPage";
 import Property from "./views/Property/Property"
 import PropertyAdmin from "./views/Admin/Property/PropertyAdmin";
 import { paths } from "./constants/paths/paths";
-import OwnerProfile from "./views/Owner/OwnerProfile";
+import RepairAdminActionsPage from "./views/Admin/Repair/RepairAdminActionPage";
+import PropertyResDetails from "./views/Property/PropertyDetails/PropertyResDetails";
+import ListPropertyDetails from "./views/Property/PropertyDetails/ListPropertyDetails";
+import PropertyResDetailsAdmin from "./views/Admin/Property/PropertyDetails/PropertyResDetailsAdmin";
+import ListPropertyDetailsAdmin from "./views/Admin/Property/PropertyDetails/ListPropertyDetailsAdmin";
+import ReportDetailsAdmin from "./views/Admin/Property/PropertyDetails/ReportDetailsAdmin";
 
 function App() {
   return (
@@ -21,11 +26,15 @@ function App() {
           <Route path={paths.signup} element={<Sign />} />
           <Route path={paths.admin} element={<Admin />} />
           <Route path={paths.owner} element={<Owner />} />
-          <Route path={paths.ownerProfile} element={<OwnerProfile />} />
-
           <Route path={paths.repair} element={<RepairActionsPage />} />
           <Route path={paths.property} element={<Property />} />
           <Route path={paths.adminProperty} element={<PropertyAdmin />} />
+          <Route path={paths.adminRepair} element={<RepairAdminActionsPage />} />
+          <Route path={paths.propertyResult} element={<PropertyResDetails />} />
+          <Route path={paths.listPropertyResult} element={<ListPropertyDetails />} />
+          <Route path={paths.propertyResultAdmin} element={<PropertyResDetailsAdmin />} />
+          <Route path={paths.listPropertyResultAdmin} element={<ListPropertyDetailsAdmin />} />
+          <Route path={paths.reportPropertytAdmin} element={<ReportDetailsAdmin />} />
         </Route>
       </Routes>
     </Router>

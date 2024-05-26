@@ -10,7 +10,7 @@ const CreatePropertyForm = ({ handleSubmit, handleBackClick }) => (
         fullWidth
         margin="normal"
         required
-        // inputProps={{ maxLength: 9, pattern: "[0-9]{9}" }}
+        inputProps={{ maxLength: 9, pattern: "[0-9]{9}" }}
       />
       <TextField
         name="propertyE9"
