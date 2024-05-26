@@ -9,9 +9,7 @@ import RepairActionsPage from "./views/Repair/RepairActionsPage";
 import Property from "./views/Property/Property"
 import PropertyAdmin from "./views/Admin/Property/PropertyAdmin";
 import { paths } from "./constants/paths/paths";
-import CreatePropertyForm from "./views/Property/PropertyForms/CreatePropertyForm";
 import RepairAdminActionsPage from "./views/Admin/Repair/RepairAdminActionPage";
-import PropertyDetails from "./views/Property/PropertyDetails/PropertyDetails";
 import PropertyResDetails from "./views/Property/PropertyDetails/PropertyResDetails";
 import ListPropertyDetails from "./views/Property/PropertyDetails/ListPropertyDetails";
 import PropertyResDetailsAdmin from "./views/Admin/Property/PropertyDetails/PropertyResDetailsAdmin";
