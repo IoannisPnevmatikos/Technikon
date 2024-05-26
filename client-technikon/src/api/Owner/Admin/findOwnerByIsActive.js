@@ -5,7 +5,7 @@ const findOwnerByIsActive = async (formData,token) => {
 const data = Object.fromEntries(formData.entries())
   // Send POST request
   return axios.get(
-    `${base_url}${uri.admin}${uri.owner}/active/${data.isActive}`,
+    `${base_url}${uri.api}${uri.admin}${uri.owner}/active/${data.isActive}`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,

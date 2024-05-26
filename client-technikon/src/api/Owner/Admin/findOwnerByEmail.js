@@ -5,7 +5,7 @@ const findOwnerByEmail = (formData, token)=> {
     const data = Object.fromEntries(formData.entries())
     // Send POST request
     return axios.get(
-      `${base_url}${uri.admin}${uri.owner}/email/${data.email}`,
+      `${base_url}${uri.api}${uri.admin}${uri.owner}/email/${data.email}`,
       {
         headers: {
           'Authorization': `Bearer ${token}`,

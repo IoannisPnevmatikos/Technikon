@@ -5,7 +5,7 @@ const findOwnerByFirstname= async (formData,token) => {
 const data = Object.fromEntries(formData.entries())
   // Send POST request
   return axios.get(
-    `${base_url}${uri.admin}${uri.owner}/name/${data.firstname}`,
+    `${base_url}${uri.api}${uri.admin}${uri.owner}/name/${data.firstname}`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -19,7 +19,7 @@ const findOwnerByLastname= async (formData,token) => {
   const data = Object.fromEntries(formData.entries())
     // Send POST request
     return axios.get(
-      `${base_url}${uri.admin}${uri.owner}/surname/${data.lastname}`,
+      `${base_url}${uri.api}${uri.admin}${uri.owner}/surname/${data.lastname}`,
       {
         headers: {
           'Authorization': `Bearer ${token}`,

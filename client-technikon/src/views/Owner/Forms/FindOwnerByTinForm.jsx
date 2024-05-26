@@ -30,7 +30,7 @@ const FindOwnerByTinForm = ({ handleSubmit, handleBackClick }) => {
     />
 
     <Box sx={{ position: 'relative' }}>
-      <Link to="/owner/profile">
+
       <Button
         type="submit"
         variant="contained"
@@ -42,7 +42,7 @@ const FindOwnerByTinForm = ({ handleSubmit, handleBackClick }) => {
        
         {isLoading ? 'Submitting...' : ' Go to profile'}
       </Button>
-      </Link>
+
 
       {isLoading && (
         <CircularProgress
