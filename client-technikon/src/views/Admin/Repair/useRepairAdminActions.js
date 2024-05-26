@@ -16,143 +16,406 @@ const useRepairActions = (token, navigate) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await createRepair(formData, token?.data); // Pass the token here
-            console.log('Repair created successfully', response);
-            alert('Repair created!');
-            navigate(paths.adminRepair);
+          const response = await createRepair(formData, token?.data); // Pass the token here
+          console.log('Repair created successfully', response);
+          alert('Repair created!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair creation failed:', error);
-            alert('Repair creation failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    const handleSubmitDelete = useCallback(async (event, setIsLoading) => {
+      const handleSubmitDelete = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await deleteRepair(formData, token?.data); // Pass the token here
-            console.log('Repair deleted successfully', response);
-            alert('Repair deleted!');
-            navigate(paths.adminRepair);
+          const response = await deleteRepair(formData, token?.data); // Pass the token here
+          console.log('Repair deleted successfully', response);
+          alert('Repair deleted!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair delete failed:', error);
-            alert('Repair delete failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    const handleSubmitUpdate = useCallback(async (event, setIsLoading) => {
+      const handleSubmitUpdate = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await updateRepair(formData, token?.data); // Pass the token here
-            console.log('Repair updated successfully', response);
-            alert('Repair updated!');
-            navigate(paths.adminRepair);
+          const response = await updateRepair(formData, token?.data); // Pass the token here
+          console.log('Repair updated successfully', response);
+          alert('Repair updated!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair update failed:', error);
-            alert('Repair update failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    const handleSubmitFindByDate = useCallback(async (event, setIsLoading) => {
+      const handleSubmitFindByDate = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await findRepairByDate(formData, token?.data); // Pass the token here
-            console.log('Repair(s) found successfully', response);
-            alert('Repair(s) found!');
-            navigate(paths.adminRepair);
+          const response = await findRepairByDate(formData, token?.data); // Pass the token here
+          console.log('Repair(s) found successfully', response);
+          alert('Repair(s) found!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair(s) find failed:', error);
-            alert('Repair(s) find failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    const handleSubmitFindByDateRange = useCallback(async (event, setIsLoading) => {
+      const handleSubmitFindByDateRange = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await findRepairByDateRange(formData, token?.data); // Pass the token here
-            console.log('Repair(s) found successfully', response);
-            alert('Repair(s) found!');
-            navigate(paths.adminRepair);
+          const response = await findRepairByDateRange(formData, token?.data); // Pass the token here
+          console.log('Repair(s) found successfully', response);
+          alert('Repair(s) found!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair(s) find failed:', error);
-            alert('Repair find failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    //////////////////////////////////////////LOADING/////////////////////////////////////////////////////////////////////////////////////////////
-    const handleSubmitGetAllRepairs = useCallback(async () => {
+      const handleSubmitGetAllRepairs = useCallback(async () => {
         setIsLoading(true);
         try {
-            const response = await findAllRepairs(token?.data); // Pass the token here
-            console.log('Loaded repairs successfully', response);
-            alert('Loaded repairs!');
-            navigate(paths.adminRepair);
+          const response = await findAllRepairs(token?.data); // Pass the token here
+          console.log('Loaded repairs successfully', response);
+          alert('Loaded repairs!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair load failed:', error);
-            alert('Repair load failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    const handleSubmitFindRepairByOwnerTinNumber = useCallback(async (event, setIsLoading) => {
+      const handleSubmitFindRepairByOwnerTinNumber = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await findRepairByOwnerTinNumber(formData, token?.data); // Pass the token here
-            console.log('Loaded repairs by owner successfully', response);
-            alert('Loaded repairs by owner!');
-            navigate(paths.adminRepair);
+          const response = await findRepairByOwnerTinNumber(formData, token?.data); // Pass the token here
+          console.log('Loaded repairs by owner successfully', response);
+          alert('Loaded repairs by owner!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repairs by owner load failed:', error);
-            alert('Repairs by owner load failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
-    const handleSubmitGetRepairReport = useCallback(async (event, setIsLoading) => {
+      const handleSubmitGetRepairReport = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-
+      
         try {
-            const response = await getRepairReport(formData, token?.data); // Pass the token here
-            console.log('Loaded repairs successfully', response);
-            alert('Loaded repairs!');
-            navigate(paths.adminRepair);
+          const response = await getRepairReport(formData, token?.data); // Pass the token here
+          console.log('Loaded repairs successfully', response);
+          alert('Loaded repairs!');
+          navigate(paths.adminRepair);
         } catch (error) {
-            console.error('Repair load failed:', error);
-            alert('Repair load failed. Please try again.');
+          if (error.response) {
+            const statusCode = error.response.status;
+            switch (statusCode) {
+              case 400:
+                alert('Bad Request: Please check your input.');
+                break;
+              case 401:
+                alert('Unauthorized: Please log in.');
+                break;
+              case 403:
+                alert('Forbidden: You do not have permission to perform this action.');
+                break;
+              case 404:
+                alert('Not Found: The requested resource could not be found.');
+                break;
+              case 409:
+                alert('Conflict: There is a conflict with the current state of the resource.');
+                break;
+              case 500:
+                alert('Internal Server Error: Please try again later.');
+                break;
+              default:
+                alert(`An error occurred: ${error.response.statusText}`);
+                break;
+            }
+          } else if (error.request) {
+            // The request was made but no response was received
+            console.error('No response received:', error.request);
+            alert('No response from server. Please check your network connection.');
+          } else {
+            // Something happened in setting up the request that triggered an Error
+            console.error('Error setting up request:', error.message);
+            alert('An error occurred. Please try again.');
+          }
         } finally {
-            setIsLoading(false);
+          setIsLoading(false);
         }
-    }, [token, navigate]);
+      }, [token, navigate]);
+      
 
     return {
         handleSubmitCreate,
