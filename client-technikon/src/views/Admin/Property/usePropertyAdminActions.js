@@ -15,12 +15,22 @@ const usePropertyActions = (token, navigate) => {
 
     try {
       const response = await createProperty(formData, token?.data); // Pass the token here
-      console.log('Property created successfully', response);
-      alert('Property created!');
-      navigate(`${paths.adminProperty}/${response.data.propertyId}`);
+        console.log('Property created successfully');
+        alert('Property created!');
+        navigate(`${paths.adminProperty}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property creation failed:', error);
-      alert('Property creation failed. Please try again.');
+      if (error.response.status === 409) {
+        alert("Property creation failed! A property with the same E9 number already exists.")
+      } else if (error.response.status === 400) {
+        alert('Property creation failed! Invalid input data.');
+      } else if (error.response.status === 403) {
+        alert('Property creation failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property creation failed! Requested tin number is not available.');
+      } else {
+        alert('Property creation failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -38,7 +48,15 @@ const usePropertyActions = (token, navigate) => {
       navigate(paths.adminProperty);
     } catch (error) {
       console.error('Property deletion failed:', error);
-      alert('Property deletion failed. Please try again.');
+      if (error.response.status === 400) {
+        alert('Property deletion failed! Invalid input data.');
+      } else if (error.response.status === 403) {
+        alert('Property deletion failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property deletion failed! Requested E9 does not exist.');
+      } else {
+        alert('Property deletion failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -56,7 +74,17 @@ const usePropertyActions = (token, navigate) => {
       navigate(`${paths.adminProperty}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property update failed:', error);
-      alert('Property update failed. Please try again.');
+      if (error.response.status === 409) {
+        alert("Property update failed! A property with the same E9 number already exists.")
+      } else if (error.response.status === 400) {
+        alert('Property update failed! Invalid input data.');
+      } else if (error.response.status === 403) {
+        alert('Property update failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property update failed! Requested E9 does not exist.');
+      } else {
+        alert('Property update failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -74,7 +102,13 @@ const usePropertyActions = (token, navigate) => {
       navigate(`${paths.adminProperty}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property search failed:', error);
-      alert('Property search failed. Please try again.');
+      if (error.response.status === 403) {
+        alert('Property search failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property search failed! Requested E9 does not exist.');
+      } else {
+        alert('Property search failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -93,8 +127,14 @@ const usePropertyActions = (token, navigate) => {
       console.log(data.tinNumber)
       navigate(`${paths.adminProperty}/list/${data.tinNumber}`);
     } catch (error) {
-      console.error('Properties search failed:', error);
-      alert('Properties search failed. Please try again.');
+      console.error('Property search failed:', error);
+      if (error.response.status === 403) {
+        alert('Property search failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property search failed! No properties found for the requested tin number.');
+      } else {
+        alert('Property search failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -112,8 +152,14 @@ const usePropertyActions = (token, navigate) => {
       const data = Object.fromEntries(formData.entries());
       navigate(`${paths.adminProperty}/${data.startDate}/${data.endDate}`);
     } catch (error) {
-      console.error('Properties search failed:', error);
-      alert('Properties search failed. Please try again.');
+      console.error('Property search failed:', error);
+      if (error.response.status === 403) {
+        alert('Property search failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property search failed! No properties found for the requested time period.');
+      } else {
+        alert('Property search failed!');
+      }
     } finally {
       setIsLoading(false);
     }
