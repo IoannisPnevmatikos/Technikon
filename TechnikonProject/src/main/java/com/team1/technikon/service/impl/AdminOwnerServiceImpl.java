@@ -125,41 +125,58 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
 
     @Transactional
     @Override
-    public OwnerDto updateOwner(Long ownerId, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
-        if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
-        OwnerServiceImpl.setUpdateFields(ownerDto, owner);
-//
-        if (ownerDto.email() != null && !ownerDto.email().equals(owner.getEmail())) owner.setEmail(ownerDto.email());
-        if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
-        isValidOwner(mapToOwnerDto(owner));
-        try {
-            ownerRepository.save(owner);
-        } catch (Exception e) {
-            throw new EntityFailToCreateException("update failed to execute. Check again");
-        }
-        return mapToOwnerDto(owner);
+    public OwnerDto updateOwner(String username, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException {
+        Owner owner = ownerRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
+       // if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
 
+        setUpdateFields(ownerDto, owner);
+//
+      //  if (ownerDto.email() != null && !ownerDto.email().equals(owner.getEmail())) owner.setEmail(ownerDto.email());
+     //   if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
+        if( isValidOwner(mapToOwnerDto(owner))) {
+            try {
+                ownerRepository.save(owner);
+                return mapToOwnerDto(owner);
+            } catch (Exception e) {
+                throw new EntityFailToCreateException("Valid Owner but update failed to execute.");
+            }
+        }
+        else throw new EntityFailToCreateException("update failed to execute. Check Input again");
     }
 
 
     @Override
-    public void deactivateOwnerById(Long id) throws EntityNotFoundException {
-        Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+    public void deactivateOwnerByUsername(String username) throws EntityNotFoundException {
+        Owner owner = ownerRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
         owner.setActive(false);
         ownerRepository.save(owner);
     }
 
     @Override
-    public boolean deleteOwnerById(Long id) throws EntityNotFoundException {
+    public boolean deleteOwnerByUsername(String username) throws EntityNotFoundException {
         try {
-            ownerRepository.deleteById(id);
-            return ownerRepository.findById(id).isEmpty();
+            ownerRepository.deleteByUsername(username);
+            return ownerRepository.findByUsername(username).isEmpty();
         } catch (Exception e) {
             throw new EntityNotFoundException(e.getMessage());
         }
 
     }
+
+    static void setUpdateFields(OwnerDto ownerDto, Owner owner) {
+        if (ownerDto.username() != null) owner.setUsername(owner.getUsername());
+        if(ownerDto.password() != null) owner.setPassword(owner.getPassword());
+        //WHen sign up tin is null, set the tin which comes from ownerdto
+        if (ownerDto.tinNumber() != null && owner.getTinNumber() == null) owner.setTinNumber(ownerDto.tinNumber());
+            //When owner tin already exists, dont change
+        else owner.setTinNumber(owner.getTinNumber());
+        if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
+        if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
+        if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
+        if (ownerDto.email() != null) owner.setEmail(ownerDto.email());
+        if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
+    }
+
 
 
 }

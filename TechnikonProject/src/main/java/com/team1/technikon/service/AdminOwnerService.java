@@ -35,12 +35,12 @@ public interface AdminOwnerService extends OwnerService {
 
     OwnerDto getOwnerByLastName(String lastName) throws EntityNotFoundException;
 
-    OwnerDto updateOwner(Long ownerId, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException;
+    OwnerDto updateOwner(String username, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException;
 
-    void deactivateOwnerById(Long id) throws EntityNotFoundException;
+    void deactivateOwnerByUsername(String username) throws EntityNotFoundException;
 
     //Delete
-    boolean deleteOwnerById(Long id) throws EntityNotFoundException;
+    boolean deleteOwnerByUsername(String username) throws EntityNotFoundException;
 
 
 }
