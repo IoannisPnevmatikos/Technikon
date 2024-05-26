@@ -17,7 +17,7 @@ const usePropertyActions = (token, navigate) => {
       const response = await createProperty(formData, token?.data); // Pass the token here
       console.log('Property created successfully', response);
       alert('Property created!');
-      navigate(paths.adminProperty);
+      navigate(`${paths.adminProperty}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property creation failed:', error);
       alert('Property creation failed. Please try again.');
@@ -53,7 +53,7 @@ const usePropertyActions = (token, navigate) => {
       const response = await updateProperty(formData, token?.data); // Pass the token here
       console.log('Property updated successfully', response);
       alert('Property updated!');
-      navigate(paths.adminProperty);
+      navigate(`${paths.adminProperty}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property update failed:', error);
       alert('Property update failed. Please try again.');
@@ -71,7 +71,7 @@ const usePropertyActions = (token, navigate) => {
       const response = await findPropertyByE9(formData, token?.data); // Pass the token here
       console.log('Property found successfully', response);
       alert('Property found!');
-      navigate(paths.adminProperty);
+      navigate(`${paths.adminProperty}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property search failed:', error);
       alert('Property search failed. Please try again.');
@@ -89,7 +89,9 @@ const usePropertyActions = (token, navigate) => {
       const response = await findPropertiesByTin(formData, token?.data); // Pass the token here
       console.log('Properties found successfully', response);
       alert('Properties found!');
-      navigate(paths.adminProperty);
+      const data = Object.fromEntries(formData.entries());
+      console.log(data.tinNumber)
+      navigate(`${paths.adminProperty}/list/${data.tinNumber}`);
     } catch (error) {
       console.error('Properties search failed:', error);
       alert('Properties search failed. Please try again.');
@@ -107,7 +109,8 @@ const usePropertyActions = (token, navigate) => {
       const response = await findBetweenDates(formData, token?.data); // Pass the token here
       console.log('Properties found successfully', response);
       alert('Properties found!');
-      navigate(paths.adminProperty);
+      const data = Object.fromEntries(formData.entries());
+      navigate(`${paths.adminProperty}/${data.startDate}/${data.endDate}`);
     } catch (error) {
       console.error('Properties search failed:', error);
       alert('Properties search failed. Please try again.');

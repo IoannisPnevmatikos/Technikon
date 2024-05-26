@@ -12,6 +12,11 @@ import { paths } from "./constants/paths/paths";
 import CreatePropertyForm from "./views/Property/PropertyForms/CreatePropertyForm";
 import RepairAdminActionsPage from "./views/Admin/Repair/RepairAdminActionPage";
 import PropertyDetails from "./views/Property/PropertyDetails/PropertyDetails";
+import PropertyResDetails from "./views/Property/PropertyDetails/PropertyResDetails";
+import ListPropertyDetails from "./views/Property/PropertyDetails/ListPropertyDetails";
+import PropertyResDetailsAdmin from "./views/Admin/Property/PropertyDetails/PropertyResDetailsAdmin";
+import ListPropertyDetailsAdmin from "./views/Admin/Property/PropertyDetails/ListPropertyDetailsAdmin";
+import ReportDetailsAdmin from "./views/Admin/Property/PropertyDetails/ReportDetailsAdmin";
 
 function App() {
   return (
@@ -27,7 +32,11 @@ function App() {
           <Route path={paths.property} element={<Property />} />
           <Route path={paths.adminProperty} element={<PropertyAdmin />} />
           <Route path={paths.adminRepair} element={<RepairAdminActionsPage />} />
-          <Route path="property/:id" element={<PropertyDetails />} />
+          <Route path={paths.propertyResult} element={<PropertyResDetails />} />
+          <Route path={paths.listPropertyResult} element={<ListPropertyDetails />} />
+          <Route path={paths.propertyResultAdmin} element={<PropertyResDetailsAdmin />} />
+          <Route path={paths.listPropertyResultAdmin} element={<ListPropertyDetailsAdmin />} />
+          <Route path={paths.reportPropertytAdmin} element={<ReportDetailsAdmin />} />
         </Route>
       </Routes>
     </Router>

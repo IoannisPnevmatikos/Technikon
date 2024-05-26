@@ -1,5 +1,5 @@
 import axios from "axios";
-import { base_url, uri } from "../../constants/endpoints/endpoints";
+import { base_url, uri } from "../../../constants/endpoints/endpoints";
 
 const getPropertyDetails = async (id, token) => {
 
