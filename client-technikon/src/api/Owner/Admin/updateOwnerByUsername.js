@@ -4,7 +4,10 @@ import { base_url, uri } from "../../../constants/endpoints/endpoints";
 const updateOwner = async (formData, token) => {
   // Extract form data entries once
   const data = Object.fromEntries(formData.entries());
-
+  let firstnameStr = data.firstname
+  firstnameStr = data.firstName.charAt(0).toUpperCase() + data.firstName.slice(1)
+  let lastnameStr = data.lastName
+  lastnameStr = data.lastName.charAt(0).toUpperCase() + data.lastName.slice(1)
 
   const payload = {
     tinNumber: data.tinNumber,

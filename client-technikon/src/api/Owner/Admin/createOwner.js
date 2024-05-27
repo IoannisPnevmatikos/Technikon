@@ -2,7 +2,6 @@ import axios from "axios";
 import { base_url, uri } from "../../../constants/endpoints/endpoints";
 
 const createOwner = async (formData, token) => {
-  //const token = useToken.getState().token?.data;
   const data = Object.fromEntries(formData.entries());
   console.log(data)
 

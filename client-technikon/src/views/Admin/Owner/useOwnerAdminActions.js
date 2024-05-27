@@ -25,16 +25,16 @@ const useOwnerActions = (token, navigate, setOwnerData) => {
             console.log('Owner created successfully', response);
             alert('Owner created!');
             event.target.reset();
-            navigate(paths.owner);
+            navigate(paths.adminOwner);
 
 
         } catch (error) {
             console.error('Owner creation failed:', error);
             //  alert('Owner creation failed. Please try again.');
             if (error.response.status === 403) {
-                alert('You are not authorized to do this.');
+                alert('Username or Email already in use! Try again with another');
             } else if (error.response.status === 409) {
-                alert('Owner validation failed. Check your inputs again');
+                alert('Username: Enter 6 characters or longer and Email must be valid!');
             } else {
                 alert('Owner creation failed. Please try again!');
             }
@@ -74,7 +74,7 @@ const useOwnerActions = (token, navigate, setOwnerData) => {
         //  event.preventDefault();
         //    setIsLoading(true);
         try {
-            const response = await findOwnerByDate(formData, token?.data); // Pass the token here
+            const response = await findOwnerByDate(formData, token?.data); 
             console.log('Owners found successfully', response);
             alert('Owners found!');
             setOwnerData(response.data);

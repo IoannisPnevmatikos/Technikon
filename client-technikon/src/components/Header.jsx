@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -14,10 +14,12 @@ import { Fragment } from "react";
 
 const Header = () => {
   const { token, logout } = useToken();
+  const navigate = useNavigate();
 
   const handleLogout =  () => {
     logout();
     alert('You have successfully logged out.');
+    navigate(paths.home)
   };
 
   const [decodedToken, setDecodedToken] = useState(null);

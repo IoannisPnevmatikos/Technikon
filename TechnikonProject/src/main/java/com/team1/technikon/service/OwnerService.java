@@ -25,7 +25,7 @@ public interface OwnerService extends UserDetailsService {
 
     String updateOwnerPassword(ChangePwRequestDto changePwRequestDto)  throws EntityNotFoundException,InvalidInputException;
     //DELETE
-    boolean deleteOwnerByUsername(Long id,String username) throws EntityNotFoundException;
+    boolean deleteOwnerByUsername(Long id,String username) throws EntityNotFoundException, UnauthorizedAccessException;
 
     boolean deleteOwnerById(Long authId,Long id) throws EntityNotFoundException, UnauthorizedAccessException;
 

@@ -152,20 +152,20 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
 
 @Transactional
 @Override
-public boolean deleteOwnerByUsername(Long authId, String username) throws EntityNotFoundException {
+public boolean deleteOwnerByUsername(Long authId, String username) throws EntityNotFoundException, UnauthorizedAccessException {
     try {
         logger.info("Deleting an owner by username{}", username);
         Owner owner = ownerRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("User not found"));
+        logger.info("Deleting an owner {} ownerid {}", authId,owner.getId());
         if(authId==owner.getId()) {
-            if (owner.getProperties().isEmpty()) {
+            if (!owner.getProperties().isEmpty()) {
                 owner.setActive(false);
                 ownerRepository.save(owner);
-                return true;
             } else {
                 logger.info("With Username found completely Empty Owner.. deleting");
                 ownerRepository.deleteByUsername(username);
-                return true;
             }
+            return true;
         }
         else throw new UnauthorizedAccessException("You are not authorized to delete this entity.");
 
