@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="Exception handling">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
-    </list>
+    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="telos?" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -39,12 +36,12 @@
     &quot;assignee&quot;: &quot;AndreasSCY&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/IoannisPnevmatikos/Technikon.git",
-    "accountId": "7ab79ecb-1916-4227-9bb6-67963a8fb740"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/IoannisPnevmatikos/Technikon.git&quot;,
+    &quot;accountId&quot;: &quot;5f9fb599-2b44-4a55-baa0-1e33f29bbef3&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -70,7 +67,7 @@
     &quot;Spring Boot.TechnikonApplication.executor&quot;: &quot;Run&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
     &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;IoannisFeature&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;andreas&quot;,
     &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
     &quot;last_opened_file_path&quot;: &quot;C:/Users/andreasc/IdeaProjects/Technikon/TechnikonProject&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
@@ -257,13 +254,13 @@
       <option name="project" value="LOCAL" />
       <updated>1716714764261</updated>
     </task>
-    <task id="LOCAL-00017" summary="Exception handling">
+    <task id="LOCAL-00017" summary="DATAGEN">
       <option name="closed" value="true" />
-      <created>1716750661618</created>
+      <created>1716714899169</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1716750661618</updated>
+      <updated>1716714899169</updated>
     </task>
     <option name="localTasksCounter" value="18" />
     <servers />
@@ -298,7 +295,7 @@
     <MESSAGE value="testing something" />
     <MESSAGE value="DONE" />
     <MESSAGE value="DATAGEN" />
-    <MESSAGE value="Exception handling" />
-    <option name="LAST_COMMIT_MESSAGE" value="Exception handling" />
+    <MESSAGE value="telos?" />
+    <option name="LAST_COMMIT_MESSAGE" value="telos?" />
   </component>
 </project>
