@@ -3,7 +3,6 @@ import { Container, Typography, Grid, Paper } from '@mui/material';
 
 const OwnerProfile = (owner) =>{
   const obj = owner.data  
-  console.log(obj)
   return (
     <Container maxWidth="lg" >
       <Grid container spacing={3}>

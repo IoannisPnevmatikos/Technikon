@@ -1,14 +1,12 @@
-import { useCallback,useState } from 'react';
+import { useCallback } from 'react';
 import createOwner from '../../api/Owner/User/createOwner';
 import deleteOwner from '../../api/Owner/User/deleteOwner';
 import updateOwner from '../../api/Owner/User/updateOwner';
-import findById from '../../api/Owner/User/findById';
 import findOwnerByTin from '../../api/Owner/User/findOwnerByTin';
 import {paths} from '../../constants/paths/paths'
-import { redirect  } from 'react-router-dom';
+//import { useNavigate, redirect } from 'react-router-dom';
 
-const useOwnerActions = (token, navigate) => {
-
+const useOwnerActions = (token, navigate,setOwnerData) => {
 
   const handleSubmitCreate = useCallback(async (event,setIsLoading) => {
     event.preventDefault();
@@ -36,21 +34,13 @@ const useOwnerActions = (token, navigate) => {
     }
   }, [token, navigate]);
 
-  
-  const [ownerData, setOwnerData] = useState(null);
-
-  const handleSubmitFindOwnerByTin = useCallback(async (event,setIsLoading) => {
-    event.preventDefault();
-    const formData = new FormData(event.target);
-
+  const handleSubmitFindOwnerByTin = useCallback(async (formData) => {
     try {
-      const response = await findOwnerByTin(formData, token?.data); // Pass the token here
-      console.log('Owner found successfully', response);
-      
+      const response = await findOwnerByTin(formData, token?.data); 
+      console.log('Owner found successfully', response.data);
       alert('Owner found!');
-    
       setOwnerData(response.data);
-      redirect(paths.ownerProfile);
+ 
     } catch (error) {
       console.error('Owner search failed:', error);
       if (error.response.status === 403) {
@@ -60,11 +50,8 @@ const useOwnerActions = (token, navigate) => {
     } else {
         alert('Owner search failed!');
     }
-    } finally {
-      setIsLoading(false);
     }
-
-  }, [token, navigate]);
+  }, [token, navigate, setOwnerData]);
 
 
   const handleSubmitUpdate = useCallback(async (event,setIsLoading) => {

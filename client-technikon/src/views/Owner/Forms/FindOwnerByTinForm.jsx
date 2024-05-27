@@ -1,18 +1,26 @@
 import React, { useState } from 'react';
-import { Link, useNavigate} from 'react-router-dom';
-import { Box, Button, TextField } from '@mui/material';
+import { Box, Button, TextField,CircularProgress } from '@mui/material';
 
 
 const FindOwnerByTinForm = ({ handleSubmit, handleBackClick }) => {
-  const navigate = useNavigate();
- 
+
+  const [ownerData, setOwnerData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   
   const onSubmit = async (event) =>{ 
-    handleSubmit(formData, setIsLoading)
+    event.preventDefault();
     const formData = new FormData(event.target);
-    const response = await handleSubmit(formData, setIsLoading);
-    console.log(response)
+    setIsLoading(true)
+    try {
+      const data = await handleSubmit(formData);
+      setOwnerData(data);
+      console.log(data)
+    } catch (error) {
+      console.error(error);
+      alert('Failed to find owner');
+    } finally {
+      setIsLoading(false);
+    }
    
   
   }

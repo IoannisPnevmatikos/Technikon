@@ -91,11 +91,18 @@ public class DataGenerator {
 
             Owner owner = new Owner();
             owner.setTinNumber(String.valueOf(faker.number().numberBetween(100000000, 999999999)));
+
             String firstName = faker.name().firstName();
             owner.setFirstName(firstName.substring(0, 1).toUpperCase()+firstName.substring(1));
+
            String lastName = faker.name().lastName();
-            owner.setFirstName(lastName.substring(0, 1).toUpperCase()+lastName.substring(1));
-            owner.setUsername(faker.name().username().toLowerCase());
+            owner.setLastName(lastName.substring(0, 1).toUpperCase()+lastName.substring(1));
+
+            owner.setUsername((owner.getFirstName()+owner.getLastName()+i).toLowerCase());
+            String str = owner.getFirstName() ;
+            String str2 = owner.getLastName();
+            owner.setEmail(str.substring(0,1).toLowerCase()+str.substring(1)+i+"@"+str2.charAt(0)+str2.substring(1)+".com");
+
             owner.setPassword(encoder.encode("1234"));
             owner.setAddress(faker.address().streetAddress());
             owner.setPhone(String.valueOf(faker.number().numberBetween(6900000000L, 7000000000L)));

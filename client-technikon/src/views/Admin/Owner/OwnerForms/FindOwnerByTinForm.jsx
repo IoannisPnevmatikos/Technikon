@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import {useNavigate} from 'react-router-dom';
 import { Box, Button, TextField,CircularProgress } from '@mui/material';
 
 const FindOwnerByTinForm =  ({ handleSubmit, handleBackClick }) => {
-    const navigate = useNavigate();
+
     const [isLoading, setIsLoading] = useState(false);
     const [ownerData, setOwnerData] = useState(null);
   

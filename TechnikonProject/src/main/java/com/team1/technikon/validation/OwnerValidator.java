@@ -15,9 +15,13 @@ public class OwnerValidator {
     private static final Logger logger = LoggerFactory.getLogger(OwnerValidator.class);
 
     public static boolean isValidOwner(OwnerDto ownerDto) {
-        logger.info("isValidOwner");
-        return (isValidEmail(ownerDto.email()) &&
+        logger.info("isValidOwner {}",isValidEmail(ownerDto.email()) &&
                 isValidUsername(ownerDto.username()) &&
+                isValidName(ownerDto.firstName(), ownerDto.lastName()) &&
+                isValidTinNumber(ownerDto.tinNumber()) &&
+                isValidPhone(ownerDto.phone()));
+
+        return (isValidUsername(ownerDto.username()) &&
                 isValidName(ownerDto.firstName(), ownerDto.lastName()) &&
                 isValidTinNumber(ownerDto.tinNumber()) &&
                 isValidPhone(ownerDto.phone()));
@@ -36,7 +40,8 @@ public class OwnerValidator {
 
     public static boolean isValidEmail(String email) {
         String regexPattern = "^(.+)@([a-zA-Z0-9.-]+)\\.[a-zA-Z]{2,}$";
-        return Pattern.compile(regexPattern).matcher(email).matches();
+        return Pattern.compile(regexPattern).matcher(email.toLowerCase()).matches();
+
     }
 
     public static boolean isValidUsername(String username) {

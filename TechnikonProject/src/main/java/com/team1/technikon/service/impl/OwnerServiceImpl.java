@@ -99,7 +99,19 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
 
         } else throw new InvalidInputException("User not valid. Check firstname,lastname, email and tin Num");
         try {
-            ownerRepository.save(owner);
+            owner.setEmail(ownerDto.email());
+            owner.setAddress(ownerDto.address());
+            owner.setFirstName(ownerDto.firstName());
+            owner.setLastName(ownerDto.lastName());
+            owner.setPhone(ownerDto.phone());
+            ownerRepository
+                    .updateOwnerByUsername(ownerDto.firstName(),
+                            ownerDto.lastName(),
+                            ownerDto.username(),
+                            ownerDto.email(),
+                            ownerDto.address(),
+                            ownerDto.phone());
+           // ownerRepository.save(owner);
         } catch (Exception e) {
             throw new InvalidInputException("update failed to execute. Check inputs again");
         }
@@ -117,7 +129,7 @@ public class OwnerServiceImpl implements OwnerService, UserDetailsService {
         if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
         if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
         if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
-        if (ownerDto.email() != null) owner.setEmail(ownerDto.email());
+        if (ownerDto.email() != null) owner.setEmail(ownerDto.email().toLowerCase());
         if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
     }
 
