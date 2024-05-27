@@ -11,11 +11,11 @@ import findOwnerByRole from '../../../api/Owner/Admin/findOwnerByRole'
 import findOwnerByTin from '../../../api/Owner/Admin/findOwnerByTin';
 import updateOwnerByUsername from '../../../api/Owner/Admin/updateOwnerByUsername';
 import { paths } from '../../../constants/paths/paths'
-import {useNavigate, redirect } from 'react-router-dom';
+import { useNavigate, redirect } from 'react-router-dom';
 import findOwnerByUsername from '../../../api/Owner/Admin/findOwnerByUsername';
 
-const useOwnerActions = (token, navigate , setOwnerData) => {
-   // const navigate = useNavigate();
+const useOwnerActions = (token, navigate, setOwnerData) => {
+    // const navigate = useNavigate();
     const handleSubmitCreate = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true);
@@ -27,9 +27,18 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
             event.target.reset();
             navigate(paths.owner);
 
+
         } catch (error) {
             console.error('Owner creation failed:', error);
-            alert('Owner creation failed. Please try again.');
+            //  alert('Owner creation failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 409) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner creation failed. Please try again!');
+            }
+
         }
         finally {
             setIsLoading(false);
@@ -40,15 +49,21 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
     const handleFindAllOwners = useCallback(async (event, setIsLoading) => {
         event.preventDefault();
         setIsLoading(true)
-           try {
+        try {
             const response = await findAllOwners(token?.data);
             // Pass the token here
             console.log('Owners found successfully', response);
             alert('Owners found!');
-         
+
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 409) {
+                alert('Owners Get failed.');
+            } else {
+                alert('Oops. Something went wrong!');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -56,8 +71,8 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
     }, [token]);
 
     const handleSubmitFindOwnerByDate = useCallback(async (formData) => {
-      //  event.preventDefault();
-    //    setIsLoading(true);
+        //  event.preventDefault();
+        //    setIsLoading(true);
         try {
             const response = await findOwnerByDate(formData, token?.data); // Pass the token here
             console.log('Owners found successfully', response);
@@ -65,9 +80,16 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
             setOwnerData(response.data);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
+
         } finally {
-        //   setIsLoading(false);
+            //   setIsLoading(false);
         }
 
     }, [token, setOwnerData]);
@@ -75,19 +97,25 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
     const handleSubmitFindOwnerByEmail = useCallback(async (formData) => {
         try {
             const response = await findOwnerByEmail(formData, token?.data); // Pass the token here
-           console.log('Owner found successfully', response.data);
+            console.log('Owner found successfully', response.data);
             alert('Owner found!');
             setOwnerData(response.data);
-    
+
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
         }
- 
+
     }, [token, navigate, setOwnerData]);
 
 
-    const handleSubmitFindOwnerByIsActive= useCallback(async (formData) => {
+    const handleSubmitFindOwnerByIsActive = useCallback(async (formData) => {
         try {
             const response = await findOwnerByIsActive(formData, token?.data); // Pass the token here
             console.log('Owner found successfully', response);
@@ -95,80 +123,116 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
             setOwnerData(response.data);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
         }
 
-    }, [token, navigate,setOwnerData]);
+    }, [token, navigate, setOwnerData]);
 
 
     const handleSubmitFindOwnerByFirstname = useCallback(async (formData) => {
         try {
-            const response = await findOwnerByFirstname(formData, token?.data); 
+            const response = await findOwnerByFirstname(formData, token?.data);
             console.log('Owner found successfully', response);
             alert('Owner found!');
             setOwnerData(response.data);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
-        } 
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
+        }
 
     }, [token, navigate, setOwnerData]);
 
     const handleSubmitFindOwnerByLastname = useCallback(async (formData) => {
         try {
-            const response = await findOwnerByLastname(formData, token?.data); 
+            const response = await findOwnerByLastname(formData, token?.data);
             console.log('Owner found successfully', response);
             alert('Owner found!');
             setOwnerData(response.data);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
-        } 
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
+        }
 
     }, [token, navigate, setOwnerData]);
 
     const handleSubmitFindOwnerByRole = useCallback(async (formData) => {
         try {
-            const response = await findOwnerByRole(formData, token?.data); 
+            const response = await findOwnerByRole(formData, token?.data);
             console.log('Owner found successfully', response);
 
             alert('Owner found!');
             setOwnerData(response.data);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
-        } 
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
+        }
 
     }, [token, navigate, setOwnerData]);
 
     const handleSubmitFindOwnerByTin = useCallback(async (formData) => {
         try {
             const response = await findOwnerByTin(formData, token?.data);
-           console.log('Owner found successfully', response.data);
+            console.log('Owner found successfully', response.data);
             alert('Owner found!');
             setOwnerData(response.data);
-    
+
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
         }
- 
+
     }, [token, navigate, setOwnerData]);
 
-    
+
 
     const handleSubmitFindOwnerByUsername = useCallback(async (formData) => {
-    
+
         try {
-            const response = await findOwnerByUsername(formData, token?.data); 
+            const response = await findOwnerByUsername(formData, token?.data);
             console.log('Owner found successfully', response);
             alert('Owner found!');
             setOwnerData(response.data);
-          //  redirect(paths.ownerProfile);
+            //  redirect(paths.ownerProfile);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
-        } 
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
+        }
 
     }, [token, navigate, setOwnerData]);
 
@@ -176,16 +240,22 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
         event.preventDefault();
         setIsLoading(true);
         const formData = new FormData(event.target);
-      
+
         try {
-            const response = await deactivateOwner(formData, token?.data); 
+            const response = await deactivateOwner(formData, token?.data);
             console.log('Owner deacivated successfully', response);
             alert('Owner deacivated!');
-           // setOwnerData(response.data);
-           navigate(paths.owner);
+            // setOwnerData(response.data);
+            navigate(paths.owner);
         } catch (error) {
             console.error('Owner search failed:', error);
-            alert('Owner search failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 404) {
+                alert('Owner validation failed. Check your inputs again');
+            } else {
+                alert('Owner search failed!');
+            }
         } finally {
             setIsLoading(false);
         }
@@ -206,7 +276,18 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
 
         } catch (error) {
             console.error('Owner creation failed:', error);
-            alert('Owner creation failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+
+            } else if (error.response.status === 409) {
+                alert('Owner validation failed. Check your inputs again');
+            }
+            else if (error.response.status === 404) {
+                alert('Owner not found. Check username again!')
+            }
+            else {
+                alert('Owner update failed. Please try again!');
+            }
         }
         finally {
             setIsLoading(false);
@@ -228,7 +309,18 @@ const useOwnerActions = (token, navigate , setOwnerData) => {
             navigate(paths.owner);
         } catch (error) {
             console.error('Owner deletion failed:', error);
-            alert('Owner deletion failed. Please try again.');
+            if (error.response.status === 403) {
+                alert('You are not authorized to do this.');
+            } else if (error.response.status === 409) {
+                alert('Owner validation failed. Check your inputs again');
+            }
+            else if (error.response.status === 404) {
+                alert('Owner not found. Check username again!')
+            }
+             else {
+                alert('Owner delete failed. Please try again!');
+            }
+
         }
         finally {
             setIsLoading(false);

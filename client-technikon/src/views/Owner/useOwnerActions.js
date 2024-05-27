@@ -23,7 +23,13 @@ const useOwnerActions = (token, navigate) => {
   
     } catch (error) {
       console.error('Owner creation failed:', error);
-      alert('Owner creation failed. Please try again.');
+      if (error.response.status === 403) {
+        alert('You are not authorized to do this.');
+    } else if (error.response.status === 409) {
+        alert('Owner validation failed. Check your inputs again');
+    } else {
+        alert('Owner creation failed. Please try again!');
+    }
     }
     finally {
       setIsLoading(false);
@@ -47,7 +53,13 @@ const useOwnerActions = (token, navigate) => {
       redirect(paths.ownerProfile);
     } catch (error) {
       console.error('Owner search failed:', error);
-      alert('Owner search failed. Please try again.');
+      if (error.response.status === 403) {
+        alert('You are not authorized to do this.');
+    } else if (error.response.status === 404) {
+        alert('Owner validation failed. Check your inputs again');
+    } else {
+        alert('Owner search failed!');
+    }
     } finally {
       setIsLoading(false);
     }
@@ -68,8 +80,18 @@ const useOwnerActions = (token, navigate) => {
      
       navigate(paths.owner);
     } catch (error) {
-      console.error('Owner update failed:', error);
-      alert('Owner update failed. Please try again.');
+      if (error.response.status === 403) {
+        alert('You are not authorized to do this.');
+
+    } else if (error.response.status === 409) {
+        alert('Owner validation failed. Check your inputs again');
+    }
+    else if (error.response.status === 404) {
+        alert('Owner not found. Check username again!')
+    }
+    else {
+        alert('Owner update failed. Please try again!');
+    }
     }
     finally {
       setIsLoading(false);
@@ -90,7 +112,17 @@ const useOwnerActions = (token, navigate) => {
       navigate(paths.owner);
     } catch (error) {
       console.error('Owner deletion failed:', error);
-      alert('Owner deletion failed. Please try again.');
+      if (error.response.status === 403) {
+        alert('You are not authorized to do this.');
+    } else if (error.response.status === 409) {
+        alert('Owner validation failed. Check your inputs again');
+    }
+    else if (error.response.status === 404) {
+        alert('Owner not found. Check username again!')
+    }
+     else {
+        alert('Owner delete failed. Please try again!');
+    }
     }
     finally {
       setIsLoading(false);
