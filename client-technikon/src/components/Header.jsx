@@ -51,9 +51,10 @@ const Header = () => {
           
           {token ? (
             <Fragment>
+            {decodedToken?.role === "ADMIN" ? (
             <Button color="inherit" component={Link} to={paths.admin} sx={{ flexGrow: 1 }}>
             Admin
-          </Button>
+          </Button>) : (null) }
           <Button color="inherit" component={Link} to={paths.owner} sx={{ flexGrow: 1 }}>
             Owner
           </Button>
