@@ -81,7 +81,7 @@ const useRepairActions = (token, navigate) => {
                 alert('Bad Request: Please check your input.');
                 break;
               case 401:
-                alert('Cannot delete. It is in PENDING STATUS!');
+                alert('Cannot delete. It is not in PENDING STATUS!');
                 break;
               case 403:
                 alert('Forbidden: You do not have permission to perform this action.');

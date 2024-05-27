@@ -92,7 +92,7 @@ const useRepairActions = (token, navigate) => {
     try {
       const response = await deleteRepair(formData, token?.data); // Pass the token here
       console.log('Repair deleted successfully', response);
-       if (error.response.status == 200){
+       if (response.status == 200){
          alert('Repair deleted!');
        }
 
@@ -100,7 +100,6 @@ const useRepairActions = (token, navigate) => {
 
       navigate(paths.repair);
     } catch (error) {
-      console.log(error);
       if (error.response) {
         const statusCode = error.response.status;
         switch (statusCode) {
@@ -108,7 +107,7 @@ const useRepairActions = (token, navigate) => {
             alert('Bad Request: Please check your input.');
             break;
           case 401:
-            alert('Cannot delete. It is in PENDING STATUS or it is not your repair!');
+            alert('Cannot delete. It is not in PENDING STATUS or it is not your repair!');
             break;
           case 403:
             alert('Forbidden: You do not have permission to perform this action.');
