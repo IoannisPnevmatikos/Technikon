@@ -4,6 +4,7 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
@@ -41,13 +42,16 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     }
 
     @Override
-    public String addAdmin(SignUpDto signUpDto) {
+    public String addAdmin(SignUpDto signUpDto) throws EntityFailToCreateException {
         Owner owner = new Owner();
-        owner.setRole("ADMIN");   //if(isValidSignUpDto(signUpDto)){
+        owner.setRole("ADMIN");
+        if(isValidSignUpDto(signUpDto)){
         owner.setUsername(signUpDto.username());
         owner.setPassword(encoder.encode(signUpDto.password()));
         owner.setEmail(signUpDto.email());
-        return ownerRepository.save(owner).toString();    //}
+        return ownerRepository.save(owner).toString();
+        }
+        else throw new EntityFailToCreateException("SignUp validation failed. Check user input again");
     }
 
 
@@ -70,8 +74,11 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     }
 
     @Override
-    public List<OwnerDto> getOwnersBetweenRegDate(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException {
+    public List<OwnerDto> getOwnersBetweenRegDate(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException, InvalidInputException {
         try {
+            if (startDate.isAfter(endDate)) {
+                throw new InvalidInputException("Start date cannot be after end date");
+            }
             return ownerRepository.findOwnersByRegistrationDate(startDate, endDate).stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
         } catch (Exception e) {
             throw new EntityNotFoundException(e.getMessage());
@@ -155,12 +162,16 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     @Override
     public boolean deleteOwnerByUsername(String username) throws EntityNotFoundException {
         try {
-            ownerRepository.deleteByUsername(username);
-            return ownerRepository.findByUsername(username).isEmpty();
+            if(ownerRepository.findByUsername(username).isPresent()) {
+                ownerRepository.deleteByUsername(username);
+                return ownerRepository.findByUsername(username).isEmpty();
+            }
+
         } catch (Exception e) {
             throw new EntityNotFoundException(e.getMessage());
         }
 
+        return false;
     }
 
     static void setUpdateFields(OwnerDto ownerDto, Owner owner) {

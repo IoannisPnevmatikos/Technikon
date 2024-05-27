@@ -5,6 +5,7 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.service.AdminOwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -26,8 +27,9 @@ public class AdminController {
     public ResponseEntity<String> createOwner(@PathVariable String account, @RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
         if (account.equals("admin"))
             return ResponseEntity.ok(adminOwnerService.addAdmin(signUpDto));
-        else
+        else if(account.equals("user"))
             return ResponseEntity.ok(adminOwnerService.addUser(signUpDto));
+        else return ResponseEntity.badRequest().body("Can't create owner with account " + account + "Must be either Admin or User");
     }
 
     @GetMapping("/owner")
@@ -36,7 +38,7 @@ public class AdminController {
     }
 
     @GetMapping("/owner/{startDate}/to/{endDate}")
-    public ResponseEntity<List<OwnerDto>> findAllByDate(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) throws EntityNotFoundException {
+    public ResponseEntity<List<OwnerDto>> findAllByDate(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) throws EntityNotFoundException, InvalidInputException {
         return ResponseEntity.ok(adminOwnerService.getOwnersBetweenRegDate(startDate, endDate));
     }
 

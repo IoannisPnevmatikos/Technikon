@@ -4,6 +4,7 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -19,7 +20,7 @@ public interface AdminOwnerService extends OwnerService {
 
     List<OwnerDto> getAllByRole(String role) throws EntityNotFoundException;
 
-    List<OwnerDto> getOwnersBetweenRegDate(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException;
+    List<OwnerDto> getOwnersBetweenRegDate(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException, InvalidInputException;
 
     List<OwnerDto> getOwnersActive(boolean isActive) throws EntityNotFoundException;
 
