@@ -7,5 +7,10 @@ export const paths = {
     adminRepair: "/admin/repair",
     repair: "/repairs",
     login: "/login",
-    signup: "/signup"
+    signup: "/signup",
+    propertyResult: "/property/:id",
+    listPropertyResult: "/property/list",
+    propertyResultAdmin: "/admin/property/:id",
+    listPropertyResultAdmin: "/admin/property/list/:id",
+    reportPropertytAdmin: "/admin/property/:startDate/:endDate"
   };

@@ -19,7 +19,17 @@ const usePropertyActions = (token, navigate) => {
       navigate(`${paths.property}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property creation failed:', error);
-      alert('Property creation failed. Please try again.');
+      if (error.response.status === 409) {
+        alert("Property creation failed! A property with the same E9 number already exists.")
+      } else if (error.response.status === 400) {
+        alert('Property creation failed! Invalid input data.');
+      } else if (error.response.status === 403) {
+        alert('Property creation failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property creation failed! Requested tin number is not available.');
+      } else {
+        alert('Property creation failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -37,7 +47,15 @@ const usePropertyActions = (token, navigate) => {
       navigate(paths.property);
     } catch (error) {
       console.error('Property deletion failed:', error);
-      alert('Property deletion failed. Please try again.');
+      if (error.response.status === 400) {
+        alert('Property deletion failed! Invalid input data.');
+      } else if (error.response.status === 403) {
+        alert('Property deletion failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property deletion failed! Requested E9 is not available.');
+      } else {
+        alert('Property deletion failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -52,10 +70,20 @@ const usePropertyActions = (token, navigate) => {
       const response = await updateProperty(formData, token?.data); // Pass the token here
       console.log('Property updated successfully', response);
       alert('Property updated!');
-      navigate(paths.property);
+      navigate(`${paths.property}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property update failed:', error);
-      alert('Property update failed. Please try again.');
+      if (error.response.status === 409) {
+        alert("Property update failed! A property with the same E9 number already exists.")
+      } else if (error.response.status === 400) {
+        alert('Property update failed! Invalid input data.');
+      } else if (error.response.status === 403) {
+        alert('Property update failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property update failed! Requested E9 does not exist.');
+      } else {
+        alert('Property update failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -70,10 +98,16 @@ const usePropertyActions = (token, navigate) => {
       const response = await findPropertyByE9(formData, token?.data); // Pass the token here
       console.log('Property found successfully', response);
       alert('Property found!');
-      navigate(paths.property);
+      navigate(`${paths.property}/${response.data.propertyId}`);
     } catch (error) {
       console.error('Property search failed:', error);
-      alert('Property search failed. Please try again.');
+      if (error.response.status === 403) {
+        alert('Property search failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property search failed! Requested E9 does not exist.');
+      } else {
+        alert('Property search failed!');
+      }
     } finally {
       setIsLoading(false);
     }
@@ -86,10 +120,16 @@ const usePropertyActions = (token, navigate) => {
       const response = await findMyProperties(token?.data); // Pass the token here
       console.log('Properties found successfully', response);
       alert('Properties found!');
-      navigate(paths.property);
+      navigate(paths.listPropertyResult);
     } catch (error) {
-      console.error('Properties search failed:', error);
-      alert('Properties search failed. Please try again.');
+      console.error('Property search failed:', error);
+      if (error.response.status === 403) {
+        alert('Property search failed! You are not currently permitted to do this action.');
+      } else if (error.response.status === 404) {
+        alert('Property search failed! No properties found for your account.');
+      } else {
+        alert('Property search failed!');
+      }
     } finally {
       setIsLoading(false);
     }

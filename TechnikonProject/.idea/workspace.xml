@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="testing something">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/team1/technikon/controller/AdminControllerRepair.java" afterDir="false" />
-    </list>
+    <list default="true" id="85ec6719-b6fd-44b0-891e-3def884b70a0" name="Changes" comment="DATAGEN" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -40,12 +36,12 @@
     &quot;assignee&quot;: &quot;AndreasSCY&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/IoannisPnevmatikos/Technikon.git",
-    "accountId": "7ab79ecb-1916-4227-9bb6-67963a8fb740"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/IoannisPnevmatikos/Technikon.git&quot;,
+    &quot;accountId&quot;: &quot;5f9fb599-2b44-4a55-baa0-1e33f29bbef3&quot;
   }
-}]]></component>
+}</component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
@@ -57,35 +53,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.TechnikonApplication.executor": "Run",
-    "Application.app.executor": "Run",
-    "Maven.technikon [clean].executor": "Run",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.TechnikonApplication.executor": "Run",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary": "JUnit5",
-    "com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5": "",
-    "git-widget-placeholder": "IoannisFeature",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/andreasc/IdeaProjects/Technikon/TechnikonProject",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "vcs.Git",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.TechnikonApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.app.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.technikon [clean].executor&quot;: &quot;Run&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.TechnikonApplication.executor&quot;: &quot;Run&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrary&quot;: &quot;JUnit5&quot;,
+    &quot;com.intellij.testIntegration.createTest.CreateTestDialog.defaultLibrarySuperClass.JUnit5&quot;: &quot;&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;andreas&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/andreasc/IdeaProjects/Technikon/TechnikonProject&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Users\andreasc\IdeaProjects\Technikon\TechnikonProject\src\main\java\com\team1\technikon" />
@@ -178,7 +174,87 @@
       <option name="project" value="LOCAL" />
       <updated>1716534798668</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716630433947</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1716630433947</updated>
+    </task>
+    <task id="LOCAL-00008" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716630994931</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1716630994931</updated>
+    </task>
+    <task id="LOCAL-00009" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716635969871</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1716635969871</updated>
+    </task>
+    <task id="LOCAL-00010" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716637770268</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1716637770268</updated>
+    </task>
+    <task id="LOCAL-00011" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716637789137</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1716637789137</updated>
+    </task>
+    <task id="LOCAL-00012" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716653374763</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1716653374763</updated>
+    </task>
+    <task id="LOCAL-00013" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716671870235</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1716671870235</updated>
+    </task>
+    <task id="LOCAL-00014" summary="testing something">
+      <option name="closed" value="true" />
+      <created>1716712301256</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1716712301256</updated>
+    </task>
+    <task id="LOCAL-00015" summary="DONE">
+      <option name="closed" value="true" />
+      <created>1716712329417</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1716712329417</updated>
+    </task>
+    <task id="LOCAL-00016" summary="DATAGEN">
+      <option name="closed" value="true" />
+      <created>1716714764261</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1716714764261</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -209,6 +285,8 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="testing something" />
-    <option name="LAST_COMMIT_MESSAGE" value="testing something" />
+    <MESSAGE value="DONE" />
+    <MESSAGE value="DATAGEN" />
+    <option name="LAST_COMMIT_MESSAGE" value="DATAGEN" />
   </component>
 </project>

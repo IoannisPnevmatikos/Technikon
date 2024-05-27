@@ -1,11 +1,11 @@
 import axios from "axios";
-import { base_url, uri } from "../../constants/endpoints/endpoints";
+import { base_url, uri } from '../constants/endpoints/endpoints'
 
-const getPropertyDetails = async (id, token) => {
+const checkIfAdmin = async (token) => {
 
   // Send POST request
   return axios.get(
-    `${base_url}${uri.api}${uri.property}/propertyId/${id}`,
+    `${base_url}${uri.api}${uri.admin}${uri.property}/test`,
     {
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -15,4 +15,4 @@ const getPropertyDetails = async (id, token) => {
   );
 };
 
-export default getPropertyDetails;
+export default checkIfAdmin;
