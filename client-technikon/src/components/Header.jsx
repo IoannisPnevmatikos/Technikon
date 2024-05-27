@@ -8,6 +8,8 @@ import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
 import { paths } from "./../constants/paths/paths";
 import useToken from "../stores/useToken";
+import { jwtDecode } from "jwt-decode";
+import { useState, useEffect } from "react";
 
 const Header = () => {
   const { token, logout } = useToken();
@@ -16,6 +18,18 @@ const Header = () => {
     await logout();
     alert('You have successfully logged out.');
   };
+
+  const [decodedToken, setDecodedToken] = useState(null);
+  useEffect(() => {
+    if (token) {
+    // Decode the JWT
+    const decoded = jwtDecode(token?.data);
+    // Update the state with the decoded token
+    setDecodedToken(decoded);
+    }
+  }, [token]);
+
+  console.log(decodedToken.role)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
