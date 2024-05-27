@@ -10,6 +10,7 @@ import { paths } from "./../constants/paths/paths";
 import useToken from "../stores/useToken";
 import { jwtDecode } from "jwt-decode";
 import { useState, useEffect } from "react";
+import { Fragment } from "react";
 
 const Header = () => {
   const { token, logout } = useToken();
@@ -29,7 +30,7 @@ const Header = () => {
     }
   }, [token]);
 
-  console.log(decodedToken.role)
+  console.log(decodedToken?.role)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
@@ -47,7 +48,10 @@ const Header = () => {
           <Button color="inherit" component={Link} to={paths.home} sx={{ flexGrow: 1 }}>
             Home
           </Button>
-          <Button color="inherit" component={Link} to={paths.admin} sx={{ flexGrow: 1 }}>
+          
+          {token ? (
+            <Fragment>
+            <Button color="inherit" component={Link} to={paths.admin} sx={{ flexGrow: 1 }}>
             Admin
           </Button>
           <Button color="inherit" component={Link} to={paths.owner} sx={{ flexGrow: 1 }}>
@@ -59,10 +63,10 @@ const Header = () => {
           <Button color="inherit" component={Link} to={paths.repair} sx={{ flexGrow: 1 }}>
             Repairs
           </Button>
-          {token ? (
             <Button color="inherit" onClick={handleLogout} sx={{ flexGrow: 1}}>
               Logout
             </Button>
+            </Fragment>
           ) : (
             <>
               <Button color="inherit" component={Link} to={paths.signup} sx={{ flexGrow: 1 }}>

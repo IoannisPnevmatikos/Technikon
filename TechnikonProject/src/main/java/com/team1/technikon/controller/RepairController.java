@@ -4,6 +4,7 @@ import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.RepairService;
 import lombok.AllArgsConstructor;
@@ -65,7 +66,7 @@ public class RepairController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteRepair(@PathVariable long id, Authentication authentication) throws EntityNotFoundException {
+    public ResponseEntity<Void> deleteRepair(@PathVariable long id, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
         long ownerId = userInfoDetails.getId();
         repairService.deleteRepair(ownerId,id);

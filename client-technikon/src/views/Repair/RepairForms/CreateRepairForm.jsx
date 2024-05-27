@@ -72,7 +72,7 @@ const CreateRepairForm = ({ handleSubmit, handleBackClick }) => {
                 required
                 disabled={isLoading} // Disable input field while loading
             >
-                <MenuItem value="SCHDULED">Scheduled</MenuItem>
+                <MenuItem value="SCHEDULED">Scheduled</MenuItem>
                 <MenuItem value="IN_PROGRESS">In Progress</MenuItem>
                 <MenuItem value="COMPLETE">Complete</MenuItem>
                 <MenuItem value="PENDING">Pending</MenuItem>
@@ -86,6 +86,12 @@ const CreateRepairForm = ({ handleSubmit, handleBackClick }) => {
                 margin="normal"
                 required
                 disabled={isLoading} // Disable input field while loading
+                inputProps={{
+                    inputMode: 'decimal',
+                    step: 0.01, // Allow up to 2 decimal places
+                    max: 999999, // Maximum value allowed
+                    title: 'Please enter a number between 0 and 999999.99', // Tooltip for validation guidance
+                }}
             />
             <TextField
                 name="descriptionText"

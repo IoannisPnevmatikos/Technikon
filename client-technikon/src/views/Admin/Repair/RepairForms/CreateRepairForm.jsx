@@ -67,6 +67,13 @@ const CreateRepairForm = ({ handleSubmit, handleBackClick }) => {
                 fullWidth
                 margin="normal"
                 required
+                disabled={isLoading} // Disable input field while loading
+                inputProps={{
+                    inputMode: 'decimal',
+                    step: 0.01, // Allow up to 2 decimal places
+                    max: 999999, // Maximum value allowed
+                    title: 'Please enter a number between 0 and 999999.99', // Tooltip for validation guidance
+                }}
             />
             <TextField
                 name="descriptionText"
@@ -82,8 +89,9 @@ const CreateRepairForm = ({ handleSubmit, handleBackClick }) => {
                 margin="normal"
                 required
                 inputProps={{
+                    pattern: "[0-9]{11}",
+                    maxLength: 11,
                     inputMode: 'numeric',
-                    pattern: '^[0-9]+$',
                     onKeyDown: handleKeyDown // Call handleKeyDown event handler
                 }}
             />

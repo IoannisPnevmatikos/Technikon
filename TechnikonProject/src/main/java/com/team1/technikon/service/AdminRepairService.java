@@ -5,6 +5,7 @@ import com.team1.technikon.dto.RepairReportDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
 import com.team1.technikon.exception.InvalidInputException;
+import com.team1.technikon.exception.UnauthorizedAccessException;
 import org.springframework.cache.annotation.Cacheable;
 
 import java.time.LocalDate;
@@ -22,7 +23,7 @@ public interface AdminRepairService {
 
     RepairDto updateRepair(long id, RepairDto repairDto) throws EntityNotFoundException, InvalidInputException;
 
-    void deleteRepair(long id) throws IllegalStateException, EntityNotFoundException;
+    void deleteRepair(long id) throws IllegalStateException, EntityNotFoundException, UnauthorizedAccessException;
 
     List<RepairDto> getAllData() throws EntityNotFoundException;
 

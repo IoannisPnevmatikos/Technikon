@@ -16,11 +16,11 @@ const DeleteRepairForm = ({ handleSubmit, handleBackClick }) => {
         setIsLoading(true); // Set loading to true when form is submitted
         try {
             await handleSubmit(event); // Call the handleSubmit function passed as prop
-            alert('Repair deleted!');
+            //alert('Repair deleted!');
             // Handle navigation or any other success action
         } catch (error) {
             console.error('Repair deletion failed:', error);
-            alert('Repair deletion failed. Please try again.');
+            //alert('Repair deletion failed. Please try again.');
             // Handle error state or display error message
         } finally {
             setIsLoading(false); // Reset loading state
