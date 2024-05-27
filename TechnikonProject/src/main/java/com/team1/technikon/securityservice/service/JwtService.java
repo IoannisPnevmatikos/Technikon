@@ -7,7 +7,7 @@ import java.util.Date;
 import java.util.function.Function;
 
 public interface JwtService {
-    String generateToken(String userName);
+    String generateToken(String userName, String role);
 
     String extractUsername(String token);
 

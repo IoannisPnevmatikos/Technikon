@@ -7,6 +7,7 @@ import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.securityservice.dto.AuthRequest;
 import com.team1.technikon.securityservice.dto.ChangePwRequestDto;
 import com.team1.technikon.securityservice.service.JwtService;
+import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.AdminOwnerService;
 import com.team1.technikon.service.OwnerService;
 import lombok.AllArgsConstructor;
@@ -53,7 +54,8 @@ public class UserController {
     public ResponseEntity<String> authenticateAndGetToken(@RequestBody AuthRequest authRequest) {
         Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(authRequest.getUsername(), authRequest.getPassword()));
         if (authentication.isAuthenticated()) {
-            String token = jwtService.generateToken(authRequest.getUsername());
+            UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
+            String token = jwtService.generateToken(authRequest.getUsername(), userInfoDetails.getAuthorities().get(0).toString());
             return ResponseEntity.ok(token);
         } else {
             throw new UsernameNotFoundException("Invalid user request!");
