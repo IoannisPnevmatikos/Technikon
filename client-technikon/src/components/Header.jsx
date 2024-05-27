@@ -30,7 +30,7 @@ const Header = () => {
     }
   }, [token]);
 
-  console.log(decodedToken.role)
+  console.log(decodedToken?.role)
 
   return (
     <Box sx={{ flexGrow: 1 }}>
