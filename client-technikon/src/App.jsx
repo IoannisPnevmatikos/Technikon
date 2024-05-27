@@ -5,6 +5,7 @@ import Login from "./views/Login/Login";
 import Sign from "./views/Sign/Sign";
 import Admin from "./views/Admin/Admin";
 import Owner from "./views/Owner/Owner";
+import OwnerAdmin from "./views/Admin/Owner/OwnerAdmin";
 import RepairActionsPage from "./views/Repair/RepairActionsPage";
 import Property from "./views/Property/Property"
 import PropertyAdmin from "./views/Admin/Property/PropertyAdmin";
@@ -18,6 +19,7 @@ import ReportDetailsAdmin from "./views/Admin/Property/PropertyDetails/ReportDet
 import RepairFetchedData from "./views/Repair/RepairFetchedData";
 import RepairFetchedDataAdmin from "./views/Admin/Repair/RepairFetchedDataAdmin";
 import RepairFetchedDataReportAdmin from "./views/Admin/Repair/RepairFetchedDataReportAdmin";
+import OwnerProfile from "./views/Owner/OwnerProfile";
 
 function App() {
   return (
@@ -29,8 +31,11 @@ function App() {
           <Route path={paths.signup} element={<Sign />} />
           <Route path={paths.admin} element={<Admin />} />
           <Route path={paths.owner} element={<Owner />} />
+          <Route path={paths.ownerProfile} element={<OwnerProfile />} />
+
           <Route path={paths.repair} element={<RepairActionsPage />} />
           <Route path={paths.property} element={<Property />} />
+          <Route path={paths.adminOwner} element = {<OwnerAdmin/>}/>
           <Route path={paths.adminProperty} element={<PropertyAdmin />} />
           <Route path={paths.adminRepair} element={<RepairAdminActionsPage />} />
           <Route path={paths.propertyResult} element={<PropertyResDetails />} />

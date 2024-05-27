@@ -1,8 +1,6 @@
 package com.team1.technikon.bootstrap;
 
 import com.github.javafaker.Faker;
-import com.team1.technikon.dto.PropertyDto;
-import com.team1.technikon.dto.RepairDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.*;
 import com.team1.technikon.model.MapLocation;
@@ -16,7 +14,11 @@ import com.team1.technikon.repository.OwnerRepository;
 import com.team1.technikon.repository.PropertyRepository;
 import com.team1.technikon.repository.RepairRepository;
 import com.team1.technikon.service.AdminOwnerService;
+import com.team1.technikon.validation.OwnerValidator;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,15 +27,19 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.math.BigDecimal;
 import java.time.ZoneId;
 
+import static com.team1.technikon.validation.OwnerValidator.isValidSignUpDto;
+import static com.team1.technikon.validation.OwnerValidator.isValidUsername;
+
 @AllArgsConstructor
 @Configuration
+@Slf4j
 public class DataGenerator {
     private final AdminOwnerService adminOwnerService;
     private final OwnerRepository ownerRepository;
     private final PropertyRepository propertyRepository;
     private final RepairRepository repairRepository;
     private PasswordEncoder encoder;
-
+    private static final Logger logger = LoggerFactory.getLogger(OwnerValidator.class);
 
     private final Faker faker = new Faker();
 
@@ -68,7 +74,7 @@ public class DataGenerator {
         );
         adminOwnerService.addAdmin(
                 new SignUpDto(
-                        "paris",
+                        "pariss",
                         "1234",
                         "paris.migklis@scytalys.com"
                 )
@@ -84,13 +90,20 @@ public class DataGenerator {
         for (int i = 0; i < 10; i++) {
 
             Owner owner = new Owner();
-
             owner.setTinNumber(String.valueOf(faker.number().numberBetween(100000000, 999999999)));
-            owner.setFirstName(faker.name().firstName());
-            owner.setLastName(faker.name().lastName());
-            owner.setUsername(faker.name().username());
+
+            String firstName = faker.name().firstName();
+            owner.setFirstName(firstName.substring(0, 1).toUpperCase()+firstName.substring(1));
+
+           String lastName = faker.name().lastName();
+            owner.setLastName(lastName.substring(0, 1).toUpperCase()+lastName.substring(1));
+
+            owner.setUsername((owner.getFirstName()+owner.getLastName()+i).toLowerCase());
+            String str = owner.getFirstName() ;
+            String str2 = owner.getLastName();
+            owner.setEmail(str.substring(0,1).toLowerCase()+str.substring(1)+i+"@"+str2.charAt(0)+str2.substring(1)+".com");
+
             owner.setPassword(encoder.encode("1234"));
-            owner.setEmail(faker.internet().emailAddress());
             owner.setAddress(faker.address().streetAddress());
             owner.setPhone(String.valueOf(faker.number().numberBetween(6900000000L, 7000000000L)));
             owner.setRole("USER");
@@ -108,9 +121,9 @@ public class DataGenerator {
                 property.setTypeOfProperty(TypeOfProperty.values()[faker.number().numberBetween(0, 3)]);
                 property.setPhoto(faker.internet().image());
                 property.setMapLocation(new MapLocation(
-                        faker.number().randomDouble(2,0,100),
-                        faker.number().randomDouble(2,0,100)
-                        ));
+                        faker.number().randomDouble(2, 0, 100),
+                        faker.number().randomDouble(2, 0, 100)
+                ));
                 property.setOwner(owner);
                 property.setActive(faker.bool().bool());
                 property.setRegistrationDate(faker.date().birthday(0, 5).toInstant().atZone(ZoneId.systemDefault()).toLocalDate());

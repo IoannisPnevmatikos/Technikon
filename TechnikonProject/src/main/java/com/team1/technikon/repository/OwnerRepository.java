@@ -37,10 +37,10 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     Optional<Owner> findByUsername(String username);
 
-//    @Transactional
-//    @Modifying
-//    @Query("update Owner o set o = :entity where o.username = :username")
-//    int updateOwnerByUsername(@Param("username") String username, @Param("entity") Owner entity);
+    @Transactional
+    @Modifying
+    @Query("update Owner o set o.firstName = :firstName, o.lastName = :lastName,o.email = :email, o.address = :address, o.phone = :phone where o.username = :username")
+    int updateOwnerByUsername(@Param("username") String username, @Param("firstName") String firstName,@Param("lastName")  String lastName, @Param("email")  String email, @Param("address") String address, @Param("phone") String phone);
 
     //   void updateOwnerById(@Param("id") Long id, @Param(""));
 
@@ -51,7 +51,7 @@ public interface OwnerRepository extends JpaRepository<Owner, Long> {
 
     @Transactional
     @Modifying
-    @Query("delete Owner o where o.tinNumber = :tinNumber")
-    void deleteByTinNumber(@Param("tinNumber") String tinNumber);
+    @Query("delete Owner o where o.username = :username")
+    void deleteByUsername(@Param("username") String username);
 
 }

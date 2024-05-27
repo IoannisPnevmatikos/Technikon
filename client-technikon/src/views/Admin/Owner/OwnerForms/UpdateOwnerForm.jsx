@@ -1,6 +1,6 @@
 import React, { useState, useEffect }  from 'react';
 import { Box, Button, TextField, CircularProgress } from '@mui/material';
-import useToken from '../../../stores/useToken'
+import useToken from '../../../../stores/useToken';
 import { jwtDecode } from "jwt-decode";
 
 const UpdateOwnerForm = ({ handleSubmit, handleBackClick }) => {
@@ -12,11 +12,8 @@ const onSubmit = (event) => handleSubmit(event, setIsLoading);
 useEffect(() => {
   if (token) {
     try {
-      //console.log("Token is ", token)
       const { sub: username } = jwtDecode(token);
-    //  console.log('Decoded values:', { username });
       setUserInfo({ username });
-     // console.log(userInfo.username)
     }
     catch (error) {
       console.log("Failed to decode token", error)

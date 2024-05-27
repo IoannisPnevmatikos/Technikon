@@ -13,7 +13,7 @@ function Admin() {
           Admin Actions
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2, mt: 4 }}>
-          <Button variant="contained" color="primary" onClick={() => navigate(paths.adminProperty)}>
+          <Button variant="contained" color="primary" onClick={() => navigate(paths.adminOwner)}>
             Manage Owners
           </Button>
           <Button variant="contained" color="primary" onClick={() => navigate(paths.adminProperty)}>

@@ -4,6 +4,7 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.mapper.Mapper;
 import com.team1.technikon.model.Owner;
 import com.team1.technikon.repository.OwnerRepository;
@@ -41,13 +42,16 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     }
 
     @Override
-    public String addAdmin(SignUpDto signUpDto) {
+    public String addAdmin(SignUpDto signUpDto) throws EntityFailToCreateException {
         Owner owner = new Owner();
-        owner.setRole("ADMIN");   //if(isValidSignUpDto(signUpDto)){
+        owner.setRole("ADMIN");
+        if(isValidSignUpDto(signUpDto)){
         owner.setUsername(signUpDto.username());
         owner.setPassword(encoder.encode(signUpDto.password()));
         owner.setEmail(signUpDto.email());
-        return ownerRepository.save(owner).toString();    //}
+        return ownerRepository.save(owner).toString();
+        }
+        else throw new EntityFailToCreateException("SignUp validation failed. Check user input again");
     }
 
 
@@ -70,8 +74,11 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
     }
 
     @Override
-    public List<OwnerDto> getOwnersBetweenRegDate(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException {
+    public List<OwnerDto> getOwnersBetweenRegDate(LocalDate startDate, LocalDate endDate) throws EntityNotFoundException, InvalidInputException {
         try {
+            if (startDate.isAfter(endDate)) {
+                throw new InvalidInputException("Start date cannot be after end date");
+            }
             return ownerRepository.findOwnersByRegistrationDate(startDate, endDate).stream().map(Mapper::mapToOwnerDto).collect(Collectors.toList());
         } catch (Exception e) {
             throw new EntityNotFoundException(e.getMessage());
@@ -125,44 +132,62 @@ public class AdminOwnerServiceImpl extends OwnerServiceImpl implements AdminOwne
 
     @Transactional
     @Override
-    public OwnerDto updateOwner(Long ownerId, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException {
-        Owner owner = ownerRepository.findById(ownerId).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
-        if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
-        if (ownerDto.username() != null) owner.setUsername(ownerDto.username());
-        if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
-        if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
-        if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
-//
-        if (ownerDto.email() != null && !ownerDto.email().equals(owner.getEmail())) owner.setEmail(ownerDto.email());
-        if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
-        isValidOwner(mapToOwnerDto(owner));
-        try {
-            ownerRepository.save(owner);
-        } catch (Exception e) {
-            throw new EntityFailToCreateException("update failed to execute. Check again");
-        }
-        return mapToOwnerDto(owner);
+    public OwnerDto updateOwner(String username, OwnerDto ownerDto) throws EntityFailToCreateException, EntityNotFoundException {
+        Owner owner = ownerRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Requested owner not found."));
+       // if (ownerDto.tinNumber() != null) owner.setTinNumber(ownerDto.tinNumber());
 
+        setUpdateFields(ownerDto, owner);
+//
+      //  if (ownerDto.email() != null && !ownerDto.email().equals(owner.getEmail())) owner.setEmail(ownerDto.email());
+     //   if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
+        if( isValidOwner(mapToOwnerDto(owner))) {
+            try {
+                ownerRepository.save(owner);
+                return mapToOwnerDto(owner);
+            } catch (Exception e) {
+                throw new EntityFailToCreateException("Valid Owner but update failed to execute.");
+            }
+        }
+        else throw new EntityFailToCreateException("update failed to execute. Check Input again");
     }
 
 
     @Override
-    public void deactivateOwnerById(Long id) throws EntityNotFoundException {
-        Owner owner = ownerRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
+    public void deactivateOwnerByUsername(String username) throws EntityNotFoundException {
+        Owner owner = ownerRepository.findByUsername(username).orElseThrow(() -> new EntityNotFoundException("Entity not found"));
         owner.setActive(false);
         ownerRepository.save(owner);
     }
 
     @Override
-    public boolean deleteOwnerById(Long id) throws EntityNotFoundException {
+    public boolean deleteOwnerByUsername(String username) throws EntityNotFoundException {
         try {
-            ownerRepository.deleteById(id);
-            return ownerRepository.findById(id).isEmpty();
+            if(ownerRepository.findByUsername(username).isPresent()) {
+                ownerRepository.deleteByUsername(username);
+                return ownerRepository.findByUsername(username).isEmpty();
+            }
+
         } catch (Exception e) {
             throw new EntityNotFoundException(e.getMessage());
         }
 
+        return false;
     }
+
+    static void setUpdateFields(OwnerDto ownerDto, Owner owner) {
+        if (ownerDto.username() != null) owner.setUsername(owner.getUsername());
+        if(ownerDto.password() != null) owner.setPassword(owner.getPassword());
+        //WHen sign up tin is null, set the tin which comes from ownerdto
+        if (ownerDto.tinNumber() != null && owner.getTinNumber() == null) owner.setTinNumber(ownerDto.tinNumber());
+            //When owner tin already exists, dont change
+        else owner.setTinNumber(owner.getTinNumber());
+        if (ownerDto.address() != null) owner.setAddress(ownerDto.address());
+        if (ownerDto.firstName() != null) owner.setFirstName(ownerDto.firstName());
+        if (ownerDto.lastName() != null) owner.setLastName(ownerDto.lastName());
+        if (ownerDto.email() != null) owner.setEmail(ownerDto.email());
+        if (ownerDto.phone() != null) owner.setPhone(ownerDto.phone());
+    }
+
 
 
 }

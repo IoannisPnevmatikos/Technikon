@@ -5,6 +5,7 @@ import com.team1.technikon.dto.OwnerDto;
 import com.team1.technikon.dto.SignUpDto;
 import com.team1.technikon.exception.EntityFailToCreateException;
 import com.team1.technikon.exception.EntityNotFoundException;
+import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.service.AdminOwnerService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -22,12 +23,13 @@ public class AdminController {
 
     private final AdminOwnerService adminOwnerService;
 
-    @PutMapping("/owner/create/{account}")
+    @PostMapping("/owner/create/{account}")
     public ResponseEntity<String> createOwner(@PathVariable String account, @RequestBody SignUpDto signUpDto) throws EntityFailToCreateException {
         if (account.equals("admin"))
             return ResponseEntity.ok(adminOwnerService.addAdmin(signUpDto));
-        else
+        else if(account.equals("user"))
             return ResponseEntity.ok(adminOwnerService.addUser(signUpDto));
+        else return ResponseEntity.badRequest().body("Can't create owner with account " + account + "Must be either Admin or User");
     }
 
     @GetMapping("/owner")
@@ -36,7 +38,7 @@ public class AdminController {
     }
 
     @GetMapping("/owner/{startDate}/to/{endDate}")
-    public ResponseEntity<List<OwnerDto>> findAllByDate(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) throws EntityNotFoundException {
+    public ResponseEntity<List<OwnerDto>> findAllByDate(@PathVariable LocalDate startDate, @PathVariable LocalDate endDate) throws EntityNotFoundException, InvalidInputException {
         return ResponseEntity.ok(adminOwnerService.getOwnersBetweenRegDate(startDate, endDate));
     }
 
@@ -46,7 +48,7 @@ public class AdminController {
     }
 
     @GetMapping("/owner/role/{role}")
-    public ResponseEntity<List<OwnerDto>> getActiveOwners(@PathVariable("role") String role) throws EntityNotFoundException {
+    public ResponseEntity<List<OwnerDto>> getOwnersByRole(@PathVariable("role") String role) throws EntityNotFoundException {
         return ResponseEntity.ok(adminOwnerService.getAllByRole(role));
     }
 
@@ -82,23 +84,23 @@ public class AdminController {
         return ResponseEntity.ok(adminOwnerService.getOwnerByUsername(username));
     }
 
-    @PutMapping("/owner/{userId}")
-    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("userId") Long userId, @RequestBody OwnerDto ownerDto) throws EntityNotFoundException, EntityFailToCreateException {
-        return ResponseEntity.ok(adminOwnerService.updateOwner(userId, ownerDto));
+    @PutMapping("/owner/{username}")
+    public ResponseEntity<OwnerDto> updateOwner(@PathVariable("username") String username, @RequestBody OwnerDto ownerDto) throws EntityNotFoundException, EntityFailToCreateException {
+        return ResponseEntity.ok(adminOwnerService.updateOwner(username, ownerDto));
 
     }
 
-    @DeleteMapping("/owner/{id}")
-    public ResponseEntity<String> deleteOwner(@PathVariable long id) throws EntityNotFoundException {
-        adminOwnerService.deleteOwnerById(id);
-        return ResponseEntity.ok("Deleted owner with id " + id);
+    @DeleteMapping("/owner/{username}")
+    public ResponseEntity<String> deleteOwner(@PathVariable String username) throws EntityNotFoundException {
+        adminOwnerService.deleteOwnerByUsername(username);
+        return ResponseEntity.ok("Deleted owner with username " + username);
     }
 
 
-    @PutMapping("/owner/deactivate/{id}")
-    public ResponseEntity<String> deactivateOwnerById (@PathVariable long id) throws EntityNotFoundException {
-        adminOwnerService.deactivateOwnerById(id);
-        return ResponseEntity.ok("DeActivated owner with id " + id);
+    @PutMapping("/owner/deactivate/{username}")
+    public ResponseEntity<String> deactivateOwnerByUsername (@PathVariable String username) throws EntityNotFoundException {
+        adminOwnerService.deactivateOwnerByUsername(username);
+        return ResponseEntity.ok("DeActivated owner with username " + username);
     }
 
 }
