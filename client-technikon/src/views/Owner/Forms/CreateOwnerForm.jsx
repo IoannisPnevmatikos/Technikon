@@ -15,9 +15,9 @@ const CreateOwnerForm = ({ handleSubmit, handleBackClick }) => {
       try {
         console.log("Token is ", token)
         const { sub: username } = jwtDecode(token);
-        console.log('Decoded values:', { username });
+      //  console.log('Decoded values:', { username });
         setUserInfo({ username });
-        console.log(userInfo.username)
+    //    console.log(userInfo.username)
       }
       catch (error) {
         console.log("Failed to decode token", error)

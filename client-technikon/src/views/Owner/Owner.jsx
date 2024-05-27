@@ -8,31 +8,35 @@ import FindOwnerByTinForm from './Forms/FindOwnerByTinForm';
 import UpdateOwnerForm from './Forms/UpdateOwnerForm';
 import DeleteOwnerForm from './Forms/DeleteOwnerForm';
 import useOwnerActions from './useOwnerActions';
+import OwnerProfile from './OwnerProfile'
 
 function Owner() {
   
   const [activeForm, setActiveForm] = useState('');
   const navigate = useNavigate();
   const { token } = useToken();
+  const [ownerData, setOwnerData] = useState(null);
   const {
     handleSubmitCreate,
     handleSubmitDelete,
     handleSubmitUpdate,
-    handleSubmitFindOwnerByTin,
   } = useOwnerActions(token, navigate);
+
+  const {handleSubmitFindOwnerByTin} = useOwnerActions(token,navigate,setOwnerData)
 
   const handleBackClick = () => {
     setActiveForm('');
+   // setOwnerData(null)
     navigate(paths.owner);
-  };
+  };//
 
   const renderForm = () => {
     switch (activeForm) {
       case 'createOwner':
         return <CreateOwnerForm handleSubmit={handleSubmitCreate} handleBackClick={handleBackClick} />;
         case 'findOwnerByTin':
-        return <FindOwnerByTinForm handleSubmit={handleSubmitFindOwnerByTin} handleBackClick={handleBackClick} />;
-    
+        return (<><FindOwnerByTinForm handleSubmit={handleSubmitFindOwnerByTin} handleBackClick={handleBackClick} />
+         {ownerData && (<OwnerProfile data={ownerData} />)}  </>);
       case 'updateOwner':
         return <UpdateOwnerForm handleSubmit={handleSubmitUpdate} handleBackClick={handleBackClick} />;
       case 'deleteOwner':
