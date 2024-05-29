@@ -7,7 +7,11 @@ import com.team1.technikon.exception.InvalidInputException;
 import com.team1.technikon.exception.UnauthorizedAccessException;
 import com.team1.technikon.securityservice.service.UserInfoDetails;
 import com.team1.technikon.service.OwnerService;
+import com.team1.technikon.service.impl.OwnerServiceImpl;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -16,10 +20,11 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/owner")
 @CrossOrigin
+@Slf4j
 public class OwnerController {
 
     private final OwnerService ownerService;
-
+    private static Logger logger = LoggerFactory.getLogger(OwnerController.class);
 
     @PutMapping("")
     public ResponseEntity<OwnerDto> createOwner(@RequestBody OwnerDto ownerDto, Authentication authentication) throws EntityFailToCreateException {
@@ -54,7 +59,8 @@ public class OwnerController {
     @DeleteMapping("/{username}")
     public ResponseEntity<Boolean> deleteOwner(@PathVariable("username") String username, Authentication authentication) throws EntityNotFoundException, UnauthorizedAccessException {
         UserInfoDetails userInfoDetails = (UserInfoDetails) authentication.getPrincipal();
-        Long authId = userInfoDetails.getId();
+        long authId = userInfoDetails.getId();
+        logger.info("ID AUTH {}", authId);
         return ResponseEntity.ok(ownerService.deleteOwnerByUsername(authId, username));
     }
 

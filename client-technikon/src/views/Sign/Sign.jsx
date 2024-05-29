@@ -7,10 +7,22 @@ import { signUser } from '../../api/Signup/sign';
 function SignUpPage() {
   const navigate = useNavigate();
   const [username, setUsername] = useState('');
+  const [error, setError] = useState('')
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const handleInputChange = (event) => {
+    const value = event.target.value;
+    setUsername(value);
+
+    if (value.length < 6) {
+      setError('Username must be longer than 6 characters.');
+    } else {
+      setError('');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -18,7 +30,6 @@ function SignUpPage() {
       alert('Passwords do not match');
       return;
     }
-
     setIsLoading(true);
     try {
       const response = await signUser({ username, email, password });
@@ -27,9 +38,17 @@ function SignUpPage() {
         alert('Sign-up successful!');
         navigate(paths.login);
       }
+         
     } catch (error) {
       console.error('Sign-up failed:', error);
-      alert('Sign-up failed! Either your username or email is already in use.');
+     if(error.response.status === 403){
+          alert('Username or email already in use! Try again ');
+        }
+     else if(error.response.status === 409){
+          alert('Username must be at least 6 characters and start with lowercase')
+        }
+        else
+      alert('Sign-up failed! ');
     } finally {
       setIsLoading(false);
     }
@@ -46,11 +65,16 @@ function SignUpPage() {
             label="Username"
             type="username"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={handleInputChange}
             required
             fullWidth
             margin="normal"
           />
+           {error && (
+        <Typography color="error" variant="body2">
+          {error}
+        </Typography>
+      )}
           <TextField
             label="Email"
             type="email"

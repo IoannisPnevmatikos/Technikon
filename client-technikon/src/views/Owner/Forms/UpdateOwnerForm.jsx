@@ -1,5 +1,5 @@
 import React, { useState, useEffect }  from 'react';
-import { Box, Button, TextField, CircularProgress } from '@mui/material';
+import { Box, Button, TextField, CircularProgress, Typography } from '@mui/material';
 import useToken from '../../../stores/useToken'
 import { jwtDecode } from "jwt-decode";
 
@@ -8,6 +8,44 @@ const UpdateOwnerForm = ({ handleSubmit, handleBackClick }) => {
 const token = useToken.getState().token?.data;
 const [isLoading, setIsLoading] = useState(false);
 const [userInfo, setUserInfo] = useState({ username: '' });
+const [firstname, setFirstname] = useState('');
+  const [lastname, setLastname] = useState('');
+  const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: ''
+  });
+
+  const validateName = (name, fieldName) => {
+    if (!name) return `${fieldName} is required.`;
+    if (name.charAt(0) !== name.charAt(0).toUpperCase()) {
+      return `${fieldName} must start with a capital letter.`;
+    }
+    return '';
+  };
+  
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    let error = '';
+    switch (name) {
+
+      case 'firstName':
+        setFirstname(value);
+        error = validateName(value, 'First name');
+        break;
+      case 'lastName':
+        setLastname(value);
+        error = validateName(value, 'Last name');
+        break;
+      default:
+        break;
+    }
+    setErrors((prevErrors) => ({
+      ...prevErrors,
+      [name]: error
+    }));
+  };
+
+
 const onSubmit = (event) => handleSubmit(event, setIsLoading);
 useEffect(() => {
   if (token) {
@@ -78,8 +116,13 @@ return (
             pattern: "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$",
             maxLength: 30,
           }}
+          onChange={handleInputChange}
         />
-
+ {errors.firstName && (
+            <Typography color="error" variant="body2">
+              {errors.firstName}
+            </Typography>
+          )}
         <TextField
           name="lastName"
           label="LastName"
@@ -91,7 +134,13 @@ return (
             pattern: "^[A-Z](?=.{1,29}$)[A-Za-z]*(?:\\h+[A-Z][A-Za-z]*)*$",
             maxLength: 30,
           }}
+          onChange={handleInputChange}
         />
+        {errors.lastName && (
+            <Typography color="error" variant="body2">
+              {errors.lastName}
+            </Typography>
+          )}
       </Box>
 
 

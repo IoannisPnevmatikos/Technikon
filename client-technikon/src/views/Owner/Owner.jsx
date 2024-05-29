@@ -33,7 +33,10 @@ function Owner() {
   const renderForm = () => {
     switch (activeForm) {
       case 'createOwner':
-        return <CreateOwnerForm handleSubmit={handleSubmitCreate} handleBackClick={handleBackClick} />;
+        return (<>
+        <CreateOwnerForm handleSubmit={handleSubmitCreate} handleBackClick={handleBackClick} />
+        {ownerData && (<OwnerProfile data={ownerData}/>)}
+        </>);
         case 'findOwnerByTin':
         return (<><FindOwnerByTinForm handleSubmit={handleSubmitFindOwnerByTin} handleBackClick={handleBackClick} />
          {ownerData && (<OwnerProfile data={ownerData} />)}  </>);

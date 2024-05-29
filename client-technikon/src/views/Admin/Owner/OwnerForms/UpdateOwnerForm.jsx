@@ -5,34 +5,34 @@ import { jwtDecode } from "jwt-decode";
 
 const UpdateOwnerForm = ({ handleSubmit, handleBackClick }) => {
 
-const token = useToken.getState().token?.data;
+//const token = useToken.getState().token?.data;
 const [isLoading, setIsLoading] = useState(false);
-const [userInfo, setUserInfo] = useState({ username: '' });
-const onSubmit = (event) => handleSubmit(event, setIsLoading);
-useEffect(() => {
-  if (token) {
-    try {
-      const { sub: username } = jwtDecode(token);
-      setUserInfo({ username });
-    }
-    catch (error) {
-      console.log("Failed to decode token", error)
-    }
+// const [userInfo, setUserInfo] = useState({ username: '' });
+// const onSubmit = (event) => handleSubmit(event, setIsLoading);
+// useEffect(() => {
+//   if (token) {
+//     try {
+//       const { sub: username } = jwtDecode(token);
+//       setUserInfo({ username });
+//     }
+//     catch (error) {
+//       console.log("Failed to decode token", error)
+//     }
 
-  }
+//   }
 
-}, [token]);
+// }, [token]);
 
 
 return (
   <Box sx={{ mt: 1, width: '100%', maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
-    <Box component="form" sx={{ width: '100%' }} onSubmit={onSubmit}>
+    <Box component="form" sx={{ width: '100%' }} onSubmit={(event) => handleSubmit(event, setIsLoading)}>
       <TextField
         label="Username"
         type="text"
         name="username"
         fullWidth
-        value={userInfo.username}
+      //  value={userInfo.username}
       />
       <TextField
         margin="normal"

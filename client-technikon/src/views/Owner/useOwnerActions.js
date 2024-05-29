@@ -8,16 +8,18 @@ import {paths} from '../../constants/paths/paths'
 
 const useOwnerActions = (token, navigate,setOwnerData) => {
 
-  const handleSubmitCreate = useCallback(async (event,setIsLoading) => {
-    event.preventDefault();
-    setIsLoading(true);
-    const formData = new FormData(event.target);
+  const handleSubmitCreate = useCallback(async (formData) => {
+   // setIsLoading(true);
+  //  const formData = new FormData(event.target);
     try {
       const response = await createOwner(formData, token?.data); 
+    
+    //  setOwnerData(response.data)
+    if( response.status===200){
       console.log('Owner created successfully', response);
-      alert('Owner created!');
-      event.target.reset();
-      navigate(paths.owner);
+      alert('Owner created!')
+    }
+     // navigate(paths.owner)
   
     } catch (error) {
       console.error('Owner creation failed:', error);
@@ -30,9 +32,9 @@ const useOwnerActions = (token, navigate,setOwnerData) => {
     }
     }
     finally {
-      setIsLoading(false);
+     // setIsLoading(false);
     }
-  }, [token, navigate]);
+  }, [token, setOwnerData]);
 
   const handleSubmitFindOwnerByTin = useCallback(async (formData) => {
     try {
@@ -61,9 +63,12 @@ const useOwnerActions = (token, navigate,setOwnerData) => {
 
     try {
       const response = await updateOwner(formData, token?.data); 
+      if( response.status===200){
+        
       console.log('Owner updated successfully', response);
       alert('Owner updated!')
       event.target.reset();
+      }
      
       navigate(paths.owner);
     } catch (error) {
